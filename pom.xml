@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.iiitb</groupId>
-  <artifactId>eBay1</artifactId>
+  <artifactId>EC</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>eBay1 Maven Webapp</name>
+  <name>EC Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
   <!-- <repositories>
@@ -88,7 +88,7 @@
 
   </dependencies>
   <build>
-    <finalName>eBay1</finalName>
+    <finalName>EC</finalName>
             <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -103,7 +103,7 @@
         </plugins>
   </build> -->
  <build>
-        <finalName>eBay1</finalName>
+        <finalName>EC</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
