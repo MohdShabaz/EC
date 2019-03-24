@@ -35,7 +35,7 @@ public class DAO_Category {
 		}
 	}
 	
-	public static ArrayList<Category> get_All_Category(int id){
+	public static ArrayList<Category> get_All_Category(){
 		ArrayList<Category> list = new ArrayList<Category>();
 		Connection conn=DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;		
