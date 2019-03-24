@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: flipkart
+-- Host: localhost    Database: ebayv1
 -- ------------------------------------------------------
 -- Server version	8.0.12
 --
@@ -47,7 +47,8 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(40) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `category_name`(`category_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `sub_category`;
@@ -55,7 +56,8 @@ CREATE TABLE `sub_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
   `sub_category_name` varchar(40) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+    UNIQUE KEY `sub_category_name`(`category_id`,`sub_category_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
@@ -165,3 +167,78 @@ CREATE TABLE `order_details` (
      FOREIGN KEY (`seller_id`)  REFERENCES seller_table(`seller_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+Insert into category (category_name) values ("Electronics");
+Insert into category (category_name) values ("Fashion");
+Insert into category (category_name) values ("Health & Beauty");
+Insert into category (category_name) values ("Motors");
+Insert into category (category_name) values ("Collectibles");
+Insert into category (category_name) values ("Sports");
+Insert into category (category_name) values ("Home & Garden");
+Insert into category (category_name) values ("Under Rs100/-");
+Insert into category (category_name) values ("Others");
+
+
+Insert into sub_category (category_id,sub_category_name) values (1,"Cell phones & Accessories");
+Insert into sub_category (category_id,sub_category_name) values (1,"Smart Watches");
+Insert into sub_category (category_id,sub_category_name) values (1,"Video Games & Accessories");
+Insert into sub_category (category_id,sub_category_name) values (1,"Computers & Tablets");
+Insert into sub_category (category_id,sub_category_name) values (1,"Camera Drones");
+Insert into sub_category (category_id,sub_category_name) values (1,"Digital Cameras & Photo");
+Insert into sub_category (category_id,sub_category_name) values (1,"Others");
+
+Insert into sub_category (category_id,sub_category_name) values (2,"Womens Clothing");
+Insert into sub_category (category_id,sub_category_name) values (2,"Mens Clothing");
+Insert into sub_category (category_id,sub_category_name) values (2,"Mens Shoes");
+Insert into sub_category (category_id,sub_category_name) values (2,"Fashion Jewelry");
+Insert into sub_category (category_id,sub_category_name) values (2,"Womens Hand Bags");
+Insert into sub_category (category_id,sub_category_name) values (2,"Kids Clothing");
+Insert into sub_category (category_id,sub_category_name) values (2,"Others");
+
+
+Insert into sub_category (category_id,sub_category_name) values (3,"Makeup");
+Insert into sub_category (category_id,sub_category_name) values (3,"Health Care");
+Insert into sub_category (category_id,sub_category_name) values (3,"Fragrances");
+Insert into sub_category (category_id,sub_category_name) values (3,"Nail Care,Manicure & pedicure");
+Insert into sub_category (category_id,sub_category_name) values (3,"Hair Care & Styling");
+Insert into sub_category (category_id,sub_category_name) values (3,"Skin Care");
+Insert into sub_category (category_id,sub_category_name) values (3,"Shaving & Hair Removal");
+Insert into sub_category (category_id,sub_category_name) values (3,"Bath & Body");
+Insert into sub_category (category_id,sub_category_name) values (3,"Others");
+
+
+Insert into sub_category (category_id,sub_category_name) values (4,"Car & Truck parts");
+Insert into sub_category (category_id,sub_category_name) values (4,"Motorcycle Parts");
+Insert into sub_category (category_id,sub_category_name) values (4,"ATV Parts");
+Insert into sub_category (category_id,sub_category_name) values (4,"Scooter Parts");
+Insert into sub_category (category_id,sub_category_name) values (4,"Motorcycle Apparel");
+Insert into sub_category (category_id,sub_category_name) values (4,"Performance & Racing Parts");
+Insert into sub_category (category_id,sub_category_name) values (4,"Others");
+
+
+
+Insert into sub_category (category_id,sub_category_name) values (5,"Stamps");
+Insert into sub_category (category_id,sub_category_name) values (5,"Postcards");
+Insert into sub_category (category_id,sub_category_name) values (5,"Autographed Memorabilia");
+Insert into sub_category (category_id,sub_category_name) values (5,"Sports Memorabilia");
+Insert into sub_category (category_id,sub_category_name) values (5,"Comics");
+Insert into sub_category (category_id,sub_category_name) values (5,"Toy Vehicles");
+Insert into sub_category (category_id,sub_category_name) values (5,"Arts");
+Insert into sub_category (category_id,sub_category_name) values (5,"Antiques");
+Insert into sub_category (category_id,sub_category_name) values (5,"Others");
+
+
+Insert into sub_category (category_id,sub_category_name) values (6,"Cycling");
+Insert into sub_category (category_id,sub_category_name) values (6,"Outdoor Sports");
+Insert into sub_category (category_id,sub_category_name) values (6,"Hunting");
+Insert into sub_category (category_id,sub_category_name) values (6,"Fishing");
+Insert into sub_category (category_id,sub_category_name) values (6,"Fitness , Running & Yoga");
+Insert into sub_category (category_id,sub_category_name) values (6,"Swimming");
+Insert into sub_category (category_id,sub_category_name) values (6,"Others");
+
+Insert into sub_category (category_id,sub_category_name) values (7,"Tools & Workshop Equipment");
+Insert into sub_category (category_id,sub_category_name) values (7,"Yard , Garden & Outdoor Living");
+Insert into sub_category (category_id,sub_category_name) values (7,"Home  Improvement");
+Insert into sub_category (category_id,sub_category_name) values (7,"Baby");
+Insert into sub_category (category_id,sub_category_name) values (7,"Kitchen, Dining & Bar");
+Insert into sub_category (category_id,sub_category_name) values (7,"Lamps, Lighting & Ceiling Fans");
+Insert into sub_category (category_id,sub_category_name) values (7,"Others");
