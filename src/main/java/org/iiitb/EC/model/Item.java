@@ -2,7 +2,8 @@ package org.iiitb.EC.model;
 
 public class Item {
 	private int item_id;
-	private String description, name, pic_location, category, sub_category, barcode;
+	private String description, name, pic_location, barcode;
+	private int category,sub_category;
 	private float price, discount;
 	private String dummy_1, dummy_2, dummy_3, dummy_4;
 	public int getItem_id() {
@@ -29,16 +30,16 @@ public class Item {
 	public void setPic_location(String pic_location) {
 		this.pic_location = pic_location;
 	}
-	public String getCategory() {
+	public int getCategory() {
 		return category;
 	}
-	public void setCategory(String category) {
+	public void setCategory(int category) {
 		this.category = category;
 	}
-	public String getSub_category() {
+	public int getSub_category() {
 		return sub_category;
 	}
-	public void setSub_category(String sub_category) {
+	public void setSub_category(int sub_category) {
 		this.sub_category = sub_category;
 	}
 	public String getBarcode() {

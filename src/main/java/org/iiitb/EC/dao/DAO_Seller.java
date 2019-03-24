@@ -101,7 +101,7 @@ public class DAO_Seller {
 		return -1;	
 	}
 	
-	public static boolean add_item(int seller_id,String name,String barcode,String description,float price,float discount,String pic_location,String category,String sub_category,int quantity,int address,String dummy_1,String dummy_2,String dummy_3,String dummy_4) {
+	public static boolean add_item(int seller_id,String name,String barcode,String description,float price,float discount,String pic_location,int category,int sub_category,int quantity,int address,String dummy_1,String dummy_2,String dummy_3,String dummy_4) {
 		
 //		int seller_id = get_seller_id();
 		

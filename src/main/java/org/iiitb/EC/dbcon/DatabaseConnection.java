@@ -19,7 +19,7 @@ public class DatabaseConnection {
 			String user = "root";
 			String pass = "root";
 			System.out.println("Connecting to database...");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/flipkartv3a?autoReconnect=true&useSSL=false",
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebayv1?autoReconnect=true&useSSL=false",
 					user, pass);
 			System.out.println("Creating statement...");
 //			stmt = conn.createStatement();

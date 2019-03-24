@@ -9,7 +9,7 @@ public class DAO_Item {
 	//String query = null;
 	//ResultSet rs;
 	public static boolean Add_Item(String description , float price, float discount, String name, String pic_location,
-			String category, String sub_category, String barcode, String dummy_1, String dummy_2, String dummy_3, String dummy_4) {
+			int category, int sub_category, String barcode, String dummy_1, String dummy_2, String dummy_3, String dummy_4) {
 		Connection conn = DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;
 		try {
@@ -21,8 +21,8 @@ public class DAO_Item {
 			preparedStatement.setFloat(3, discount);
 			preparedStatement.setString(4, name);
 			preparedStatement.setString(5, pic_location);
-			preparedStatement.setString(6, category);
-			preparedStatement.setString(7, sub_category);
+			preparedStatement.setInt(6, category);
+			preparedStatement.setInt(7, sub_category);
 			preparedStatement.setString(8, barcode);
 			
 			int rs = preparedStatement.executeUpdate();
@@ -147,8 +147,8 @@ public class DAO_Item {
 				item_object.setDescription(rs.getString("description"));
 				item_object.setName(rs.getString("name"));
 				item_object.setPic_location(rs.getString("pic_location"));
-				item_object.setCategory(rs.getString("category"));
-				item_object.setSub_category(rs.getString("sub_category"));
+				item_object.setCategory(rs.getInt("category"));
+				item_object.setSub_category(rs.getInt("sub_category"));
 				item_object.setBarcode(rs.getString("barcode"));
 				item_object.setPrice(rs.getFloat("price"));
 				item_object.setDiscount(rs.getFloat("discount"));
@@ -183,8 +183,8 @@ public class DAO_Item {
 					item_object.setDescription(rs.getString("description"));
 					item_object.setName(rs.getString("name"));
 					item_object.setPic_location(rs.getString("pic_location"));
-					item_object.setCategory(rs.getString("category"));
-					item_object.setSub_category(rs.getString("sub_category"));
+					item_object.setCategory(rs.getInt("category"));
+					item_object.setSub_category(rs.getInt("sub_category"));
 					item_object.setBarcode(rs.getString("barcode"));
 					item_object.setPrice(rs.getFloat("price"));
 					item_object.setDiscount(rs.getFloat("discount"));
@@ -220,8 +220,8 @@ public class DAO_Item {
 					item_object.setDescription(rs.getString("description"));
 					item_object.setName(rs.getString("name"));
 					item_object.setPic_location(rs.getString("pic_location"));
-					item_object.setCategory(rs.getString("category"));
-					item_object.setSub_category(rs.getString("sub_category"));
+					item_object.setCategory(rs.getInt("category"));
+					item_object.setSub_category(rs.getInt("sub_category"));
 					item_object.setBarcode(rs.getString("barcode"));
 					item_object.setPrice(rs.getFloat("price"));
 					item_object.setDiscount(rs.getFloat("discount"));
@@ -238,6 +238,8 @@ public class DAO_Item {
 		
 		return list;
 	}
+	
+	
 	
 	//SELECT * FROM item_table ORDER BY discount DESC;
 }

@@ -2,6 +2,9 @@ package org.iiitb.EC.test;
 
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.ws.rs.client.Client;
@@ -13,9 +16,12 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Category;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Shopping_cart;
+import org.iiitb.EC.dao.DAO_Sub_Category;
+import org.iiitb.EC.dbcon.DatabaseConnection;
 import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Shopping_Cart;
 import org.iiitb.EC.rest_services.Item_Service;
@@ -25,7 +31,15 @@ import org.json.JSONObject;
 
 public class Test_class {
 public static void main(String args[]) throws Exception {
- //boolean b = DAO_Item_Seller.add_Item_Seller(5, 3, 345, 2);
+ boolean b = DAO_Sub_Category.addSub_Category(3, "Women's Clothing");
+ b = DAO_Sub_Category.addSub_Category(3, "Women's Shoes");
+ b = DAO_Sub_Category.addSub_Category(3, "Men's Clothing");
+ b = DAO_Sub_Category.addSub_Category(3, "Men's Shoes");
+ b = DAO_Sub_Category.addSub_Category(3, "Fashion Jewelry");
+ b = DAO_Sub_Category.addSub_Category(3, "Women's Hand Bags");
+ b = DAO_Sub_Category.addSub_Category(3, "Kid's Clothing");
+ b = DAO_Sub_Category.addSub_Category(3, "Others");
+ 
  //System.out.println(b);
  //boolean b1 = DAO_Buyer.update_Buyer(2,"mukesh","2001-01-01","8976768647","mukesh@gmail.com","25-K Frank Anne Street, Michigan","26-K Frank Anne Street, Michigan");
  //System.out.println("b1 "+b1);
@@ -64,6 +78,8 @@ public String get_user() throws JSONException {
 	String s = json.toString();
 	return s;
 }
+
+
 
 
 

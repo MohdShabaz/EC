@@ -186,7 +186,7 @@ public class Item_Service {
 		
 		int seller_id = get_seller_id(httpheaders);
 		
-		boolean result = DAO_Seller.add_item(seller_id,name, barcode, description,Float.parseFloat(price),Float.parseFloat(discount),pic_location,category,sub_category,Integer.parseInt(quantity),Integer.parseInt(address),dummy_1,dummy_2,dummy_3,dummy_4);
+		boolean result = DAO_Seller.add_item(seller_id,name, barcode, description,Float.parseFloat(price),Float.parseFloat(discount),pic_location,Integer.parseInt(category),Integer.parseInt(sub_category),Integer.parseInt(quantity),Integer.parseInt(address),dummy_1,dummy_2,dummy_3,dummy_4);
 		return result ? SUCCESS_RESULT : FAILURE_RESULT;
 	}
 	
