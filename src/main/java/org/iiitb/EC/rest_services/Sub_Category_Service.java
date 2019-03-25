@@ -14,10 +14,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Category;
 import org.iiitb.EC.dao.DAO_Sub_Category;
 import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Sub_Category;
-import org.json.JSONObject;
+import org.json.*;
+import org.json.simple.parser.JSONParser;
 
 @Path("subcategory")
 
@@ -28,13 +30,12 @@ public class Sub_Category_Service {
 	
 	@Path("/addSubCategory")
 	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String addSubCategory (
-			@FormDataParam("category_id") int category_id,
-			@FormDataParam("sub_category_name") String name)
-			 throws Exception{
-		boolean result = DAO_Sub_Category.addSub_Category(category_id, name);
+	public String addSubCategory (String data) throws Exception {
+		//JSONParser parser = new JSONParser();
+		JSONObject json = new JSONObject(data);
+		int category_id = DAO_Category.getCategoryId(json.getString("categoryName"))	;
+		boolean result = DAO_Sub_Category.addSub_Category(category_id, json.getString("subCategoryName"));
 		return result ? SUCCESS_RESULT : FAILURE_RESULT;
 	}	
 	

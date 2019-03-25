@@ -34,6 +34,22 @@ public class DAO_Category {
 			return false;		
 		}
 	}
+	public static int getCategoryId(String categoryName) {
+		int categoryId = -1;
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		try {
+			String query = "select id from category where category_name =" + '"' + categoryName + '"';
+			preparedStatement = conn.prepareStatement(query);
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()) {;
+				categoryId = rs.getInt("id");
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return categoryId;
+	}
 	
 	public static ArrayList<Category> get_All_Category(){
 		ArrayList<Category> list = new ArrayList<Category>();

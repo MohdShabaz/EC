@@ -29,12 +29,12 @@
  <script>
  $(document).ready(function () {  
      $("#Save").click(function () {  
-         var category = $('#name').val();  
+    	 var category = {"categoryName": $("#categoryName").val(), "subCategoryName": $("#subCategoryName").val()};
          $.ajax({  
-             url: 'webapi/category/addCategory',  
+             url: 'webapi/subcategory/addSubCategory',  
              type: 'POST',  
              dataType: 'text',  
-             data: category,  
+             data: JSON.stringify(category),  
              headers: {
             	 "username": "admin",
             	 "password": "admin"
@@ -53,7 +53,8 @@
 
 <body>
 <form id="form1" method="post">
-Name :- <input type="text" name="name" id="name" /> 
+Name :- <input type="text" name="catgory name" id="categoryName" /> 
+Name :- <input type="text" name="sub name" id="subCategoryName" /> 
 <input type="button" id="Save" value= "Submit"/>
 </form>  
 </body>
