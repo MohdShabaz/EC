@@ -243,7 +243,4 @@ Insert into sub_category (category_id,sub_category_name) values (7,"Baby");
 Insert into sub_category (category_id,sub_category_name) values (7,"Kitchen, Dining & Bar");
 Insert into sub_category (category_id,sub_category_name) values (7,"Lamps, Lighting & Ceiling Fans");
 Insert into sub_category (category_id,sub_category_name) values (7,"Others");
-<<<<<<< HEAD
 
-=======
->>>>>>> fbcf187200a3e278fbe3cf0db1e379bb295fd033
