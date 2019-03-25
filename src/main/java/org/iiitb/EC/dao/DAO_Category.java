@@ -76,5 +76,47 @@ public class DAO_Category {
 		
 		return list;		
 	}
-	
+	public static boolean renameCategory(String oldName, String newName) {
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		String query=null;
+		query = "update category set category_name = " + '"' + newName + '"' + "where category_name ="
+				+ '"' + oldName + '"';
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			int rs = preparedStatement.executeUpdate();
+			if(rs==0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;		
+		}
+	}
+	public static boolean deleteCategory(String name) {
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		String query=null;
+		query = "delete  from category where category_name = " + '"' + name + '"';
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			int rs = preparedStatement.executeUpdate();
+			if(rs==0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;		
+		}
+	}
 }

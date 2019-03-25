@@ -14,6 +14,7 @@ import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Category;
 import org.iiitb.EC.dao.DAO_Sub_Category;
 import org.iiitb.EC.model.Category;
+import org.json.JSONObject;
 
 @Path("category")
 
@@ -32,7 +33,26 @@ public class Category_Service {
 		boolean result = DAO_Category.addCategory(name);
 		return result ? SUCCESS_RESULT : FAILURE_RESULT;
 	}	
-			
+	
+	@Path("/renameCategory")
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	public String renameCategory (String data) throws Exception{
+		JSONObject json = new JSONObject(data);
+		String oldName = json.getString("category");
+		String newName = json.getString("name");
+		boolean result = DAO_Category.renameCategory(oldName, newName);
+		return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	}
+	
+	@Path("/deleteCategory")
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteCategory (String name) throws Exception{
+		boolean result = DAO_Category.deleteCategory(name);
+		return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	}
+	
 	@GET
 	@Path("/getAllCategory")
 	@Produces(MediaType.APPLICATION_JSON)
