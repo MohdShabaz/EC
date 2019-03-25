@@ -21,11 +21,11 @@ public class Sub_Category_Service {
 	private static final String SUCCESS_RESULT="Success";
 	private static final String FAILURE_RESULT="Failure";
 	
-	@Path("addSubCategory")
+	@Path("/addSubCategory")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String addCategory (
+	public String addSubCategory (
 			@FormDataParam("category_id") int category_id,
 			@FormDataParam("sub_category_name") String name)
 			 throws Exception{

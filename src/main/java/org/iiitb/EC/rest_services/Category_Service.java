@@ -22,12 +22,11 @@ public class Category_Service {
 	private static final String SUCCESS_RESULT="Success";
 	private static final String FAILURE_RESULT="Failure";
 	
-	@Path("addCategory")
+	@Path("/addCategory")
 	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String addCategory (
-			@FormDataParam("category_name") String name)
+			String name)
 			 throws Exception{
 		System.out.println(name);
 		boolean result = DAO_Category.addCategory(name);
