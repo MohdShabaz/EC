@@ -46,7 +46,45 @@
                  console.log('Error in Operation');  
              }  
          });  
-     });  
+     });
+     $("#rencat").click(function () {  
+    	 var category = {"category" : "Dildo", "name" : "check"};
+         $.ajax({  
+             url: 'webapi/category/renameCategory',  
+             type: 'POST',  
+             dataType: 'text',  
+             data: JSON.stringify(category),  
+             headers: {
+            	 "username": "admin",
+            	 "password": "admin"
+             },
+             success: function (data, textStatus, xhr) {  
+                 console.log(data);  
+             },  
+             error: function (xhr, textStatus, errorThrown) {  
+                 console.log('Error in Operation');  
+             }  
+         });  
+     });
+     $("#delcat").click(function () {  
+    	 var category = {"categoryName": $("#categoryName").val(), "subCategoryName": $("#subCategoryName").val()};
+         $.ajax({  
+             url: 'webapi/category/deleteCategory',  
+             type: 'POST',  
+             dataType: 'text',  
+             data: "check",  
+             headers: {
+            	 "username": "admin",
+            	 "password": "admin"
+             },
+             success: function (data, textStatus, xhr) {  
+                 console.log(data);  
+             },  
+             error: function (xhr, textStatus, errorThrown) {  
+                 console.log('Error in Operation');  
+             }  
+         });  
+     });
      $("#subcat").click(function () {  
          $.ajax({  
              url: 'webapi/subcategory/getSubCategories',  
@@ -76,5 +114,7 @@ Name :- <input type="text" name="sub name" id="subCategoryName" />
 <input type="button" id="Save" value= "Submit"/>
 </form>  
 <input type="button" id="subcat" value="Generate Sub-Categories" />
+<input type="button" id="rencat" value="rename category" />
+<input type="button" id="delcat" value="delete" />
 </body>
 </html>
