@@ -1,10 +1,7 @@
 -- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
 --
-<<<<<<< HEAD
--- Host: localhost    Database: flipkart
-=======
+
 -- Host: localhost    Database: ebayv1
->>>>>>> fbcf187200a3e278fbe3cf0db1e379bb295fd033
 -- ------------------------------------------------------
 -- Server version	8.0.12
 --
