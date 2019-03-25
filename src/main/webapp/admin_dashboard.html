@@ -47,6 +47,24 @@
              }  
          });  
      });  
+     $("#subcat").click(function () {  
+         $.ajax({  
+             url: 'webapi/subcategory/getSubCategories',  
+             type: 'GET',  
+             data: {"categoryName": "Electronics"},
+             headers: {
+            	 "username": "admin",
+            	 "password": "admin"
+             },
+             success: function (hdata) {  
+            	 console.log("Reached here");
+                 console.log(hdata);  
+             },  
+             error: function (xhr, textStatus, errorThrown) {  
+                 console.log('Error in Operation');  
+             }  
+         });  
+     });  
  });  
  </script>
 </head>
@@ -57,5 +75,6 @@ Name :- <input type="text" name="catgory name" id="categoryName" />
 Name :- <input type="text" name="sub name" id="subCategoryName" /> 
 <input type="button" id="Save" value= "Submit"/>
 </form>  
+<input type="button" id="subcat" value="Generate Sub-Categories" />
 </body>
 </html>

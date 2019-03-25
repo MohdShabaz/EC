@@ -46,5 +46,4 @@ public class Category_Service {
 			return list;
 		}
 	}
-	
 }
