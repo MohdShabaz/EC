@@ -47,6 +47,7 @@ public class DAO_Category {
 			Category category_object = new Category();
 			ResultSet rs = preparedStatement.executeQuery();
 			while(rs.next()) {
+					category_object.setId(rs.getInt("id"));
 					category_object.setCategory_name(rs.getString("category_name"));
 					
 					list.add(category_object);

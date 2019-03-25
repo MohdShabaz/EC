@@ -22,6 +22,7 @@ public class Category_Service {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Category> getAllCategories() {
 		DAO_Category obj = new DAO_Category();
+		System.out.println("its is coming here");
 		ArrayList<Category> list = obj.get_All_Category();
 		if (list.isEmpty()) {
 			return null;

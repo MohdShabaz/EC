@@ -188,7 +188,31 @@ public class DAO_Seller {
 	}
 	
 
-	
+	public static int Authenticate(String mobile,String Password) {
+		ResultSet rs;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select seller_id from seller_table where mobile=? and password=?";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, mobile);
+			preparedStatement.setString(2, Password);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				int seller_id = rs.getInt("seller_id");
+				return seller_id;
+			}
+			else {
+				//item.put("result", "fail");
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//return item.toString();
+		return -1;
+	}
 	
 	public static boolean update_Seller(int seller_id,String name,String mobile,String email,String password,String address_1,String address_2) {
 		 Seller sell = new Seller();

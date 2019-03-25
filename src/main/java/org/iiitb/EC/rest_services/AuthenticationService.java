@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.StringTokenizer;
 
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Seller;
 
 public class AuthenticationService {
 	public boolean authenticate(String authCredentials) {
@@ -42,6 +43,10 @@ public class AuthenticationService {
 			System.out.println("Authenticated");
 			return true;
 		}else if(DAO_Buyer.Authenticate(username, password) != -1) {
+			System.out.println("Authenticated");
+			return true;
+		}
+		else if(DAO_Seller.Authenticate(username, password) != -1) {
 			System.out.println("Authenticated");
 			return true;
 		}
