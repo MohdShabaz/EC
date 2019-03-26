@@ -14,6 +14,7 @@ import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Category;
 import org.iiitb.EC.dao.DAO_Sub_Category;
 import org.iiitb.EC.model.Category;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 @Path("category")
@@ -42,6 +43,7 @@ public class Category_Service {
 		String oldName = json.getString("category");
 		String newName = json.getString("name");
 		boolean result = DAO_Category.renameCategory(oldName, newName);
+		System.out.println(oldName);
 		return result ? SUCCESS_RESULT : FAILURE_RESULT;
 	}
 	
@@ -65,5 +67,24 @@ public class Category_Service {
 		} else {
 			return list;
 		}
+	}
+	
+	@GET
+	@Path("/getAllCategoryAdmin")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getAllCategoriesAdmin() throws Exception{
+		DAO_Category obj = new DAO_Category();
+		System.out.println("its is coming here");
+		ArrayList<Category> list = obj.get_All_Category();
+		JSONObject resultList = new JSONObject();
+		ArrayList<String> categoryNames = new ArrayList<String>();
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).getCategory_name());
+			categoryNames.add(list.get(i).getCategory_name());
+		}
+		JSONArray jsonList = new JSONArray(categoryNames);
+		resultList.put("CategoryNames", jsonList);
+		return resultList.toString();
+		
 	}
 }
