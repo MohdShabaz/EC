@@ -109,25 +109,27 @@
 		console.log(options.length);
 		var i=0;
 		for(i = 0; i < options.length; i++) {
-			var node = document.createElement("LI");
-			node.classList.add("list-group-item");
-			console.log(options[i].status);
-			var orderId = options[i].order_id;
-			var textnode = document.createTextNode(options[i].order_id);
-			var textnode1 = document.createTextNode("Inform Seller");
-			var x = document.createElement("BUTTON");
-			x.classList.add("btn");
-			x.classList.add("btn-secondary");
-			x.classList.add("pull-right");
-			x.appendChild(textnode1);
-			x.addEventListener('click', function(){
-				//console.log(orderId);
-			    changeStatus(orderId);
-			});
-			//inputElement.appendChild(textnode1);
-			node.appendChild(textnode);
-			node.appendChild(x);
-			document.getElementById("mylist").appendChild(node);
+			(function () {
+				var node = document.createElement("LI");
+				node.classList.add("list-group-item");
+				console.log(options[i].status);
+				var orderId = options[i].order_id;
+				var textnode = document.createTextNode(options[i].order_id);
+				var textnode1 = document.createTextNode("Inform Seller");
+				var x = document.createElement("BUTTON");
+				x.classList.add("btn");
+				x.classList.add("btn-secondary");
+				x.classList.add("pull-right");
+				x.appendChild(textnode1);
+				x.addEventListener('click', function(){
+					//console.log(orderId);
+				    changeStatus(orderId);
+				});
+				//inputElement.appendChild(textnode1);
+				node.appendChild(textnode);
+				node.appendChild(x);
+				document.getElementById("mylist").appendChild(node);
+			}());	
 		}
 		});
 		
