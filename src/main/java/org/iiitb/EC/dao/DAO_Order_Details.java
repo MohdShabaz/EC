@@ -131,4 +131,72 @@ public class DAO_Order_Details {
 		
 		return list;
 	}
+	
+	public static ArrayList<Order_Details> get_Status_Orders(String status_id) {
+		ArrayList<Order_Details> list = new ArrayList<Order_Details>();
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		
+		System.out.println("entered DAO");
+		
+		try {
+			String query = "select * from order_details where status=?;";
+			
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, status_id);
+
+			Order_Details order_details_object = new Order_Details();
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while(true) {
+				if(rs.next()) {
+					order_details_object.setItem_id(rs.getInt("item_id"));
+					order_details_object.setSeller_id(rs.getInt("seller_id"));
+					order_details_object.setBuyer_id(rs.getInt("buyer_id"));
+					order_details_object.setOrder_id(rs.getInt("order_id"));
+					order_details_object.setId(rs.getInt("id"));
+					order_details_object.setShipping_address(rs.getString("shipping_address"));
+					order_details_object.setOrder_date(rs.getString("order_date"));
+					order_details_object.setTotal_amount(rs.getInt("total_amount"));
+					order_details_object.setPayment_type(rs.getInt("payment_type"));
+					order_details_object.setQuantity(rs.getInt("quantity"));
+					
+					
+					list.add(order_details_object);
+					order_details_object = new Order_Details();
+
+				}
+				else break;
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	
+	public static boolean change_status(int order_id, String new_status) {
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		String query=null;
+		System.out.println("entered DAO");
+		query = "update order_details set status = " + '"' + new_status + '"' + "where order_id =" + order_id;
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			int rs = preparedStatement.executeUpdate();
+			if(rs==0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;		
+		}
+	}
 }

@@ -14,9 +14,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Category;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Order_Details;
 import org.iiitb.EC.dao.DAO_Seller;
+import org.iiitb.EC.model.Category;
 import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Order_Details;
 import org.iiitb.EC.model.Seller;
@@ -121,6 +123,29 @@ public String addOrder(
 	return order_details_json_array.toString();
             
  }
+
+@GET
+@Path("/getPaidOrders")
+@Produces(MediaType.APPLICATION_JSON)
+public ArrayList<Order_Details> getAllCategories() {
+	System.out.println("entered REST");
+	DAO_Order_Details obj = new DAO_Order_Details();
+	ArrayList<Order_Details> list = obj.get_Status_Orders("Order Placed");
+	if (list.isEmpty()) {
+		return null;
+	} else {
+		return list;
+	}
+}
+
+@Path("/notifySeller")
+@POST
+@Produces(MediaType.TEXT_PLAIN)
+public String renameCategory (String data) throws Exception{
+	System.out.println("reached REST");
+	boolean result = DAO_Order_Details.change_status(Integer.parseInt(data), "Seller Notified");
+	return result ? SUCCESS_RESULT : FAILURE_RESULT;
+}
 
 
 	

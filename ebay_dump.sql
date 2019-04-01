@@ -168,32 +168,30 @@ CREATE TABLE `order_details` (
      FOREIGN KEY (`seller_id`)  REFERENCES seller_table(`seller_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-DROP TABLE IF EXISTS `buyer_account_details`:
+DROP TABLE IF EXISTS `buyer_account_details`;
 CREATE TABLE `buyer_account_details`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `buyer_id` varchar(40) NOT NULL,
   `account_number` int(12) NOT NULL,
-  `current_balance` int(10) NOT NULL
-  PRIMARY KEY (`id`),
-    FOREIGN KEY (`buyer_id`) REFERENCES buyer_table(`id`) ON DELETE CASCADE
+  `current_balance` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-DROP TABLE IF EXISTS `seller_account_details`:
+DROP TABLE IF EXISTS `seller_account_details`;
 CREATE TABLE `seller_account_details`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `seller_id` varchar(40) NOT NULL,
   `account_number` int(12) NOT NULL,
-  `current_balance` int(10) NOT NULL
-  PRIMARY KEY (`id`),
-    FOREIGN KEY (`seller_id`) REFERENCES seller_table(`id`) ON DELETE CASCADE
+  `current_balance` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-DROP TABLE IF EXISTS `ebay_account_details`:
+DROP TABLE IF EXISTS `ebay_account_details`;
 CREATE TABLE `ebay_account_details`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_name` varchar(40) NOT NULL,
   `account_number` int(12) NOT NULL,
-  `current_balance` int(10) NOT NULL
+  `current_balance` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -367,16 +365,16 @@ INSERT INTO item_table(description, price, discount, name, pic_location, categor
 
 
 INSERT INTO order_details(order_id, item_id, seller_id, buyer_id, shipping_address, status, order_date, total_amount, payment_type,quantity) VALUES
-(192339818, 2, 1, 1, '25-K Frank Anne Street, Michigan', 'Dispatched', '2019-02-11', 74999.00, 1,1),
+(192339818, 2, 1, 1, '25-K Frank Anne Street, Michigan', 'Order Placed', '2019-02-11', 74999.00, 1,1),
 (241151251, '3', 2, '2', '1-A, Royal Legion society, Detroit', 'Preparing for Dispatch', '2019-02-15', 5500.00, 1,1),
-(987174122, '4', 2, '3', '90th Wall Street Hub, Manhattan', 'Preparing for Dispatch', '2019-02-14', 17600.00, 2,4),
+(987174122, '4', 2, '3', '90th Wall Street Hub, Manhattan', 'Order Placed', '2019-02-14', 17600.00, 2,4),
 (137747189, '5', 3, '4', '12FA, Silicon Valley, California', 'Shipped', '2019-02-09', 134999.99, 2,1),
 (481204124, '7', 3, '5', '4th House of Commons, Bangalore', 'Out for Delivery', '2019-02-05', 112500.00, 1,1),
 (747748124, '6', 2, '6', 'Flying Palace Apartments, Hyderabad', 'Delivered', '2019-02-04', 93999.99,2, 1),
-(912728491, '8', 1, '7', '12th Vinewood road, Lad Venturas', 'Delivered', '2019-02-04', 1200.00, 2,1),
+(912728491, '8', 1, '7', '12th Vinewood road, Lad Venturas', 'Order Placed', '2019-02-04', 1200.00, 2,1),
 (871241235, '10', 2, '8', 'Maddogg club house, Vinewood', 'Dispatched', '2019-02-14', 10800.00, 1,12),
 (651412310, '1', 1, '9', 'Saharan oasis apartments, Las Vegas', 'Shipped', '2019-02-11', 34999.99,1, 1),
-(252330102, '9', 2, '10','Grove Street, Home, San Fierro', 'Shipped', '2019-02-10', 899.99,1, 1);
+(252330102, '9', 2, '10','Grove Street, Home, San Fierro', 'Seller Notified', '2019-02-10', 899.99,1, 1);
 
 INSERT INTO ebay_account_details(account_name, account_number, current_balance) VALUES
 ('ebay_account', '346712124590', 500000);
