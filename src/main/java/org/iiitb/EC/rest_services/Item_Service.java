@@ -5,11 +5,13 @@ import java.util.ArrayList;
 
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Item;
+import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Seller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import java.io.File;
@@ -29,6 +31,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dbcon.DatabaseConnection;
 import org.iiitb.EC.model.Buyer;
 import org.iiitb.EC.model.Item;
+import org.iiitb.EC.model.Seller;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -134,15 +137,16 @@ public class Item_Service {
 //     }
 	
 	
-	@Path("getitem")
+	@Path("/getitem/{item_id_str}")
     @GET
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
  public static String getItem(
-		 @FormDataParam("item_id") String item_id_str ) throws Exception{
+  @PathParam("item_id_str") String item_id_str ) throws Exception{
         
         int item_id = Integer.parseInt(item_id_str);
+        System.out.println("Iashdckjsnd "+ item_id_str);
         Item item=DAO_Item.Get_Item(item_id);
+        Seller seller=DAO_Item_Seller.get_seller_details(item_id);
         
         JSONObject obj = new JSONObject();
         obj.put("name", item.getName());
@@ -152,6 +156,7 @@ public class Item_Service {
         obj.put("pic_location", item.getPic_location());
         obj.put("category", item.getCategory());
         obj.put("sub_category", item.getSub_category());
+        obj.put("seller_name", seller.getName());
         obj.put("dummy_1", item.getDummy_1());
         obj.put("dummy_2", item.getDummy_2());
         obj.put("dummy_3", item.getDummy_3());
@@ -161,62 +166,84 @@ public class Item_Service {
      }
 	
 	
+
+
+	
+	
 		
-//	
-//	@Path("addItem")
-//	@POST
-//	@Consumes(MediaType.MULTIPART_FORM_DATA)
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public String addItem(
-//			@FormDataParam("item_name") String name,
-//			@FormDataParam("item_barcode") String barcode,
-//			@FormDataParam("item_description") String description,
-//			@FormDataParam("item_price") String price,
-//			@FormDataParam("item_discount") String discount,
-//			@FormDataParam("item_pic_location") String pic_location,
-//			@FormDataParam("item_category") String category,
-//			@FormDataParam("item_sub_category") String sub_category,
-//			@FormDataParam("item_quantity") String quantity,
-//			@FormDataParam("item_address") String address,
-//			@FormDataParam("item_dummy_1") String dummy_1,
-//			@FormDataParam("item_dummy_2") String dummy_2,
-//			@FormDataParam("item_dummy_3") String dummy_3,
-//			@FormDataParam("item_dummy_4") String dummy_4,
-//			@Context HttpHeaders httpheaders) throws Exception{
-//		
-//		int seller_id = get_seller_id(httpheaders);
-//		
-//		boolean result = DAO_Seller.add_item(seller_id,name, barcode, description,Float.parseFloat(price),Float.parseFloat(discount),pic_location,Integer.parseInt(category),Integer.parseInt(sub_category),Integer.parseInt(quantity),Integer.parseInt(address),dummy_1,dummy_2,dummy_3,dummy_4);
-//		return result ? SUCCESS_RESULT : FAILURE_RESULT;
-//	}
 	
-	
+	/*@Path("addItem")
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String addItem(
+			@FormDataParam("item_name") String name,
+			@FormDataParam("item_barcode") String barcode,
+			@FormDataParam("item_description") String description,
+			@FormDataParam("item_price") String price,
+			@FormDataParam("item_discount") String discount,
+			@FormDataParam("item_pic_location") String pic_location,
+			@FormDataParam("item_category") String category,
+			@FormDataParam("item_sub_category") String sub_category,
+			@FormDataParam("item_quantity") String quantity,
+			@FormDataParam("item_address") String address,
+			@FormDataParam("item_dummy_1") String dummy_1,
+			@FormDataParam("item_dummy_2") String dummy_2,
+			@FormDataParam("item_dummy_3") String dummy_3,
+			@FormDataParam("item_dummy_4") String dummy_4,
+			@Context HttpHeaders httpheaders) throws Exception{
+		System.out.println("Item Servie"+name);	
+		int seller_id = get_seller_id(httpheaders);
+		System.out.println("Item Servie"+name);
+		pic_location = null;
+		dummy_1 = null;
+		dummy_2 = null;
+		dummy_3 = null;
+		dummy_4 = null;
+		System.out.println("Item Servie"+name);
+		boolean result = DAO_Seller.add_item(seller_id,name, barcode, description,Float.parseFloat(price),Float.parseFloat(discount),pic_location,Integer.parseInt(category),Integer.parseInt(sub_category),Integer.parseInt(quantity),Integer.parseInt(address),dummy_1,dummy_2,dummy_3,dummy_4);
+		return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	}*/
 	@Path("addItem")
     @POST
-@Consumes(MediaType.MULTIPART_FORM_DATA)
-@Produces(MediaType.TEXT_PLAIN)  
-public String addItem(String input, @Context HttpHeaders httpheaders) throws Exception{
- JSONObject input_json = new JSONObject(input);
- int seller_id = get_seller_id(httpheaders);
- 
- boolean result = DAO_Seller.add_item(seller_id,
-   input_json.getString("Product_Name"),
-   input_json.getString("Barcode"),
-   input_json.getString("Description"),
-   Float.parseFloat(input_json.getString("Price")),
-   Float.parseFloat(input_json.getString("Discount")),
-   "" ,//add here --------------
-   Integer.parseInt(input_json.getString("Category")),
-   Integer.parseInt(input_json.getString("Subcategory")),
-   Integer.parseInt("Quantity"),
-   Integer.parseInt("Address"),
+	@Produces(MediaType.TEXT_PLAIN)  
+	public String addItem(String input, @Context HttpHeaders httpheaders) throws Exception{
+		
+		JSONObject input_json = new JSONObject(input);
+		int seller_id = get_seller_id(httpheaders);
+		System.out.println(seller_id);
+		String s = "images/"+input_json.getString("Barcode")+".png";
+		boolean result = DAO_Seller.add_item(seller_id, 
+		input_json.getString("Product_Name"),
+		input_json.getString("Barcode"),
+		input_json.getString("Description"), 
+		Float.parseFloat(input_json.getString("Price")),
+		Float.parseFloat(input_json.getString("Discount")),
+    s ,//add here -------------- 
+   		Integer.parseInt(input_json.getString("Category")),
+   		Integer.parseInt(input_json.getString("Subcategory")),
+   		Integer.parseInt(input_json.getString("Quantity")), 
+   		Integer.parseInt(input_json.getString("Address")), 
    "","", "","");
- 
-        return result ? SUCCESS_RESULT : FAILURE_RESULT;
+		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
 
 }
-	
-	
+	@POST
+	@Path("uploadProductPic")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public String ProductPicUpload(@FormDataParam("file") InputStream fileInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileFormDataContentDisposition,
+			@FormDataParam("barcode") String barcode ) {
+		String s = "images/" + barcode + ".png";
+		System.out.println("Item Service 1" );
+		String fileName = null;
+		String uploadFilePath = null;
+		fileName = fileFormDataContentDisposition.getFileName();
+//		uploadFilePath = new ProductService().uploadProductPic(fileInputStream, fileName, product_id);
+		DAO_Item.writeToFile(fileInputStream, s);
+		return "success";
+	}
 	@Path("addQuantity")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)

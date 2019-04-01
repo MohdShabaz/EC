@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.iiitb.EC.dbcon.DatabaseConnection;
 import org.iiitb.EC.model.Item;
+import org.iiitb.EC.model.Order_Details;
 import org.iiitb.EC.model.Shopping_Cart;
 
 public class DAO_Order_Details {
@@ -91,5 +92,43 @@ public class DAO_Order_Details {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	public static ArrayList<Order_Details> get_Seller_Orders(int seller_id) {
+		ArrayList<Order_Details> list = new ArrayList<Order_Details>();
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;		
+		
+		try {
+			String query = "select * from order_details where seller_id=?;";
+			
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, seller_id);
+			Order_Details order_details_object = new Order_Details();
+			ResultSet rs = preparedStatement.executeQuery();
+			for(int i=0;i<5;i++) {
+				if(rs.next()) {
+					order_details_object.setItem_id(rs.getInt("item_id"));
+					order_details_object.setSeller_id(rs.getInt("seller_id"));
+					order_details_object.setBuyer_id(rs.getInt("buyer_id"));
+					order_details_object.setOrder_id(rs.getInt("order_id"));
+					order_details_object.setId(rs.getInt("id"));
+					order_details_object.setShipping_address(rs.getString("shipping_address"));
+					order_details_object.setOrder_date(rs.getString("order_date"));
+					order_details_object.setTotal_amount(rs.getInt("total_amount"));
+					order_details_object.setPayment_type(rs.getInt("payment_type"));
+					order_details_object.setQuantity(rs.getInt("quantity"));
+					
+					
+					list.add(order_details_object);
+					order_details_object = new Order_Details();
+
+				}
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 }

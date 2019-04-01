@@ -1,6 +1,9 @@
 package org.iiitb.EC.rest_services;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -11,8 +14,13 @@ import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Order_Details;
 import org.iiitb.EC.dao.DAO_Seller;
+import org.iiitb.EC.model.Item;
+import org.iiitb.EC.model.Order_Details;
+import org.iiitb.EC.model.Seller;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 @Path("orderService")
@@ -25,6 +33,11 @@ public class Order_Details_Service {
 	public int get_buyer_id(HttpHeaders httpheaders) {
 		String username = httpheaders.getHeaderString("username");
 		return DAO_Buyer.get_buyer_id(username);
+	}
+	
+	static int get_seller_id(HttpHeaders httpheaders) {
+		String seller_id= httpheaders.getHeaderString("username");
+		return DAO_Seller.get_seller_id(seller_id);
 	}
 	
 	@Path("addOrder")
@@ -73,6 +86,40 @@ public String addOrder(
 
     return result ? SUCCESS_RESULT : FAILURE_RESULT;
     
+ }
+@Path("sellerOrderDetails")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+ public static String getSellerInfo(@Context HttpHeaders httpheaders ) throws Exception{
+    
+	
+	int seller_id = get_seller_id(httpheaders);
+	
+	
+	
+	ArrayList<Order_Details> items = DAO_Order_Details.get_Seller_Orders(seller_id);
+	
+	JSONArray order_details_json_array = new JSONArray();
+	for(Order_Details order_details : items) {
+		Item item=DAO_Item.Get_Item(order_details.getItem_id());
+		
+		JSONObject order_details_json = new JSONObject();
+		order_details_json.put("item_id", order_details.getItem_id());
+		order_details_json.put("pic_location", item.getPic_location());
+		order_details_json.put("name", item.getName());
+		order_details_json.put("seller_id", order_details.getSeller_id());
+		order_details_json.put("buyer_id", order_details.getBuyer_id());
+		order_details_json.put("id", order_details.getId());
+		order_details_json.put("shipping_address", order_details.getShipping_address());
+		order_details_json.put("status", order_details.getStatus());
+		order_details_json.put("order_date", order_details.getOrder_date());
+		order_details_json.put("total_amount", order_details.getTotal_amount());
+		order_details_json.put("payment_type", order_details.getPayment_type());
+		order_details_json.put("quantity", order_details.getQuantity());
+		order_details_json_array.put(order_details_json);
+	}
+	return order_details_json_array.toString();
+            
  }
 
 

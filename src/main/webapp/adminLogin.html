@@ -5,36 +5,23 @@
 	function authenticate() {
 				var userNameTyped = $("#name").val();
 				var passwordTyped = $("#password").val();
-
-			    $.ajax({
-			        url: "webapi/adminService/authenticateAdmin",
-			        async : true,
-			        data: "",
-			        type: 'GET',
-			        dataType: "text",
-			        headers: {
-		        		'username':userNameTyped,
-		        		'password':passwordTyped
-		    		},
-			        success: function (dataofconfirm, xher, xyz) {
-			        	/* window.open("http://localhost:8080"+"/EC/404.html", "_blank"); */
-			        	console.log("Success");
-			        	window.location.href ="http://localhost:5224"+"/EC/admin_add_cat.html";  
-			        	/* console.log( "the feedback from your API: " + dataconfirm ); */
-			        	/* document.getElementById("stage").innerHTML=url;
-			        	document.getElementById("stage").style.height = "800px"; */
-			        },
-			        error: function(xhr, data, xyz){
-			        	console.log("Failure");
-			        }
-			    });
-		}
+				console.log('Before Log in');
+				if(userNameTyped == "admin" && passwordTyped == "admin")
+				{
+					console.log("Success");
+					sessionStorage.setItem('username','admin');
+					sessionStorage.setItem('password','admin');
+		        	window.location.href ="http://localhost:9000/EC/admin_add_cat.html";
+				}else{
+					console.log("Failure");
+				}
+		}	
 	</script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Admin Login | Flipkart</title>
+    <title>Admin Login | Ebay</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
@@ -71,7 +58,7 @@
 								<input type="checkbox" class="checkbox"> 
 								Keep me signed in
 							</span>
-        				  <button type="submit" class="btn btn-primary" id="LoginButton" onclick="authenticate()">Submit</button> 
+        				  <button type="button" class="btn btn-primary" id="LoginButton" onclick="authenticate()">Submit</button> 
 							
 					</form><!--/login form-->
 				</div>

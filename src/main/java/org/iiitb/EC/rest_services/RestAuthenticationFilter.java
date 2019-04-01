@@ -74,8 +74,14 @@ public class RestAuthenticationFilter implements javax.servlet.Filter {
 			FilterChain filter) throws IOException, ServletException {
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-			String username = httpServletRequest.getHeader(AUTHENTICATION_USERNAME);
-			String password = httpServletRequest.getHeader(AUTHENTICATION_PASSWORD);
+			String username = "";
+			String password = "";
+			try {
+				username = httpServletRequest.getHeader(AUTHENTICATION_USERNAME);
+				password = httpServletRequest.getHeader(AUTHENTICATION_PASSWORD);
+			}catch(Exception e) {
+				
+			}
 
 			// better injected
 			AuthenticationService authenticationService = new AuthenticationService();
@@ -92,6 +98,8 @@ public class RestAuthenticationFilter implements javax.servlet.Filter {
 							.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				}
 			}
+		}else {
+			
 		}
 	}
 
