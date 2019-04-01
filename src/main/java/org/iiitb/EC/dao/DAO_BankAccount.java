@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import org.iiitb.EC.dbcon.DatabaseConnection;
 import org.iiitb.EC.model.BankAccount;
+import org.iiitb.EC.model.Buyer;
 
 public class DAO_BankAccount {
 	public static long getBuyerAccountBalance(int buyer_id) {
@@ -20,7 +21,7 @@ public class DAO_BankAccount {
 			preparedStatement.setInt(1, buyer_id);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
-				bankAccount.setAccountNumber(rs.getLong("account_number"));
+				bankAccount.setAccountNumber(rs.getString("account_number"));
 				bankAccount.setCurrentBalance(rs.getLong("current_balance"));
 				bankAccount.setHolderID(rs.getInt("buyer_id"));
 				return bankAccount.getCurrentBalance();
@@ -69,7 +70,7 @@ public class DAO_BankAccount {
 			preparedStatement.setInt(1, seller_id);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
-				bankAccount.setAccountNumber(rs.getLong("account_number"));
+				bankAccount.setAccountNumber(rs.getString("account_number"));
 				bankAccount.setCurrentBalance(rs.getLong("current_balance"));
 				bankAccount.setHolderID(rs.getInt("seller_id"));
 				return bankAccount.getCurrentBalance();
@@ -117,7 +118,7 @@ public class DAO_BankAccount {
 			preparedStatement = conn.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
-				bankAccount.setAccountNumber(rs.getLong("account_number"));
+				bankAccount.setAccountNumber(rs.getString("account_number"));
 				bankAccount.setCurrentBalance(rs.getLong("current_balance"));
 				bankAccount.setHolderID(rs.getInt("id"));
 				return bankAccount.getCurrentBalance();
@@ -151,6 +152,49 @@ public class DAO_BankAccount {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;		
+		}
+	}
+	
+	public static boolean performTransaction(int transactionAmount, int order_id, int buyer_id, int seller_id) {
+		ResultSet rs;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select * from buyer_account_details where buyer_id=";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, buyer_id);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				int buyerBalance = rs.getInt("current_balance");
+				if (buyerBalance < transactionAmount) {
+					return false;
+				}
+				
+				String updateBuyerBalanceQuery = "update buyer_account_details set current_balance = " + '"' + (buyerBalance - transactionAmount) + '"' + " where buyer_id = " + '"' + buyer_id + '"';
+				try {
+					preparedStatement = conn.prepareStatement(updateBuyerBalanceQuery);
+					int result = preparedStatement.executeUpdate();
+					if(result == 0) {
+						return false;
+					}
+					else {
+						boolean res = DAO_Order_Details.change_status(order_id, "Order Placed");
+						return res;
+					}
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return false;		
+				}			
+			}
+			else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 }

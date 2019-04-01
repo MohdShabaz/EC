@@ -2,7 +2,7 @@ package org.iiitb.EC.model;
 
 public class BankAccount {
 	private int holderID;
-	private long accountNumber;
+	private String accountNumber;
 	private long currentBalance;
 	
 	public long getCurrentBalance() {
@@ -11,10 +11,10 @@ public class BankAccount {
 	public void setCurrentBalance(long currentBalance) {
 		this.currentBalance = currentBalance;
 	}
-	public long getAccountNumber() {
+	public String getAccountNumber() {
 		return accountNumber;
 	}
-	public void setAccountNumber(long accountNumber) {
+	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 	public int getHolderID() {

@@ -172,7 +172,7 @@ DROP TABLE IF EXISTS `buyer_account_details`;
 CREATE TABLE `buyer_account_details`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `buyer_id` varchar(40) NOT NULL,
-  `account_number` int(12) NOT NULL,
+  `account_number` varchar(40) NOT NULL,
   `current_balance` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -181,7 +181,7 @@ DROP TABLE IF EXISTS `seller_account_details`;
 CREATE TABLE `seller_account_details`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `seller_id` varchar(40) NOT NULL,
-  `account_number` int(12) NOT NULL,
+  `account_number` varchar(40) NOT NULL,
   `current_balance` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -190,7 +190,7 @@ DROP TABLE IF EXISTS `ebay_account_details`;
 CREATE TABLE `ebay_account_details`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_name` varchar(40) NOT NULL,
-  `account_number` int(12) NOT NULL,
+  `account_number` varchar(15) NOT NULL,
   `current_balance` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
