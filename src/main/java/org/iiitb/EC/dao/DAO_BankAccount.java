@@ -178,6 +178,7 @@ public class DAO_BankAccount {
 		int buyerBalance = getBuyerAccountBalance(buyer_id);
 		
 		if (buyerBalance < transactionAmount) {
+			System.out.println("Buyer balance too low to make the purchase.");
 			return false;
 		}
 		
@@ -205,6 +206,38 @@ public class DAO_BankAccount {
 					}
 				} else {
 					return false;
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;		
+		}			
+	}
+	
+	public static boolean performTransaction2(int transactionAmount, int order_id, int buyer_id, int seller_id) {
+		int sellerBalance = getSellerAccountBalance(seller_id);
+		String updateSellerBalanceQuery = "update seller_account_details set current_balance = " + '"' + (sellerBalance + transactionAmount) + '"' + " where seller_id = " + '"' + seller_id + '"';
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			PreparedStatement preparedStatement = null;
+			preparedStatement = conn.prepareStatement(updateSellerBalanceQuery);
+			int result = preparedStatement.executeUpdate();
+			if(result == 0) {
+				return false;
+			}
+			else {
+				// boolean res = DAO_Order_Details.change_status(order_id, "Dispatch");
+				
+				BankAccount ebayAccount = DAO_BankAccount.getEbayAccount();
+				String updateEbayBalanceQuery = "update ebay_account_details set current_balance = " + '"' + (ebayAccount.getCurrentBalance() - transactionAmount) + '"' + " where account_name = " + '"' + "ebay_account" + '"';
+				preparedStatement = conn.prepareStatement(updateEbayBalanceQuery);
+				int ebay_trans_res = preparedStatement.executeUpdate();
+				if (ebay_trans_res == 0) {
+					return false;
+				} else {
+					return true;
 				}
 			}
 			
