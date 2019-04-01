@@ -20,10 +20,8 @@
 						
 				
 		         $.ajax({  
-		             url: 'webapi/orderService/notifySeller',  
-		             type: 'POST',
-		             dataType : 'text',
-		             data : '192339818',
+		             url: 'webapi/orderService/getPaidOrders',  
+		             type: 'GET',
 		             headers: {
 		            	 "username": "admin",
 		            	 "password": "admin"
