@@ -3,12 +3,12 @@ package org.iiitb.EC.model;
 public class BankAccount {
 	private int holderID;
 	private String accountNumber;
-	private long currentBalance;
+	private int currentBalance;
 	
-	public long getCurrentBalance() {
+	public int getCurrentBalance() {
 		return currentBalance;
 	}
-	public void setCurrentBalance(long currentBalance) {
+	public void setCurrentBalance(int currentBalance) {
 		this.currentBalance = currentBalance;
 	}
 	public String getAccountNumber() {
