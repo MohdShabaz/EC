@@ -49,6 +49,26 @@
 <script>
 var price = 0;
 var accountNumber;
+
+function AddOrder() {
+	$.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
+		 
+		 headers: {
+				'username':sessionStorage.getItem("username"),
+				'password':sessionStorage.getItem("password")
+			},
+		 async: false,
+		 success: function(data){
+			 window.location="http://localhost:9000/EC/Buyer_orders.html";
+		  console.log(data);
+		},
+		 error: function(data)
+		 {
+		  
+		 }
+		 });
+		 //window.location.href = "items.html";
+		 }
 function ConfirmOrder()
 {
 	accountNumber = document.getElementById("cardno").value;
@@ -65,7 +85,7 @@ function ConfirmOrder()
 		data : accountNumber,	
 		 async: false,
 		 success: function(data){
-			 window.location.href ="http://localhost:9000/EC/Buyer_Orders.html"; 
+			 AddOrder();
 		 	console.log(data);
 		},
 		 error: function(data)
