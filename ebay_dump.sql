@@ -379,4 +379,7 @@ INSERT INTO order_details(order_id, item_id, seller_id, buyer_id, shipping_addre
 (252330102, '9', 2, '10','Grove Street, Home, San Fierro', 'Shipped', '2019-02-10', 899.99,1, 1);
 
 INSERT INTO ebay_account_details(account_name, account_number, current_balance) VALUES
-('ebay_account', 346712124, 500000);
+('ebay_account', '346712124', 500000);
+
+INSERT INTO buyer_account_details(buyer_id, account_number, current_balance) VALUES
+(1, '123131316', 1000000)

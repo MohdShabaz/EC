@@ -23,20 +23,24 @@ public class BankAccountService {
 	private static final String FAILURE_RESULT="Failure";
 
 	@Path("/transaction")
-	@PUT
+	@POST
     @Produces(MediaType.TEXT_PLAIN)
-	public String PerformTransaction(@Context HttpHeaders httpheaders) {
-		String accountNumber = httpheaders.getHeaderString("account_number");
+	public String PerformTransaction(String data, @Context HttpHeaders httpheaders) {
+		String accountNumber = data;
 		long order_id = DAO_Order_Details.get_last_order_id();
 		ArrayList<Order_Details> orders = DAO_Order_Details.getOrder((int)order_id);
 		int buyer_id = DAO_Buyer.get_buyer_id(httpheaders.getHeaderString("username"));
 		boolean isValidAccount = DAO_BankAccount.checkAccountValidity(buyer_id, accountNumber);
 		boolean result = true;
+		
+		System.out.println("Acc: " + data);
+		System.out.println("UN: " + buyer_id);
 		if (isValidAccount) {
 			for (int i = 0; i < orders.size(); i++) {
 				Order_Details order = orders.get(i);
 				int seller_id = order.getSeller_id();
 				int item_id = order.getItem_id();
+				
 				int transactionAmount = order.getTotal_amount();
 							
 				result = DAO_BankAccount.performTransaction(transactionAmount, (int)order_id, item_id, buyer_id, seller_id);
