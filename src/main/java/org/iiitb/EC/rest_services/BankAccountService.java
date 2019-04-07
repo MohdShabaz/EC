@@ -16,13 +16,13 @@ import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Order_Details;
 import org.iiitb.EC.model.Order_Details;
 
-@Path("/bankService")
+@Path("bankService")
 public class BankAccountService {
 	
 	private static final String SUCCESS_RESULT="Success";
 	private static final String FAILURE_RESULT="Failure";
 
-	@Path("/transaction")
+	@Path("transaction")
 	@POST
     @Produces(MediaType.TEXT_PLAIN)
 	public String PerformTransaction(String data, @Context HttpHeaders httpheaders) {

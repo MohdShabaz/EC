@@ -58,7 +58,8 @@ function ConfirmOrder()
 	$.ajax({url:"http://localhost:9000/EC/webapi/bankService/transaction", type:"POST",
 		 
 		 headers: {
-				'username':sessionStorage.getItem("username")
+				'username':sessionStorage.getItem("username"),
+				'password': sessionStorage.getItem("password")
 			},
 		dataType : "text",	
 		data : accountNumber,	
