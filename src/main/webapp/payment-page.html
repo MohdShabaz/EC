@@ -28,6 +28,7 @@
 				
 				<br>
     			<label for="cardumber"><b>Card Number</b></label>
+    			<h2 id = "price"> </h2> 
     			<input type="text" placeholder="1111-2222-3333-4444" name="cardnumber" id="cardno" required>
 				<br>
 				<!--
@@ -38,9 +39,56 @@
 		<label for="cvv"><b>CVV</b></label>
     	<input type="password" placeholder="Ex.352" id="cv" name="cvv" required>
 		<br><br> -->
-
-    	<button type="submit" class="paybutton">Pay Now</button>			
+		
+    	<button type="submit" class="paybutton" onclick="ConfirmOrder()"> Pay Now </button>			
     	</div>							
 		</div>
 	</div>	
 </div>
+
+<script>
+var price = 0;
+function ConfirmOrder()
+{
+	
+	$.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
+		 
+		 headers: {
+				'username':sessionStorage.getItem("username"),
+				'password':sessionStorage.getItem("password")
+			},
+		 async: false,
+		 success: function(data){
+			 window.location.href ="http://localhost:9000"+"/EC/homepage.html"; 
+		 	console.log(data);
+		},
+		 error: function(data)
+		 {
+		  
+		 }
+		 });
+}
+$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
+	 async: false,
+	 headers: {
+	     'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	     'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+	},
+	 success: function(data){
+		 price = data;
+		 console.log("price :");
+		 console.log(data);
+	  document.getElementById("price").innerHTML="Total Price: " + data;
+	 },
+	 error: function(data)
+	 {
+	  
+	 }
+	});
+
+
+
+
+
+</script>

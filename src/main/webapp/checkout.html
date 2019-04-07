@@ -78,23 +78,8 @@ function ConfirmOrder()
  };
  
  console.log(json_); */
- 
- $.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
- 
- headers: {
-		'username':sessionStorage.getItem("username"),
-		'password':sessionStorage.getItem("password")
-	},
- async: false,
- success: function(data){
-	 window.location="http://localhost:9000/EC/Buyer_orders.html";
-  console.log(data);
-},
- error: function(data)
- {
-  
- }
- });
+ window.location="http://localhost:9000/EC/payment-page.html";
+
  //window.location.href = "items.html";
  }
  $.ajax({
