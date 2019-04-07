@@ -174,7 +174,7 @@ public class DAO_BankAccount {
 		return bankAccount;
 	}
 	
-	public static boolean performTransaction(int transactionAmount, int order_id, int buyer_id, int seller_id) {
+	public static boolean performTransaction(int transactionAmount, int order_id, int item_id, int buyer_id, int seller_id) {
 		int buyerBalance = getBuyerAccountBalance(buyer_id);
 		
 		if (buyerBalance < transactionAmount) {
@@ -182,7 +182,7 @@ public class DAO_BankAccount {
 			return false;
 		}
 		
-		String updateBuyerBalanceQuery = "update buyer_account_details set current_balance = " + '"' + (buyerBalance - transactionAmount) + '"' + " where buyer_id = " + '"' + buyer_id + '"';
+		String updateBuyerBalanceQuery = "update buyer_account_details set current_balance = " + '"' + (buyerBalance - transactionAmount) + '"' + " where buyer_id = " + '"' + buyer_id + '"' + " and item_id = " + '"' + item_id + '"';
 		try {
 			Connection conn = DatabaseConnection.getConnection();
 			PreparedStatement preparedStatement = null;
@@ -216,9 +216,9 @@ public class DAO_BankAccount {
 		}			
 	}
 	
-	public static boolean performTransaction2(int transactionAmount, int order_id, int buyer_id, int seller_id) {
+	public static boolean performTransaction2(int transactionAmount, int order_id, int item_id, int buyer_id, int seller_id) {
 		int sellerBalance = getSellerAccountBalance(seller_id);
-		String updateSellerBalanceQuery = "update seller_account_details set current_balance = " + '"' + (sellerBalance + transactionAmount) + '"' + " where seller_id = " + '"' + seller_id + '"';
+		String updateSellerBalanceQuery = "update seller_account_details set current_balance = " + '"' + (sellerBalance + transactionAmount) + '"' + " where seller_id = " + '"' + seller_id + '"'  + " and item_id = " + '"' + item_id + "'";
 		try {
 			Connection conn = DatabaseConnection.getConnection();
 			PreparedStatement preparedStatement = null;
