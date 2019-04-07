@@ -4,12 +4,12 @@ $.ajax({
       dataType: "JSON",
       headers: {
     'username':sessionStorage.username?sessionStorage.getItem('username'):'',
-    'password':sessionStorage.username?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+    'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
  },
       success: function(productArray){
-       console.log("here1")
+       console.log("here1");
         console.log(productArray);
-       console.log("here2")
+       console.log("here2");
         
         var html="<ul><div class ='category'>";
         for(var i = 0; i < productArray.length; i++) {
@@ -75,6 +75,10 @@ else{
      
     } 
 }
+function cart()
+{
+	window.location = "http://localhost:9000/EC/Cart_ebay.html";
+};
 
 function getAllItemsOfSubCat(subcatId){
 window.location.href = "http://localhost:9000/EC/displaySubCatItems.html?subcatId="+subcatId;

@@ -53,6 +53,8 @@ public class DAO_Seller {
 			preparedStatement.setInt(1, seller_id);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
+				//added seller_id
+				sell.setSeller_id(rs.getInt("seller_id"));
 				sell.setName(rs.getString("name"));
 				sell.setMobile(rs.getString("mobile"));
 				sell.setEmail(rs.getString("email"));

@@ -36,7 +36,7 @@ $('#Seller_detail_form').submit(function(){
 					{
 						sessionStorage.setItem('username', jQuery("#Seller_Mobile").val());
 						sessionStorage.setItem('password', jQuery("#Seller_password").val());
-						alert("Added Successfully. Redirecting to Login");
+						alert("Added Successfully. Redirecting to Dashboard");
 						window.location.href ="http://localhost:9000/EC/loginseller.html";
 					}
 					

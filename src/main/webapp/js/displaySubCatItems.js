@@ -5,14 +5,14 @@ $.ajax({
       //data: JSON.stringify(myFunction()),
       //datatype : JSON,
       headers: {
-       'username':sessionStorage.username?sessionStorage.getItem('username'):'',
-       'password':sessionStorage.username?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+    	  'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+    		       'password':sessionStorage.password?sessionStorage.getItem('password'):''
 
  },
       success: function(productArray){
-       console.log("hereX")
+       console.log("hereX");
         console.log(productArray);
-       console.log("hereY")
+       console.log("hereY");
         
 //        var html="<ul><div class ='category'>";
 //        for(var i = 0; i < productArray.length; i++) {
@@ -81,6 +81,7 @@ $.ajax({
        
                           
           }
+          html+="</div>"
           html+="</ul>";
           console.log("html is "+html);
           document.getElementById("allitemsubcat").innerHTML = html;

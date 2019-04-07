@@ -61,6 +61,11 @@ $.ajax({
        html += "<h2> Item Quantity:"+OrdersArray[i].quantity+"</h2>";
 
        html+="</td>";
+       html+="<td>";
+
+       html += "<h2> Status:"+OrdersArray[i].status+"</h2>";
+
+       html+="</td>";
  html+="<td>";
        
        
@@ -69,6 +74,14 @@ $.ajax({
        html += "<a><img src="+OrdersArray[i].pic_location+" height='75' width='75' /></a>";
 
        html+="</td>";
+//       html+="<td>";
+//       
+//       
+//       
+//
+//       html += "<a><img src="+OrdersArray[i].order_id+" height='75' width='75' /></a>";
+//
+//       html+="</td>";
 
        
 
@@ -94,10 +107,13 @@ $.ajax({
        html += "</div>";
        html += "</div>";
        html+="</li>";
+       if(OrdersArray[i].status=="Seller Notified")
+    	   {
     	   
        html+="</td>";
-       html += "<li onclick='itemDisplay("+OrdersArray[i].id+")'>Ship<\li>";
+       html += "<li onclick='orderUpdate("+OrdersArray[i].id+","+OrdersArray[i].item_id+")'>Ship<\li>";
        html+="<td>";
+    	   }
        
                           
           }
@@ -111,16 +127,44 @@ $.ajax({
     });
 
 
-function myFunction(){
-var a = location.href;
-console.log("a is"+a);
-var b = a.substring(a.indexOf("=")+1);
-console.log("b is"+b);
-var c=JSON.parse('{"id":'+b+'}');
-console.log("c is "+typeof(c));
-return b;
-}
+//function myFunction(){
+//var a = location.href;
+//console.log("a is"+a);
+//var b = a.substring(a.indexOf("=")+1);
+//console.log("b is"+b);
+//var c=JSON.parse('{"id":'+b+'}');
+//console.log("c is "+typeof(c));
+//return b;
+//}
 
 function itemDisplay(itemId){
 window.location.href = "http://localhost:9000/EC/displaySelectedItem.html?itemId="+itemId;
 }
+function orderUpdate(orderId,itemId){
+	console.log(orderId);
+	$.ajax({
+
+	      type: "get",
+	      url:  "http://localhost:9000/EC/webapi/orderService/updateSellerStatusOrderItem/"+orderId+"/"+itemId,
+	      //data: JSON.stringify(myFunction()),
+	      //datatype : JSON,
+	      headers: {
+	       'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	       'password':sessionStorage.username?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+	 },
+	      success: function(res){
+	       console.log("hereX")
+	        console.log(res);
+	       console.log("hereY")
+	       location.reload();
+
+	        
+
+//	          console.log("html is "+html);
+//	          document.getElementById("allitemsubcat").innerHTML = html;
+	          
+	      }
+	    });
+	
+	}

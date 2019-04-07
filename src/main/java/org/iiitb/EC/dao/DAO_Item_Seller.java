@@ -157,7 +157,6 @@ public class DAO_Item_Seller {
 		}
 		return true;
 	}
-	
 	public static int get_seller_id(int item_id) {
 //		Seller sell = new Seller();
 		//Connection conn = null;
@@ -185,7 +184,6 @@ public class DAO_Item_Seller {
 		//return item.toString();
 		return seller_id;
 	}
-	
 	public static Seller get_seller_details(int item_id) {
 		int seller_id=get_seller_id(item_id);
 		
@@ -200,6 +198,8 @@ public class DAO_Item_Seller {
 			preparedStatement.setInt(1, seller_id);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
+				//added seller id
+				sell.setSeller_id(seller_id);
 				sell.setName(rs.getString("name"));
 				sell.setMobile(rs.getString("mobile"));
 				sell.setEmail(rs.getString("email"));

@@ -247,4 +247,25 @@ public class DAO_BankAccount {
 			return false;		
 		}			
 	}
+	
+	public static boolean checkAccountValidity(int buyer_id, String accountNumber) {
+		ResultSet rs;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select * from buyer_account_details where buyer_id=?";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, buyer_id);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				if (accountNumber.equals(rs.getString("account_number"))) {
+					return true;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

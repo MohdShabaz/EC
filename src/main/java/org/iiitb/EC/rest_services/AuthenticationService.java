@@ -39,18 +39,22 @@ public class AuthenticationService {
 	public boolean authenticate(String username, String password) {
 		System.out.println(username+" "+password);
 		boolean authenticationStatus = false;
-		if(username.equals("admin") && password.equals("admin")){
-			System.out.println("Authenticated");
+		if(username == null && password == null) {
+			System.out.println("Authenticated Guest");
+			return true;
+		}
+		else if(username.equals("admin") && password.equals("admin")){
+			System.out.println("Authenticated Admin");
 			return true;
 		}else if(username.equals("") && password.equals("")) {
 			System.out.println("Authenticated");
 			return true;
 		}else if(DAO_Buyer.Authenticate(username, password) != -1) {
-			System.out.println("Authenticated");
+			System.out.println("Authenticated Buyer");
 			return true;
 		}
 		else if(DAO_Seller.Authenticate(username, password) != -1) {
-			  System.out.println("Authenticated");
+			  System.out.println("Authenticated Seller");
 			  return true;
 			 }
 		return authenticationStatus;

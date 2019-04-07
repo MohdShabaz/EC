@@ -82,7 +82,7 @@ public class RestAuthenticationFilter implements javax.servlet.Filter {
 			}catch(Exception e) {
 				
 			}
-
+			
 			// better injected
 			AuthenticationService authenticationService = new AuthenticationService();
 

@@ -1,5 +1,3 @@
-document.getElementById("1234").innerHTML = "567";
-
 $.ajax({
       type: "get",
       url:  "http://localhost:9000/EC/webapi/category/getAllCategory",
@@ -62,10 +60,10 @@ else{
     }
 });
 
-
 $('#Product_detail_form').submit(function(){
-	
-	  
+//	  alert("seller id: "+localStorage.user_Id);
+	localStorage.barcode=jQuery("#Barcode").val();
+	alert(localStorage.barcode);
 		var jsondata={
 	             Product_Name: jQuery("#Product_Name").val(),
 	             Category: jQuery("#Category_product").val(),
@@ -79,7 +77,6 @@ $('#Product_detail_form').submit(function(){
 	             
 	        };
 		console.log(jsondata);
-//		localStorage.setItem("lastname", "smith1");
 		console.log($('#Product_detail_form').serialize());
 		
 		$.ajax({
@@ -100,12 +97,14 @@ $('#Product_detail_form').submit(function(){
 					}
 					else
 					{
-						sessionStorage.setItem('username', jQuery("#Seller_Mobile").val());
-						sessionStorage.setItem('password', jQuery("#Seller_password").val());
+//						sessionStorage.setItem('username', jQuery("#Seller_Mobile").val());
+//						sessionStorage.setItem('password', jQuery("#Seller_password").val());
 						alert("Item Added Successfully. Redirecting to Dashboard");
 						console.log(jQuery("#Barcode").val());
+						
 //						window.location.href ="http://localhost:9000/EC/image_upload.html?barcode="+jQuery("#Barcode").val();
-						window.location.href ="http://localhost:9000/EC/image_upload.html";
+//						window.location.href ="http://localhost:9000/EC/seller_dashboard.html";
+						window.location="http://localhost:9000/EC/image_upload_form.html";
 						
 					}
 					

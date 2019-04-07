@@ -23,6 +23,7 @@ public class BankAccountService {
 	@PUT
     @Produces(MediaType.TEXT_PLAIN)
 	public String PerformTransaction(@Context HttpHeaders httpheaders) {
+		String accountNumber = httpheaders.getHeaderString("account_number");
 		String order_id_http = httpheaders.getHeaderString("order_id");
 		int order_id = Integer.parseInt(order_id_http);
 		Order_Details order = DAO_Order_Details.getOrder(order_id);
@@ -31,9 +32,14 @@ public class BankAccountService {
 		int seller_id = order.getSeller_id();
 		int transactionAmount = order.getTotal_amount();
 		
-		boolean result = DAO_BankAccount.performTransaction(transactionAmount, order_id, buyer_id, seller_id);
+		boolean isValidAccount = DAO_BankAccount.checkAccountValidity(buyer_id, accountNumber);
 		
-		return result ? SUCCESS_RESULT : FAILURE_RESULT;
+		if (isValidAccount) {
+			boolean result = DAO_BankAccount.performTransaction(transactionAmount, order_id, buyer_id, seller_id);
+			return result ? SUCCESS_RESULT : FAILURE_RESULT;
+		} else {
+			return FAILURE_RESULT;
+		}
 	}
 	
 }

@@ -26,6 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
+//import org.ebay_project.ebaytester.service.ProductService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dbcon.DatabaseConnection;
@@ -147,6 +148,12 @@ public class Item_Service {
         System.out.println("Iashdckjsnd "+ item_id_str);
         Item item=DAO_Item.Get_Item(item_id);
         Seller seller=DAO_Item_Seller.get_seller_details(item_id);
+        System.out.println("Item Name is :  "+ item.getName());
+        System.out.println("seller Name is :  "+ seller.getName());
+        
+        //Adding Quantity
+        int quan = DAO_Item.get_quantity(item_id, seller.getSeller_id());
+        System.out.println("Item Quantity , seller_id : "+ quan + " " + seller.getSeller_id());
         
         JSONObject obj = new JSONObject();
         obj.put("name", item.getName());
@@ -156,18 +163,18 @@ public class Item_Service {
         obj.put("pic_location", item.getPic_location());
         obj.put("category", item.getCategory());
         obj.put("sub_category", item.getSub_category());
+        obj.put("barcode", item.getBarcode());
         obj.put("seller_name", seller.getName());
+        //adding quan
+        obj.put("quantity", quan);
         obj.put("dummy_1", item.getDummy_1());
         obj.put("dummy_2", item.getDummy_2());
         obj.put("dummy_3", item.getDummy_3());
         obj.put("dummy_4", item.getDummy_4());
+        System.out.println("json is :  "+ obj);
         return obj.toString();
                 
      }
-	
-	
-
-
 	
 	
 		
@@ -228,22 +235,21 @@ public class Item_Service {
 		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
 
 }
-	@POST
-	@Path("uploadProductPic")
-	@Produces(MediaType.TEXT_PLAIN)
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public String ProductPicUpload(@FormDataParam("file") InputStream fileInputStream,
-			@FormDataParam("file") FormDataContentDisposition fileFormDataContentDisposition,
-			@FormDataParam("barcode") String barcode ) {
-		String s = "images/" + barcode + ".png";
-		System.out.println("Item Service 1" );
-		String fileName = null;
-		String uploadFilePath = null;
-		fileName = fileFormDataContentDisposition.getFileName();
-//		uploadFilePath = new ProductService().uploadProductPic(fileInputStream, fileName, product_id);
-		DAO_Item.writeToFile(fileInputStream, s);
-		return "success";
-	}
+//	@POST
+//	@Path("uploadProductPic")
+//	@Consumes(MediaType.MULTIPART_FORM_DATA)
+//	public String ProductPicUpload(@FormDataParam("file") InputStream fileInputStream,
+//			@FormDataParam("file") FormDataContentDisposition fileFormDataContentDisposition,
+//			@FormDataParam("barcode") String barcode ) {
+//		String s = "images/" + barcode + ".png";
+//		System.out.println("Item Service 1" );
+//		String fileName = null;
+//		String uploadFilePath = null;
+//		fileName = fileFormDataContentDisposition.getFileName();
+////		uploadFilePath = new ProductService().uploadProductPic(fileInputStream, fileName, product_id);
+//		DAO_Item.writeToFile(fileInputStream, s);
+//		return "success";
+//	}
 	@Path("addQuantity")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -258,5 +264,60 @@ public class Item_Service {
 	 boolean result = DAO_Seller.add_quantity_to_existing_item(seller_id,barcode, quantity);
 	 return result ? SUCCESS_RESULT : FAILURE_RESULT;
 	}
+	
+	@POST
+	@Path("uploadProductPic")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public String ProductPicUpload(@FormDataParam("file") InputStream fileInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileFormDataContentDisposition,
+			@FormDataParam("product_id") String product_id) {
+		System.out.println("In UPLOADPRODUCTPIC");
+		System.out.println(product_id);
+		String uploadedFileLocation="/Users/cherukumilliramkashyap/Desktop/academics/SEM8/OOAD/EC-master/src/main/webapp/images/"+product_id+".png";
+		writeToFile(fileInputStream,uploadedFileLocation);
+		
+		
+
+		String fileName = null;
+		String uploadFilePath = null;
+		fileName = fileFormDataContentDisposition.getFileName();
+		
+		
+//		uploadFilePath = new ProductService().uploadProductPic(fileInputStream, fileName, product_id);
+		if (uploadFilePath == null)
+			return null;
+
+		return "in abc";
+	}
+	
+	private void writeToFile(InputStream uploadedInputStream, String uploadedFileLocation)
+	 {
+	  try
+	  {
+		  System.out.println("In WRITETOFILE");  
+		  
+	   OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
+	   int read = 0;
+	   byte[] bytes = new byte[1024];
+
+	   out = new FileOutputStream(new File(uploadedFileLocation));
+	   while ((read = uploadedInputStream.read(bytes)) != -1)
+	   {
+	    out.write(bytes, 0, read);
+	   }
+	   out.flush();
+	   out.close();
+	  }catch (IOException e)
+	  {
+
+	   e.printStackTrace();
+	  }
+
+	     /*
+	      * Code to store image in path
+	      */
+	     //return null;
+	    }
 	
 }

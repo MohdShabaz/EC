@@ -37,8 +37,8 @@ public class Category_Service {
 	@Path("/getAllCategory")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Category> getAllCategories() {
-		DAO_Category obj = new DAO_Category();
-		ArrayList<Category> list = obj.get_All_Category();
+//		DAO_Category obj = new DAO_Category();
+		ArrayList<Category> list = DAO_Category.get_All_Category();
 		if (list.isEmpty()) {
 			return null;
 		} else {

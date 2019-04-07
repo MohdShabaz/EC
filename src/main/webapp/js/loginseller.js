@@ -20,11 +20,11 @@ $('#login')
 		},
        success: function (dataofconfirm) {
        	/* window.open("http://localhost:8080"+"/EC/404.html", "_blank"); */
-       	console.log("Success");
+       	//console.log(dataofconfirm);
+       	sessionStorage.setItem('name', JSON.parse(dataofconfirm).name);
+		sessionStorage.setItem('mobile', JSON.parse(dataofconfirm).mobile);
        	window.location.href ="http://localhost:9000/EC/seller_dashboard.html";  
-       	/* console.log( "the feedback from your API: " + dataconfirm ); */
-       	/* document.getElementById("stage").innerHTML=url;
-       	document.getElementById("stage").style.height = "800px"; */
+       	
        },
        error: function(data){
        	console.log("Failure");
