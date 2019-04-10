@@ -5,6 +5,22 @@ public class Order_Details {
 	private long order_id;
 	private int item_id;
 	private int buyer_id;
+	private int seller_id;
+	public int getSeller_id() {
+		return seller_id;
+	}
+	public void setSeller_id(int seller_id) {
+		this.seller_id = seller_id;
+	}
+	public String getOrder_date() {
+		return order_date;
+	}
+	public void setOrder_date(String order_date) {
+		this.order_date = order_date;
+	}
+	public void setOrder_id(long order_id) {
+		this.order_id = order_id;
+	}
 	private String shipping_address;
 	private String status;
 	private String order_date;

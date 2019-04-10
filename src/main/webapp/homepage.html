@@ -1,4 +1,3 @@
-<!-- contribution of AMIT AND BHAVUKto write this code -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,7 @@
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-  <script src="myjquery.js"></script>
+  <script src="js/myjquery.js"></script>
   <script src = "js/homepage.js"></script>
   
   
@@ -22,6 +21,7 @@ ul .category{
   padding: 0;
   overflow: hidden;
   background-color: #d9d9d9;
+  cursor : pointer;
 }
 
 li .category{
@@ -34,10 +34,14 @@ li .category{
   text-align: center;
   padding: 16px;
   text-decoration: none;
+  cursor : pointer;
 }
+
+
 
 li a:hover .category{
   background-color: #bfbfbf;
+  cursor : pointer;
 }
 </style>
   <script>
@@ -45,11 +49,11 @@ li a:hover .category{
     localStorage.cart="cart";
 	  if(localStorage.user_Id!=null)
 		  {
-		  window.location="http://localhost:5224/ebaytester/cart.html";
+		  window.location="http://localhost:9000/EC/cart.html";
 		  }
 	  else
 		  {
-		  window.location="http://localhost:5224/ebaytester/login.html";
+		  window.location="http://localhost:9000/EC/loginseller.html";
 		  }
   }
   </script>
@@ -59,16 +63,16 @@ li a:hover .category{
 		  {
 
 		  }
-	  else  if(localStorage.fName!=null){
-	        document.getElementById('signin_top_bar').innerHTML="Hi!"+localStorage.fName,
+	  else  if(sessionStorage.name!=null){
+	        document.getElementById('signin_top_bar').innerHTML="Hi!  "+sessionStorage.name,
 	        $('#user_info').width(80),
-	        document.getElementById('user_name').innerHTML=localStorage.fName+" "+localStorage.lName,
-	        document.getElementById('user_email').innerHTML=localStorage.email,
+	        document.getElementById('user_name').innerHTML=sessionStorage.mobile,
+	        //document.getElementById('user_email').innerHTML=sessionStorage.mobile,
 	        document.getElementById('user_image').src="images/profile_avatar_60x60.png",
 	        document.getElementById('account_setting').innerHTML="Account setting",
 	        document.getElementById('sign_out').innerHTML="Sign Out";
 	        $('#sign_out').click(function(){
-	        	localStorage.clear();
+	        	sessionStorage.clear();
 	        });
 	    $('#user_info').hover(function(){
 	      $(this).find('.dropdown-menu').first().stop(true, true).slideDown(0);
@@ -77,6 +81,7 @@ li a:hover .category{
 	             $(this).find('.dropdown-menu').first().stop(true, true).slideUp(0);
 	             $(this).toggleClass('open');
 	    });
+         }else{
          }
 	  });
 
@@ -88,28 +93,17 @@ li a:hover .category{
 	  {
 	   if(localStorage.user_PINCODE!=8888)
 	   {
-	     window.location="http://localhost:5224/ebaytester/Seller_dashboard.html";
+	     window.location="http://localhost:9000/EC/Seller_dashboard.html";
 	   }
 	   else {
-	     window.location="http://localhost:5224/ebaytester/address_form_seller.html";
+	     window.location="http://localhost:9000/EC/address_form_seller.html";
 	   }
 	  }
 	  else {
-		  window.location="http://localhost:5224/ebaytester/login.html";
+		  window.location="http://localhost:9000/EC/loginseller.html";
 	 }
   }
-  </script>
-  <script src="javascript/home.js">
-  </script>
-  <!-- track my order function call  -->
-    <script>
-    function TrackOrder(){
-      if(localStorage.user_Id!=null){
-        window.location="http://localhost:5224/ebaytester/track_order.html";
-      }else{
-        window.location="http://localhost:5224/ebaytester/login.html";
-      }
-    }
+
     </script>
   <!-- end external script file  -->
   <link rel="stylesheet" type="text/css" href="css/mystyle.css">
@@ -120,13 +114,13 @@ li a:hover .category{
     <div class="row header">
       <div class="col-sm-5" style="margin-left:80px">
         <ul style="list-style-type:none; margin:0px; padding:0px">
-          <li class="dropdown" style="width:150px; display:table-cell; padding-top:1px;padding-bottom:1px;" id="user_info"><p id="signin_top_bar">Hi!<a href="http://localhost:5224/ebaytester/login.html"> Sign in</a> or <a href="http://localhost:5224/ebaytester/register.html">register</a></p>
+          <li class="dropdown" style="width:150px; display:table-cell; padding-top:1px;padding-bottom:1px;" id="user_info"><p id="signin_top_bar">Hi!<a href="http://localhost:9000/EC/loginbuyer.html"> Sign in</a> or <a href="http://localhost:9000/EC/registerbuyer.html">Register</a></p>
             <ul class="dropdown-menu">
               <div class="row">
                 <div class="col-sm-3">
                   <image src="" id="user_image">
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-9" style="padding-right:70px;">
                   <ul style="list-style-type: none;">
                   <li id="user_name"></li>
                   <li><a href="#" id="user_email"></a></li>
@@ -135,20 +129,22 @@ li a:hover .category{
               </div>
               <div>
                 <ul style="list-style-type: none;">
-                <li style="text-align:left"><a href=href="#" id="account_setting" ></a></li>
-                <li><a href="http://localhost:5224/ebaytester/home.html" id="sign_out"></a></li>
+                <li style="padding-bottom:5px;"><a href=href="#" id="account_setting" ></a></li>
+                <li><a href="http://localhost:9000/EC/homepage.html" id="sign_out"></a></li>
               </ul>
               </div>
             </ul>
           </li>
           <li style="width:10px; display:table-cell; padding-top:1px;padding-bottom:1px;text-align:center">|</li>
-          <li style="width:30px; display:table-cell; padding-top:1px;padding-bottom:1px;"><a id="two" href="http://localhost:5224/ebaytester/deals.html">Deals</a></li>
+          <li style="width:30px; display:table-cell; padding-top:1px;padding-bottom:1px;"><a id="two" href="http://localhost:9000/EC/deals.html">Deals</a></li>
           <li style="width:10px; display:table-cell; padding-top:1px;padding-bottom:1px;text-align:center">|</li>
           <li style="width:30px; display:table-cell; padding-top:1px;padding-bottom:1px;"><a id="two" onclick="Seller()" href="#">Sell</a></li>
           <li style="width:10px; display:table-cell; padding-top:1px;padding-bottom:1px;text-align:center">|</li>
+          <li style="width:30px; display:table-cell; padding-top:1px;padding-bottom:1px;"><a id="two"  href="http://localhost:9000/EC/adminLogin.html">Admin</a></li>
+          <li style="width:10px; display:table-cell; padding-top:1px;padding-bottom:1px;text-align:center">|</li>
           <li style="width:100px; display:table-cell; padding-top:1px;padding-bottom:1px;"><a id="two" href="#">Help & Contact</a></li>
           <li style="width:10px; display:table-cell; padding-top:1px;padding-bottom:1px;text-align:center">|</li>
-          <li style="width:100px; display:table-cell; padding-top:1px;padding-bottom:1px;"><a id="two" href="#" onclick="TrackOrder()">Track My Order</a></li>
+          <li style="width:100px; display:table-cell; padding-top:1px;padding-bottom:1px;"><a id="two" href="http://localhost:9000/EC/Buyer_orders.html" >Track My Order</a></li>
       </ul>
       </div>
       <div class="col-sm-2" >
@@ -164,7 +160,7 @@ li a:hover .category{
              <li><a id="two" href="#">Recently Viewed</a></li>
              <li><a id="two" href="#">Bids/Offers</a></li>
              <li><a id="two" href="#">Watch List</a></li>
-             <li><a id="two" href="http://localhost:5224/ebaytester/Purchase_History.html">Purchase History</a></li>
+             <li><a id="two" href="http://localhost:9000/EC/Purchase_History.html">Purchase History</a></li>
              <li><a id="two" href="#">Selling</a></li>
              <li><a id="two" href="#">Saved Searches</a></li>
              <li><a id="two" href="#">Saved Sellers</a></li>
@@ -218,7 +214,7 @@ li a:hover .category{
 <!-- end sign in bar code  -->
     <!-- logo -->
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="http://localhost:9000/EC/homepage.html">
         <img role="presentation" width=100 height=38 alt="" src="images/logo.png" id="gh-logo">
       </a>
     </div>
@@ -410,13 +406,13 @@ li a:hover .category{
         <tr><td style="border: 1px solid #CCC">image</td></tr>
       </table>
       <div class="" id="twitter">
-        <a href="http://localhost:5224/ebaytester/ebayTweets.html" title="Twitter" class="btn btn-twitter btn-lg">
+        <a href="http://localhost:9000/EC/ebayTweets.html" title="Twitter" class="btn btn-twitter btn-lg">
           <i class="fab fa-twitter"></i> See eBay Tweets
         </a>
      </div>
-      <button type="button" class="btn btn-primary" onclick="location.href = 'http://localhost:5224/ebaytester/construction_page.html';">Product Report</button>
+      <button type="button" class="btn btn-primary" onclick="location.href = 'http://localhost:9000/EC/construction_page.html';">Product Report</button>
       </br>
-      <button type="button" class="btn btn-primary" onclick="location.href = 'http://localhost:5224/ebaytester/ProductCompare.html';">Compare Product</button>
+      <button type="button" class="btn btn-primary" onclick="location.href = 'http://localhost:9000/EC/ProductCompare.html';">Compare Product</button>
      </div>
    </div> -->
 </div>
@@ -440,17 +436,17 @@ li a:hover .category{
 </div>
 <script>
 $("#Exam_01").click(function(){
-	window.location="http://localhost:5224/ebaytester/Exam_01.html";
+	window.location="http://localhost:9000/EC/Exam_01.html";
 });
 $("#Exam_02").click(function(){
-	window.location="http://localhost:5224/ebaytester/Exam_02.html";
+	window.location="http://localhost:9000/EC/Exam_02.html";
 });
 
 </script>
 <script>
 $.ajax({
     type: "get",
-    url:  "http://localhost:5224/ebaytester/webapi/category/getAllCategory",
+    url:  "http://localhost:9000/EC/webapi/category/getAllCategory",
     dataType: "JSON",
     success: function(response){
       if(response!=null)
@@ -470,10 +466,10 @@ if(localStorage.count!=null)
 }
 function GoToDeal()
 {
-	window.location = "http://localhost:5224/ebaytester/deals.html";
+	window.location = "http://localhost:9000/EC/deals.html";
 }
 </script>
-<script src="javascript/modalWallet.js"></script>
-<script src="ajax/dealsCarousel.js"></script>
+<!-- <script src="javascript/modalWallet.js"></script> -->
+<!-- <script src="ajax/dealsCarousel.js"></script> -->
 </body>
 </html>

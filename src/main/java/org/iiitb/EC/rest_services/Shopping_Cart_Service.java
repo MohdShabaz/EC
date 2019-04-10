@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Item;
+import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Seller;
 import org.iiitb.EC.dao.DAO_Shopping_cart;
 import org.iiitb.EC.model.Buyer;
@@ -77,17 +79,24 @@ public class Shopping_Cart_Service {
 			
 			Item item = new Item();
 			item = DAO_Item.Get_Item(cart.getItem_id());
+			int item_id = cart.getItem_id();
+			int seller_id = DAO_Item_Seller.get_seller_id(item_id);
 			
 			String name=item.getName();
 			String pic=item.getPic_location();
+			String barcode = item.getBarcode();
 			
 			float price = item.getPrice();
 			float discount = item.getDiscount();
 			float quan = (float)cart.getQuantity();
+			float available_quantity = (float)DAO_Item.get_quantity(item_id,seller_id);
 			
 			item_json.put("name",name);
-			item_json.put("price",price);
+			item_json.put("price",price*(1-discount));
+			item_json.put("old_price",price);
 			item_json.put("pic",pic);
+			item_json.put("barcode",barcode);
+			item_json.put("available_quantity", available_quantity);
 			
 			
 			//System.out.println("price "+price+" ,discount "+discount);
@@ -195,12 +204,24 @@ public class Shopping_Cart_Service {
 	}
 	
 	
-	@Path("deleteCartItem")
+	/*@Path("deleteCartItem")
     @DELETE
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_PLAIN)
     public String DeleteCartItem(
     		@FormDataParam("item_id") String item_id,
+    		@Context HttpHeaders httpheaders) throws Exception {
+        
+		int buyer_id = get_buyer_id(httpheaders);
+        boolean result = DAO_Shopping_cart.delete_Itemof_Shopping_Cart(buyer_id, Integer.parseInt(item_id));
+        return result ? SUCCESS_RESULT : FAILURE_RESULT;
+     }*/
+	
+	@Path("deleteCartItem/{item_id}")
+    @DELETE
+    @Produces(MediaType.TEXT_PLAIN)
+    public String DeleteCartItem(
+    		@PathParam("item_id") String item_id,
     		@Context HttpHeaders httpheaders) throws Exception {
         
 		int buyer_id = get_buyer_id(httpheaders);
@@ -233,7 +254,7 @@ public class Shopping_Cart_Service {
 	}
 	
 	
-	@Path("updateCart")
+	/*@Path("updateCart")
     @PUT
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_PLAIN)
@@ -247,7 +268,21 @@ public class Shopping_Cart_Service {
         Integer.parseInt(item_id),
         Integer.parseInt(quantity));
         return result ? SUCCESS_RESULT : FAILURE_RESULT;
-	}
+	}*/
 	
+	@Path("updateCart/{item_id}/{quantity}")
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+	public String Update_Cart_Item(
+			@PathParam("item_id") String item_id,
+			@PathParam("quantity") String quantity,
+			@Context HttpHeaders httpheaders) throws Exception{
+		
+		int buyer_id = get_buyer_id(httpheaders);
+        boolean result = DAO_Shopping_cart.update_Itemof_Shopping_Cart(buyer_id,
+        Integer.parseInt(item_id),
+        Integer.parseInt(quantity));
+        return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	}
 	
 }

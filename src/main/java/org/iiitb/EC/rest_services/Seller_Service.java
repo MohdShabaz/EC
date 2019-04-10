@@ -69,18 +69,12 @@ public class Seller_Service {
 	
 	@Path("addSeller")
 	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String addSeller(
-			@FormDataParam("name") String name,
-			//@FormDataParam("buyer_dob") String dob,
-			@FormDataParam("mobile") String mobile,
-			@FormDataParam("email") String email,
-			@FormDataParam("password") String password,
-			@FormDataParam("address_1") String address_1,
-			@FormDataParam("address_2") String address_2) throws Exception{
-		boolean result = DAO_Seller.add_Seller(name,  mobile, email, password,address_1, address_2);
-		return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	public String addSeller(String input) throws Exception{
+		JSONObject input_json = new JSONObject(input);
+		boolean result = DAO_Seller.add_Seller(input_json.getString("Name"),  input_json.getString("Mobile"),input_json.getString("Email"),input_json.getString("Password"),input_json.getString("Address1"),input_json.getString("Address2"));
+		System.out.println("Seller Service "+ result);
+		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
 	}
 	
 	

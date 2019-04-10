@@ -5,7 +5,7 @@ var test="Hi";
 
     
     
-$.ajax({url:"http://localhost:8080/EC/webapi/ShoppingCartService/AllCartDetails", type:"GET",
+$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/AllCartDetails", type:"GET",
  async: false,
  headers: {
 		'username':sessionStorage.getItem("username"),
@@ -44,6 +44,8 @@ $.ajax({url:"http://localhost:8080/EC/webapi/ShoppingCartService/getPrice", type
 		'password':sessionStorage.getItem("password")
 	},
  success: function(data){
+	 console.log("price :");
+	 console.log(data);
   document.getElementById("price").innerHTML=data;
  },
  error: function(data)
@@ -53,7 +55,7 @@ $.ajax({url:"http://localhost:8080/EC/webapi/ShoppingCartService/getPrice", type
 });
 }
  
- function placeOrder()
+ function ConfirmOrder()
  {
  
  var json_={
@@ -63,7 +65,7 @@ $.ajax({url:"http://localhost:8080/EC/webapi/ShoppingCartService/getPrice", type
  
  console.log(json_);
  
- $.ajax({url:"http://localhost:8080/EC/webapi/orderService/addOrder", type:"POST",
+ $.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
  
  data: JSON.stringify(json_),
  datatype: "json",

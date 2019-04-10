@@ -156,7 +156,31 @@ public class DAO_Buyer {
 		 //return item.toString();
 		 return false;
 		}
-	
+	public static boolean update_Buyer_Address(int buyer_id,String address_2) {
+		 Buyer buy = new Buyer();
+		 try {
+		  Connection conn = DatabaseConnection.getConnection();
+		  //java.sql.PreparedStatement preparedStatement = null;  
+		  //String query = "update buyer_table set name=?,dob=?,mobile=?,email=?,address_1=?,address_2=? where buyer_id=?";
+		 
+		  PreparedStatement ps = conn.prepareStatement(
+		         "UPDATE buyer_table SET address_2=? WHERE buyer_id = ?");
+
+		 
+		  
+		  ps.setString(1, address_2);
+		  ps.setInt(2, buyer_id);
+		 
+		  int rs = ps.executeUpdate();
+		  if(rs==0) return false;
+		  else return true;
+
+		 } catch (SQLException e) {
+		  System.out.println(e.getMessage());
+		 }
+		 //return item.toString();
+		 return false;
+		}
 	
 	public static boolean Delete_Buyer(int buyer_id)
 	{

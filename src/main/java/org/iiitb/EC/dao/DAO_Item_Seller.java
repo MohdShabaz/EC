@@ -157,4 +157,66 @@ public class DAO_Item_Seller {
 		}
 		return true;
 	}
+	public static int get_seller_id(int item_id) {
+//		Seller sell = new Seller();
+		//Connection conn = null;
+		ResultSet rs;
+		int seller_id=-1;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select seller_id from item_seller where item_id=?";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, item_id);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				seller_id=rs.getInt("seller_id");
+				
+			}
+			else {
+				//item.put("result", "fail");
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//return item.toString();
+		return seller_id;
+	}
+	public static Seller get_seller_details(int item_id) {
+		int seller_id=get_seller_id(item_id);
+		
+		Seller sell = new Seller();
+		//Connection conn = null;
+		ResultSet rs;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select * from seller_table where seller_id=?";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, seller_id);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				//added seller id
+				sell.setSeller_id(seller_id);
+				sell.setName(rs.getString("name"));
+				sell.setMobile(rs.getString("mobile"));
+				sell.setEmail(rs.getString("email"));
+				sell.setPassword(rs.getString("password"));
+				sell.setAddress_1(rs.getString("address_1"));
+				sell.setAddress_2(rs.getString("address_2"));
+				
+			}
+			else {
+				//item.put("result", "fail");
+				return null;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//return item.toString();
+		return sell;
+	}
 }

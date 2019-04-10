@@ -39,7 +39,7 @@ public class DAO_Seller {
 		}
 		
 		
-		return true;
+		return false;
 	}
 	public static Seller get_seller_details(int seller_id) {
 		Seller sell = new Seller();
@@ -53,6 +53,8 @@ public class DAO_Seller {
 			preparedStatement.setInt(1, seller_id);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
+				//added seller_id
+				sell.setSeller_id(rs.getInt("seller_id"));
 				sell.setName(rs.getString("name"));
 				sell.setMobile(rs.getString("mobile"));
 				sell.setEmail(rs.getString("email"));
@@ -78,6 +80,7 @@ public class DAO_Seller {
 	
 	public static int get_seller_id(String mobile) {
 		ResultSet rs;
+		System.out.println("mobile num"+mobile);
 		try {
 			Connection conn = DatabaseConnection.getConnection();
 			java.sql.PreparedStatement preparedStatement = null;			
@@ -85,8 +88,11 @@ public class DAO_Seller {
 			preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setString(1, mobile);
 			rs = preparedStatement.executeQuery();
+			
 			if(rs.next()) {
+				
 				int buyer_id = rs.getInt("seller_id");
+				System.out.println("Dao_SELLEr"+buyer_id);
 				return buyer_id;
 			}
 			else {
@@ -188,31 +194,7 @@ public class DAO_Seller {
 	}
 	
 
-	public static int Authenticate(String mobile,String Password) {
-		ResultSet rs;
-		try {
-			Connection conn = DatabaseConnection.getConnection();
-			java.sql.PreparedStatement preparedStatement = null;			
-			String query = "select seller_id from seller_table where mobile=? and password=?";
-			preparedStatement = conn.prepareStatement(query);
-			preparedStatement.setString(1, mobile);
-			preparedStatement.setString(2, Password);
-			rs = preparedStatement.executeQuery();
-			if(rs.next()) {
-				int seller_id = rs.getInt("seller_id");
-				return seller_id;
-			}
-			else {
-				//item.put("result", "fail");
-				return -1;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		//return item.toString();
-		return -1;
-	}
+	
 	
 	public static boolean update_Seller(int seller_id,String name,String mobile,String email,String password,String address_1,String address_2) {
 		 Seller sell = new Seller();
@@ -244,5 +226,31 @@ public class DAO_Seller {
 		 return false;
 		}
 	
+	public static int Authenticate(String mobile,String Password) {
+		 ResultSet rs;
+		 try {
+		  Connection conn = DatabaseConnection.getConnection();
+		  java.sql.PreparedStatement preparedStatement = null;   
+		  String query = "select seller_id from seller_table where mobile=? and password=?";
+		  preparedStatement = conn.prepareStatement(query);
+		  preparedStatement.setString(1, mobile);
+		  preparedStatement.setString(2, Password);
+		  rs = preparedStatement.executeQuery();
+		  if(rs.next()) {
+		   int seller_id = rs.getInt("seller_id");
+		   return seller_id;
+		  }
+		  else {
+		   //item.put("result", "fail");
+		   return -1;
+		  }
+
+		 } catch (SQLException e) {
+		  e.printStackTrace();
+		 }
+		 //return item.toString();
+		 return -1;
+		}
+
 	
 }

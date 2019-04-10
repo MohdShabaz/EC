@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DashBoard|eBay</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="js/myjquery.js"></script>
+    <link rel="icon" href="ebayFav.ico">
+     <script>
+      $(function(){
+        $("#header").load("header.html");
+      });
+    </script>
+  </head>
+  <body>
+    <div id="header"></div>
+    <div class="container">
+    	
+          <span class="col-sm-3" >
+            <button type="submit" class="btn btn-success" id="new_product">Add a new Item</button>
+          </span>
+          <span class="col-sm-3">
+            <button type="submit" class="btn btn-warning" id="modify">Modify Item</button>
+          </span>
+           
+          <span class="col-sm-3">
+           <button type="submit" class="btn btn-danger" id="Delete">Delete Item</button>
+         </span>
+         <span class="col-sm-3" >
+            <button type="submit" class="btn btn-success" id="Orders">Orders</button>
+          </span>
+    </div>
+    <br>
+    <br>
+   
+  <script src="js/seller_dashboard.js">  </script>
+ </body>
+</html>

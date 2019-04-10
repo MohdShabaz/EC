@@ -2,11 +2,13 @@ package org.iiitb.EC.rest_services;
 
 import java.sql.Connection;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Seller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import java.io.File;
@@ -78,9 +80,19 @@ public class Buyer_Service {
 			@FormDataParam("buyer_address_2") String address_2,
 			@FormDataParam("buyer_address_2") String password) throws Exception{
 		boolean result = DAO_Buyer.add_Buyer(name, dob, mobile, email, address_1, address_2,password);
-		return result ? SUCCESS_RESULT : FAILURE_RESULT;
+		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
 		
 	}
+	@Path("addBuyer")
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	public String addBuyer(String input) throws Exception{
+		JSONObject input_json = new JSONObject(input);
+		boolean result = DAO_Buyer.add_Buyer(input_json.getString("Name"),input_json.getString("DoB"),input_json.getString("Mobile"),input_json.getString("Email"),input_json.getString("Address1"),input_json.getString("Address2"),input_json.getString("Password"));
+		System.out.println("Seller Service "+ result);
+		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
+	}
+	
 	@Path("deleteBuyer")
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
@@ -91,7 +103,7 @@ public class Buyer_Service {
         boolean result = DAO_Buyer.Delete_Buyer(user_id);
         return result ? SUCCESS_RESULT : FAILURE_RESULT;
      }
-	@Path("updateBuyer")
+	/*@Path("updateBuyer")
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
     public String UpdateUserInfo(String buyer) throws Exception {
@@ -105,7 +117,7 @@ public class Buyer_Service {
         buyer_json.getString("address_2"));
         return result ? SUCCESS_RESULT : FAILURE_RESULT;
         
-     }
+     }*/
 	
 	
 	@Path("updateBuyer")
@@ -128,11 +140,22 @@ public class Buyer_Service {
         dob,
         address_1,
         address_2);
-        return result ? SUCCESS_RESULT : FAILURE_RESULT;
+        return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
+        
+     }
+		
+	@Path("updateBuyerAddress/{address_2}")
+    @PUT
+    
+    @Produces(MediaType.TEXT_PLAIN)
+    public String UpdateUserAddress(@PathParam("address_2") String address_2, 
+    		@Context HttpHeaders httpheaders) throws Exception {
+        int buyer_id = get_userid(httpheaders);
+        System.out.println("Buyer ADDress"+ buyer_id);
+        Buyer b = DAO_Buyer.get_buyer_details(buyer_id);
+        boolean result = DAO_Buyer.update_Buyer_Address(buyer_id, address_2);
+        return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Res;ponse\" : \"" + FAILURE_RESULT + "\" }";
         
      }
 	
-	
-	
-
 }

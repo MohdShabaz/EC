@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Payment | Ebay</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+  <script src="jquery-3.3.1/jquery.min.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  
+  
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+	
+		<br/>
+		<br/>
+		<img src="images/ebayin logo.JPG" width="140" height="60"/>
+		 
+		<img src="images/ceb.JPG" align="right"/>
+		<img src="images/eg.png" align="right"/>
+			<div class="panel panel-default">
+        	<div class="panel-body">		
+				<p><h2>Payment Wall</h2></p>
+				<hr/>
+				
+				<br>
+    			<label for="cardumber"><b>Card Number</b></label>
+    			<h2 id = "price"> </h2> 
+    			<input type="text" placeholder="1111-2222-3333-4444" name="cardnumber" id="cardno">
+				<br>
+				<!--
+    			<label for="expmonth"><b>Expiry Month and Year</b></label>
+    			<input type="month" placeholder="mm-yy" name="expmonth" id="expmon" required>
+ 		<br>
+
+		<label for="cvv"><b>CVV</b></label>
+    	<input type="password" placeholder="Ex.352" id="cv" name="cvv" required>
+		<br><br> -->
+		
+    	<button class="btn btn-default" onclick="ConfirmOrder()"> Pay Now </button>			
+    	</div>							
+		</div>
+	</div>	
+</div>
+
+<script>
+var price = 0;
+var accountNumber;
+
+function AddOrder() {
+	$.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
+		 
+		 headers: {
+				'username':sessionStorage.getItem("username"),
+				'password':sessionStorage.getItem("password")
+			},
+		 async: false,
+		 success: function(data){
+			 window.location="http://localhost:9000/EC/Buyer_orders.html";
+		  console.log(data);
+		},
+		 error: function(data)
+		 {
+		  
+		 }
+		 });
+		 //window.location.href = "items.html";
+		 }
+function ConfirmOrder()
+{
+	accountNumber = document.getElementById("cardno").value;
+	
+	console.log("Account: " + accountNumber);
+	
+	$.ajax({url:"http://localhost:9000/EC/webapi/bankService/transaction", type:"POST",
+		 
+		 headers: {
+				'username':sessionStorage.getItem("username"),
+				'password': sessionStorage.getItem("password")
+			},
+		dataType : "text",	
+		data : accountNumber,	
+		 async: false,
+		 success: function(data){
+			 AddOrder();
+		 	console.log(data);
+		},
+		 error: function(data)
+		 {
+		  
+		 }
+		 });
+}
+$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
+	 async: false,
+	 headers: {
+	     'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	     'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+	},
+	 success: function(data){
+		 price = data;
+		 console.log("price :");
+		 console.log(data);
+	  document.getElementById("price").innerHTML="Total Price: " + data;
+	 },
+	 error: function(data)
+	 {
+	  
+	 }
+	});
+
+
+
+
+
+</script>

@@ -22,10 +22,8 @@ import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Shopping_cart;
 import org.iiitb.EC.dao.DAO_Sub_Category;
 import org.iiitb.EC.dbcon.DatabaseConnection;
-import org.iiitb.EC.model.Category;
 import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Shopping_Cart;
-import org.iiitb.EC.model.Sub_Category;
 import org.iiitb.EC.rest_services.Item_Service;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,20 +31,14 @@ import org.json.JSONObject;
 
 public class Test_class {
 public static void main(String args[]) throws Exception {
-	
-	ArrayList<Category> c = DAO_Category.get_All_Category();
-	 System.out.println("c is ");
-	 System.out.println(c);
-	 for(int i=0;i<c.size();i++) {
-		 System.out.println(c.get(i).getCategory_name());
-	 }
-	
- ArrayList<Sub_Category> b = DAO_Sub_Category.get_All_Sub_Category(2);
- System.out.println("b is ");
- System.out.println(b);
- for(int i=0;i<b.size();i++) {
-	 System.out.println(b.get(i).getSub_category_name());
- }
+ boolean b = DAO_Sub_Category.addSub_Category(3, "Women's Clothing");
+ b = DAO_Sub_Category.addSub_Category(3, "Women's Shoes");
+ b = DAO_Sub_Category.addSub_Category(3, "Men's Clothing");
+ b = DAO_Sub_Category.addSub_Category(3, "Men's Shoes");
+ b = DAO_Sub_Category.addSub_Category(3, "Fashion Jewelry");
+ b = DAO_Sub_Category.addSub_Category(3, "Women's Hand Bags");
+ b = DAO_Sub_Category.addSub_Category(3, "Kid's Clothing");
+ b = DAO_Sub_Category.addSub_Category(3, "Others");
  
  //System.out.println(b);
  //boolean b1 = DAO_Buyer.update_Buyer(2,"mukesh","2001-01-01","8976768647","mukesh@gmail.com","25-K Frank Anne Street, Michigan","26-K Frank Anne Street, Michigan");
@@ -70,7 +62,7 @@ public static void main(String args[]) throws Exception {
 //	json.put("item_id", "8");
 //	json.put("quantity", "4");
 //	String s = json.toString();
-	//System.out.println(DAO_Buyer.add_Buyer("John", "1997-08-05", "9876543210", "abc@hmail.com", "Somajiguda Hyd.", "Post Box : 1562", "1234"));
+	System.out.println(DAO_Buyer.add_Buyer("John", "1997-08-05", "9876543210", "abc@hmail.com", "Somajiguda Hyd.", "Post Box : 1562", "1234"));
  
 
 // testUpdateUser();

@@ -34,6 +34,7 @@ public class DAO_Category {
 			return false;		
 		}
 	}
+	
 	public static int getCategoryId(String categoryName) {
 		int categoryId = -1;
 		Connection conn=DatabaseConnection.getConnection();
@@ -63,9 +64,8 @@ public class DAO_Category {
 			Category category_object = new Category();
 			ResultSet rs = preparedStatement.executeQuery();
 			while(rs.next()) {
-					category_object.setId(rs.getInt("id"));
 					category_object.setCategory_name(rs.getString("category_name"));
-					
+					category_object.setId(rs.getInt("id"));
 					list.add(category_object);
 					category_object = new Category();
 			}
@@ -76,6 +76,8 @@ public class DAO_Category {
 		
 		return list;		
 	}
+	
+	
 	public static boolean renameCategory(String oldName, String newName) {
 		Connection conn=DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;
@@ -118,5 +120,6 @@ public class DAO_Category {
 			e.printStackTrace();
 			return false;		
 		}
-	}
+}
+	
 }
