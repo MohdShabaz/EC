@@ -19,6 +19,7 @@ import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Category;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Item_Seller;
+import org.iiitb.EC.dao.DAO_Label_Table;
 import org.iiitb.EC.dao.DAO_Shopping_cart;
 import org.iiitb.EC.dao.DAO_Sub_Category;
 import org.iiitb.EC.dbcon.DatabaseConnection;
@@ -31,16 +32,19 @@ import org.json.JSONObject;
 
 public class Test_class {
 public static void main(String args[]) throws Exception {
- boolean b = DAO_Sub_Category.addSub_Category(3, "Women's Clothing");
- b = DAO_Sub_Category.addSub_Category(3, "Women's Shoes");
- b = DAO_Sub_Category.addSub_Category(3, "Men's Clothing");
- b = DAO_Sub_Category.addSub_Category(3, "Men's Shoes");
- b = DAO_Sub_Category.addSub_Category(3, "Fashion Jewelry");
- b = DAO_Sub_Category.addSub_Category(3, "Women's Hand Bags");
- b = DAO_Sub_Category.addSub_Category(3, "Kid's Clothing");
- b = DAO_Sub_Category.addSub_Category(3, "Others");
+// boolean b = DAO_Sub_Category.addSub_Category(3, "Women's Clothing");
+// b = DAO_Sub_Category.addSub_Category(3, "Women's Shoes");
+// b = DAO_Sub_Category.addSub_Category(3, "Men's Clothing");
+// b = DAO_Sub_Category.addSub_Category(3, "Men's Shoes");
+// b = DAO_Sub_Category.addSub_Category(3, "Fashion Jewelry");
+// b = DAO_Sub_Category.addSub_Category(3, "Women's Hand Bags");
+// b = DAO_Sub_Category.addSub_Category(3, "Kid's Clothing");
+// b = DAO_Sub_Category.addSub_Category(3, "Others");
+	
+	boolean b=DAO_Label_Table.add_Item_Label("ytvhh678", "tdjljbjhj", "ffdkjdfhbjh");
+	System.out.println("In test labelTable");
  
- //System.out.println(b);
+ System.out.println(b);
  //boolean b1 = DAO_Buyer.update_Buyer(2,"mukesh","2001-01-01","8976768647","mukesh@gmail.com","25-K Frank Anne Street, Michigan","26-K Frank Anne Street, Michigan");
  //System.out.println("b1 "+b1);
  

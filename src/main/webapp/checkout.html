@@ -71,15 +71,36 @@
 //alert("inside");
 function ConfirmOrder()
  {
+	console.log("In conform order")
  
-/*  var json_={
-   shipping_address: document.getElementById("address_").value,
-   payment_type: document.getElementById("payId").value
+  var json_={
+   shipping_address: document.getElementById("address").innerHTML
  };
  
- console.log(json_); */
- window.location="http://localhost:9000/EC/payment-page.html";
+ console.log(json_); 
+ 
+ $.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
+ 
+ headers: {
+		'username':sessionStorage.getItem("username"),
+		'password':sessionStorage.getItem("password")
+	},
+	data    :JSON.stringify(json_),
+	dataType: "JSON",
+ async: false,
+ success: function(data){
+	 //console.log(data);
+	// console.log(data1);
+		console.log("IN Success");
+  console.log(data);
+	 window.location="http://localhost:9000/EC/Buyer_orders.html";
 
+},
+ error: function(data)
+ {
+	 console.log("IN error");
+ }
+ });
  //window.location.href = "items.html";
  }
  $.ajax({

@@ -22,6 +22,7 @@ import org.iiitb.EC.dao.DAO_Seller;
 import org.iiitb.EC.dao.DAO_Shopping_cart;
 import org.iiitb.EC.model.Buyer;
 import org.iiitb.EC.model.Item;
+import org.iiitb.EC.model.Seller;
 import org.iiitb.EC.model.Shopping_Cart;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -81,6 +82,7 @@ public class Shopping_Cart_Service {
 			item = DAO_Item.Get_Item(cart.getItem_id());
 			int item_id = cart.getItem_id();
 			int seller_id = DAO_Item_Seller.get_seller_id(item_id);
+			Seller seller=DAO_Item_Seller.get_seller_details(item_id);
 			
 			String name=item.getName();
 			String pic=item.getPic_location();
@@ -97,6 +99,7 @@ public class Shopping_Cart_Service {
 			item_json.put("pic",pic);
 			item_json.put("barcode",barcode);
 			item_json.put("available_quantity", available_quantity);
+			item_json.put("seller_name", seller.getName());
 			
 			
 			//System.out.println("price "+price+" ,discount "+discount);
@@ -190,16 +193,27 @@ public class Shopping_Cart_Service {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String addCart(
 	  String cart, @Context HttpHeaders httpheaders) throws Exception{
-	 System.out.println("1");
+	 System.out.println("Test jsdbhcjsdckn");
 	 System.out.println(cart);
-	 //JSONObject cart_json = new JSONObject(cart);
+	 JSONObject cart_json = new JSONObject(cart);
 	 int buyer_id = get_buyer_id(httpheaders);// 
-	 int item_id = Integer.parseInt(cart);
-	 int quantity = 1;
+	 int item_id = Integer.parseInt(cart_json.getString("item_id"));
+	 int quantity = Integer.parseInt(cart_json.getString("quantity"));
 	 boolean result = DAO_Shopping_cart.add_To_Shopping_Cart(buyer_id, item_id, quantity);
 	 System.out.println("result"+result);
-	 System.out.println(result ? SUCCESS_RESULT : FAILURE_RESULT);
-	 return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	 
+	 JSONObject json = new JSONObject();
+		
+		if(result)
+		{
+			json.put("result","success");
+		}
+		else
+		{
+			json.put("result","failure");
+		}
+	 
+		return json.toString();
 	 
 	}
 	

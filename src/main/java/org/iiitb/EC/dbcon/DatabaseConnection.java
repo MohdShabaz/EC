@@ -17,7 +17,7 @@ public class DatabaseConnection {
 			
 			Class.forName("com.mysql.jdbc.Driver");			
 			String user = "root";
-			String pass = "";
+			String pass = "vam2shi16";
 			System.out.println("Connecting to database...");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebayv1?autoReconnect=true&useSSL=false",
 					user, pass);

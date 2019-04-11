@@ -73,7 +73,8 @@ CREATE TABLE `item_table` (
   `pic_location` varchar(60) DEFAULT NULL,
   `category` int(11) DEFAULT NULL,
   `sub_category` int(11) DEFAULT NULL,
-  `barcode` varchar(10) NOT NULL,
+  `barcode` varchar(10) NOT NULL, `total_stars` int(11) DEFAULT 0,
+  `total_users_rated` int(11) DEFAULT 0,
   `dummy_1` varchar(40) DEFAULT NULL,
   `dummy_2` varchar(40) DEFAULT NULL,
   `dummy_3` varchar(40) DEFAULT NULL,
@@ -106,7 +107,7 @@ CREATE TABLE `label_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_id` int(11) NOT NULL,
   `label` varchar(40) NOT NULL,
-  `value` varchar(40) NOT NULL,
+  `attr` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `item_id` (`item_id`,`label`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -134,7 +135,7 @@ CREATE TABLE `label_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_id` int(11) NOT NULL,
   `label` varchar(40) NOT NULL,
-  `value` varchar(40) NOT NULL,
+  `attr` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `item_id` (`item_id`,`label`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -163,6 +164,7 @@ CREATE TABLE `order_details` (
   `total_amount` int(11) NOT NULL,
   `payment_type` tinyint(4) NOT NULL,
   `quantity` int(11) NOT NULL,
+  `rating` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
    FOREIGN KEY (`item_id`)  REFERENCES item_table(`item_id`) ON DELETE CASCADE ,
      FOREIGN KEY (`seller_id`)  REFERENCES seller_table(`seller_id`) ON DELETE CASCADE
@@ -238,7 +240,7 @@ INSERT INTO item_seller(item_id, seller_id, quantity, address) VALUES
 (9, 4, 1000, 1),
 (10, 4, 2056, 1);
 
-INSERT INTO label_table(item_id, label, value) VALUES
+INSERT INTO label_table(item_id, label, attr) VALUES
 (1, 'color', 'red'),
 (2, 'color', 'blue'),
 (3, 'color', 'green'),
@@ -379,10 +381,4 @@ INSERT INTO order_details(order_id, item_id, seller_id, buyer_id, shipping_addre
 (252330102, '9', 2, '10','Grove Street, Home, San Fierro', 'Shipped', '2019-02-10', 899.99,1, 1);
 
 INSERT INTO ebay_account_details(account_name, account_number, current_balance) VALUES
-('ebay_account', '346712124', 500000);
-
-INSERT INTO buyer_account_details(buyer_id, account_number, current_balance) VALUES
-(1, '123131316', 1000000)
-
-INSERT INTO seller_account_details(seller_id, account_number, current_balance) VALUES
-(1, '123131331', 1000000)
+('ebay_account', 346712124, 500000);

@@ -17,6 +17,7 @@ public class DAO_Item {
 			int category, int sub_category, String barcode, String dummy_1, String dummy_2, String dummy_3, String dummy_4) {
 		Connection conn = DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;
+		System.out.println("IN_DAO_ITEM_ADD_ITEM");
 		try {
 			String query = "insert into item_table(description,price,discount,name,pic_location,category,sub_category,barcode)"+" VALUES "+
 			"(?,?,?,?,?,?,?,?)";
@@ -29,6 +30,7 @@ public class DAO_Item {
 			preparedStatement.setInt(6, category);
 			preparedStatement.setInt(7, sub_category);
 			preparedStatement.setString(8, barcode);
+			System.out.println(preparedStatement);
 			
 			int rs = preparedStatement.executeUpdate();
 			if(rs==0) {
@@ -40,6 +42,7 @@ public class DAO_Item {
 
 		
 		}catch (SQLException e) {
+			System.out.println("IN_DAO_ITEM_ADD_ITEM_ERROR");
 			e.printStackTrace();
 		}
 		return false;
@@ -139,6 +142,7 @@ public class DAO_Item {
 		return false;
 		
 	}
+	
 	public static Item Get_Item(int Item_id) {
 		Connection conn=DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;

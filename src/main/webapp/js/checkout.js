@@ -57,13 +57,16 @@ $.ajax({url:"http://localhost:8080/EC/webapi/ShoppingCartService/getPrice", type
  
  function ConfirmOrder()
  {
+	 alert( document.getElementById("address").value);
+	 console.log("in conform order");
  
  var json_={
-   shipping_address: document.getElementById("address_").value,
-   payment_type: document.getElementById("payId").value
+   shipping_address: document.getElementById("address").value
+//   payment_type: document.getElementById("payId").value
  };
+ console.log("in conform order");
  
- console.log(json_);
+// console.log(json_);
  
  $.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
  
@@ -76,11 +79,12 @@ $.ajax({url:"http://localhost:8080/EC/webapi/ShoppingCartService/getPrice", type
  async: false,
  success: function(data){
   console.log(data);
+  window.location.href = "items.html";
 },
  error: function(data)
  {
-  
+  console.log("error");
  }
  });
- window.location.href = "items.html";
+
  }

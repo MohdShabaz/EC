@@ -110,12 +110,14 @@ public class DAO_Seller {
 	public static boolean add_item(int seller_id,String name,String barcode,String description,float price,float discount,String pic_location,int category,int sub_category,int quantity,int address,String dummy_1,String dummy_2,String dummy_3,String dummy_4) {
 		
 //		int seller_id = get_seller_id();
+		System.out.println("IN_SELLER_ADD_ITEM");
 		
 		try {
 			
 			if(DAO_Item.Check_Item(barcode)==-1) {
 				
 				boolean ans = DAO_Item.Add_Item(description, price, discount, name, pic_location,category, sub_category, barcode, dummy_1, dummy_2, dummy_3, dummy_4);
+				
 				
 				if(ans==false) {
 					return false;
@@ -150,6 +152,8 @@ public class DAO_Seller {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			
+			System.out.println("IN_SELLER_ADD_ITEM_ERROR");
 			e.printStackTrace();
 		}
 		

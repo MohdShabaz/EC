@@ -1,6 +1,9 @@
 package org.iiitb.EC.rest_services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,9 +17,9 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Item;
+import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Order_Details;
 import org.iiitb.EC.dao.DAO_Seller;
 import org.iiitb.EC.model.Item;
@@ -45,24 +48,45 @@ public class Order_Details_Service {
 	@Path("addOrder")
 	@POST
 	//@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.TEXT_PLAIN)
+//	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	//@PUT
 	//@Produces(MediaType.TEXT_PLAIN)
-	public String addOrder(
+	public String addOrder(String order,
 			@Context HttpHeaders httpheaders) throws Exception {
-//	    JSONObject order_json = new JSONObject(order);
+		System.out.println("in add order");
+		System.out.println(order);
+	    JSONObject order_json = new JSONObject(order);
+	    System.out.println("order_json");
+	    System.out.println(order_json.getString("shipping_address"));
 	    
 	    int buyer_id=get_buyer_id(httpheaders);
+	    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    Date date = new Date();
+	    System.out.println(dateFormat.format(date));
 	    
 	    boolean result = DAO_Order_Details.Add_Order(buyer_id, 
-	    		"Buyer Address",
+	    		order_json.getString("shipping_address"),
 	    		"Order Placed",
-	    		"2019-02-23",
+	    		dateFormat.format(date),
 	    		1);
+	    
 
-	    return result ? SUCCESS_RESULT : FAILURE_RESULT;
+//	    return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	    JSONObject json = new JSONObject();
+		
+		if(result)
+		{
+			json.put("result","success");
+		}
+		else
+		{
+			json.put("result","failure");
+		}
+		return json.toString();
 	    
 	 }
+
 
 
 //@Path("addOrder")
@@ -200,10 +224,11 @@ public String updateSellerStatusOrderItem(@PathParam("order_id") String order_id
 	
 	
 	boolean result=DAO_Order_Details.update_status_order_item(Integer.parseInt(order_id),Integer.parseInt(item_id), "Shipped Items");
+	boolean result1=DAO_Item_Seller.update_Order_Item_Seller(Integer.parseInt(order_id),Integer.parseInt(item_id));
 	
 	JSONObject json = new JSONObject();
 	
-	if(result)
+	if(result && result1)
 	{
 		json.put("result","success");
 	}
@@ -260,9 +285,6 @@ public String updateBuyerStatusOrderItem(@PathParam("order_id") String order_id,
 	
 	if(result)
 	{
-		Order_Details order_details = DAO_Order_Details.getOrderWithItemId(Integer.parseInt(order_id), Integer.parseInt(item_id));
-		int seller_id = order_details.getSeller_id();
-		boolean res = DAO_BankAccount.performTransaction2(order_details.getTotal_amount(), Integer.parseInt(order_id), Integer.parseInt(item_id), seller_id);
 		json.put("result","success");
 	}
 	else
@@ -296,6 +318,87 @@ public String renameCategory (String data) throws Exception{
 	boolean result = DAO_Order_Details.change_status(Integer.parseInt(data), "Seller Notified");
 	return result ? SUCCESS_RESULT : FAILURE_RESULT;
 }
+
+@Path("updateRating/{order_id}/{item_id}")
+@GET
+@Produces(MediaType.APPLICATION_JSON) 
+public String updateRating(@PathParam("order_id") String order_id,@PathParam("item_id") String item_id,String star_str) throws Exception{
+//	String order_id="2";
+	System.out.println("");
+	System.out.println("updateRating");
+	System.out.println(order_id);
+	System.out.println(item_id);
+	
+	int stars = Integer.valueOf(star_str);
+	boolean result=DAO_Order_Details.update_rating_order_item(Integer.valueOf(order_id),Integer.valueOf(item_id), stars);//.update_status_order_item(Integer.parseInt(order_id),Integer.parseInt(item_id), "Shipped Items");
+	boolean result1=DAO_Item_Seller.update_Order_Item_Seller(Integer.parseInt(order_id),Integer.parseInt(item_id));
+	
+	JSONObject json = new JSONObject();
+	
+	if(result && result1)
+	{
+		json.put("result","success");
+	}
+	else
+	{
+		json.put("result","failure");
+	}
+	return json.toString();
+	
+	
+}
+
+
+
+@Path("Rate/{order_id}/{item_id}/{stars_str}")
+@POST
+@Produces(MediaType.APPLICATION_JSON)
+public String Rate(@PathParam("order_id") String order_id, @PathParam("item_id") String item_id,@PathParam("stars_str") String star_str,
+		@Context HttpHeaders httpheaders) throws Exception {
+	System.out.println("in Rate order");
+	System.out.println(order_id);
+	System.out.println(item_id);
+	
+	int stars = Integer.valueOf(star_str);
+	System.out.println("stars are "+stars);
+	
+	boolean result=DAO_Order_Details.update_rating_order_item(Integer.valueOf(order_id),Integer.valueOf(item_id), stars);
+	
+	if(result==true) return SUCCESS_RESULT;
+	else return FAILURE_RESULT;
+	
+	
+	/*
+    JSONObject order_json = new JSONObject(order);
+    System.out.println("order_json");
+    System.out.println(order_json.getString("shipping_address"));
+    
+    int buyer_id=get_buyer_id(httpheaders);
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    Date date = new Date();
+    System.out.println(dateFormat.format(date));
+    
+    boolean result = DAO_Order_Details.Add_Order(buyer_id, 
+    		order_json.getString("shipping_address"),
+    		"Order Placed",
+    		dateFormat.format(date),
+    		1);
+    
+
+//    return result ? SUCCESS_RESULT : FAILURE_RESULT;
+    JSONObject json = new JSONObject();
+	
+	if(result)
+	{
+		json.put("result","success");
+	}
+	else
+	{
+		json.put("result","failure");
+	}
+	return json.toString();*/
+    
+ }
 
 
 	

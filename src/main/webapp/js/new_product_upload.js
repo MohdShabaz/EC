@@ -17,6 +17,10 @@ $.ajax({
     });
 
 
+var json_array={
+        key_values: []
+        
+   };
 $('#Category_product').on('change', function() {
 $('#Subcategory_product').empty();
 console.log("1");
@@ -73,6 +77,7 @@ $('#Product_detail_form').submit(function(){
 	             Address: jQuery("#Address").val(),
 	             Description: jQuery("#Description").val(),
 	             Discount : jQuery("#Discount").val(),
+	             k_v : json_array,
 	             Barcode : jQuery("#Barcode").val()
 	             
 	        };
@@ -119,3 +124,85 @@ $('#Product_detail_form').submit(function(){
 				   return false;
 
 	     });
+
+
+
+//var html = "<button type='submit' class='btn btn-success' id='key_value'>Add More Details</button>";
+
+//document.getElementById("KeyValues").innerHTML = html;
+var num=0;
+//var json_array;
+
+Storage.prototype.setObj = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
+
+Storage.prototype.getObj = function(key) {
+    var value = this.getItem(key);
+    return value && JSON.parse(value);
+}
+
+function KV(){
+	console.log(10);
+	var html1=document.getElementById("KeyValues").innerHTML;
+//	var html1=document.getElementById("KeyValues").innerHTML;
+
+	if(num>0)
+		{
+		var k="#key_"+(num-1).toString();
+		var v="#v_"+(num-1).toString();
+		console.log("in k");
+		console.log(k);
+		console.log(v);
+		var key_value_json={
+	             key: jQuery(k).val(),
+	             value: jQuery(v).val()
+	             
+	        };
+
+
+		console.log(key_value_json);
+		if(num==1)
+		{
+		json_array={
+	             key_values: [key_value_json]
+	             
+	        };
+		}
+		else
+			{
+			
+//			var obj = JSON.parse(json_array);
+			var obj = json_array;
+			
+			json_array.key_values.push(key_value_json);
+//			json_array= JSON.stringify(obj);
+			console.log(json_array);
+			
+			}
+		
+
+
+		
+		console.log(json_array);
+		
+		}
+	if(num>0)
+	{
+	var phtml="<p></p>";
+	for (i in json_array.key_values) {
+		 phtml+="<p> Key : ";
+		 phtml+=json_array.key_values[i].key;
+		 phtml+="    Value: "
+	     phtml+=json_array.key_values[i].value;
+		 phtml+="</p>";
+		}
+	document.getElementById("PrevKeyValues").innerHTML = phtml;
+	}
+	
+	html1="<p>Key: <input type = text  id =key_"+num+"></input>";
+	html1+="Value: <input type = text  id =v_"+num+"></input></p>";
+	num=num+1;
+	document.getElementById("KeyValues").innerHTML = html1;
+//	window.location="http://localhost:9000/EC/login.html";
+}

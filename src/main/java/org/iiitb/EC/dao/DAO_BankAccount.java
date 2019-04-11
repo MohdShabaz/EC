@@ -64,13 +64,12 @@ public class DAO_BankAccount {
 		ResultSet rs;
 		try {
 			Connection conn = DatabaseConnection.getConnection();
-			PreparedStatement preparedStatement = null;			
-			String query = "select * from seller_account_details where seller_id=?";
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select * from seller_account_details where buyer_id=?";
 			preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setInt(1, seller_id);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
-				System.out.println(rs.getInt("current_balance"));
 				bankAccount.setAccountNumber(rs.getString("account_number"));
 				bankAccount.setCurrentBalance(rs.getInt("current_balance"));
 				bankAccount.setHolderID(rs.getInt("seller_id"));
@@ -175,7 +174,7 @@ public class DAO_BankAccount {
 		return bankAccount;
 	}
 	
-	public static boolean performTransaction(int transactionAmount, int order_id, int item_id, int buyer_id, int seller_id) {
+	public static boolean performTransaction(int transactionAmount, int order_id, int buyer_id, int seller_id) {
 		int buyerBalance = getBuyerAccountBalance(buyer_id);
 		
 		if (buyerBalance < transactionAmount) {
@@ -217,7 +216,7 @@ public class DAO_BankAccount {
 		}			
 	}
 	
-	public static boolean performTransaction2(int transactionAmount, int order_id, int item_id, int seller_id) {
+	public static boolean performTransaction2(int transactionAmount, int order_id, int buyer_id, int seller_id) {
 		int sellerBalance = getSellerAccountBalance(seller_id);
 		String updateSellerBalanceQuery = "update seller_account_details set current_balance = " + '"' + (sellerBalance + transactionAmount) + '"' + " where seller_id = " + '"' + seller_id + '"';
 		try {
@@ -247,26 +246,5 @@ public class DAO_BankAccount {
 			e.printStackTrace();
 			return false;		
 		}			
-	}
-	
-	public static boolean checkAccountValidity(int buyer_id, String accountNumber) {
-		ResultSet rs;
-		try {
-			Connection conn = DatabaseConnection.getConnection();
-			java.sql.PreparedStatement preparedStatement = null;			
-			String query = "select * from buyer_account_details where buyer_id=?";
-			preparedStatement = conn.prepareStatement(query);
-			preparedStatement.setInt(1, buyer_id);
-			rs = preparedStatement.executeQuery();
-			if(rs.next()) {
-				if (accountNumber.equals(rs.getString("account_number"))) {
-					return true;
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 }

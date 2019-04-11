@@ -27,6 +27,13 @@ public class Order_Details {
 	private int total_amount;
 	private int payment_type;
 	private int quantity;
+	private int rating;
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 	public int getId() {
 		return id;
 	}

@@ -8,6 +8,7 @@ var price=[];
 var count=0;
 
 
+
 //cart_list_ajax();
 
 window.onload = function cart_list_ajax(){
@@ -43,6 +44,24 @@ console.log(document.getElementById('place_order').innerHTML);
  
             }
           });
+  $.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
+	  async: false,
+	  headers: {
+	      'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	      'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+	 },
+	  success: function(data){
+	 	 console.log("price :");
+	 	 console.log(data);
+	   document.getElementById("price").innerHTML=data;
+	  },
+	  error: function(data)
+	  {
+	   
+	  }
+	 });
+	 
 };
 
 
@@ -60,6 +79,11 @@ function cart_list(x){
                            //'<p style="Color:grey;margin-left:20px" ><strong>From </strong>'+result[x].name+'</p>'+
                            '<p style="Color:grey;margin-left:20px">Barcode: '+result[x].barcode+'</p>'+
                           '</div>'+
+                          '<div class=row >'+
+                          //'<p style="Color:grey;margin-left:20px" ><strong>From </strong>'+result[x].name+'</p>'+
+                          ' <p style="Color:grey;margin-left:20px">Seller: '+result[x].seller_name+'</p>'+
+                         '</div>'+
+                         
                           '<div class=row>'+
                             '<a href="#" id = "' + x +'" onclick="Remove('+x+')">'+
                             '<p style="Color:grey;text-align:right;margin-right:50px"><span class="glyphicon glyphicon-remove"></span>Remove</p>'+
@@ -79,9 +103,9 @@ function cart_list(x){
                                 '</span>'+
                                 '<span class="col-sm-5" style="margin-left:50px"><p>'+result[x].name+'</p></span>'+
                                 '<span class="col-sm-3">'+
-																	 '<p>QTY:<input type="text" value="'+result[x].quantity+'" style="width:30px" onChange="quantity('+x+')" id="Quantity'+result[x].id+'">'+
-																	 '<a  href="#" style="margin-left:10px" onclick="update('+x+')" id="update'+result[x].id+'">Update</a>'+
-																	 '</p>'+
+//																	 '<p>QTY:<input type="text" value="'+result[x].quantity+'" style="width:30px" onChange="quantity('+x+')" id="Quantity'+result[x].id+'">'+
+//																	 '<a  href="#" style="margin-left:10px" onclick="update('+x+')" id="update'+result[x].id+'">Update</a>'+
+//																	 '</p>'+
 																	 '<p>Shipping</p>'+
 																'</span>'+
 								'<span class="col-sm-2"><p><b>Rs.'+((result[x].quantity)*(result[x].old_price)).toFixed(2)+'</b></p></span>'+
@@ -91,8 +115,11 @@ function cart_list(x){
 																'</div>'+
                             '</span>'+
                          '</div>'+
+                         
                        '</div>'+
+                       
                     '</li>'
+                    
          total=parseFloat(parseFloat(total)+parseFloat(result[x].price)).toFixed(2);
                     price.push(parseFloat(result[x].price.toFixed(2)));
 

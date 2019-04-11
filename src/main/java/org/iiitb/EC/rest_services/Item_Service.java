@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Item_Seller;
+import org.iiitb.EC.dao.DAO_Label_Table;
+import org.iiitb.EC.dao.DAO_Order_Details;
 import org.iiitb.EC.dao.DAO_Seller;
 
 import javax.ws.rs.GET;
@@ -33,6 +35,7 @@ import org.iiitb.EC.dbcon.DatabaseConnection;
 import org.iiitb.EC.model.Buyer;
 import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Seller;
+import org.iiitb.EC.model.label_table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -137,6 +140,7 @@ public class Item_Service {
 //                
 //     }
 	
+/*Sankeerth*/
 	
 	@Path("/getitem/{item_id_str}")
     @GET
@@ -151,6 +155,8 @@ public class Item_Service {
         System.out.println("Item Name is :  "+ item.getName());
         System.out.println("seller Name is :  "+ seller.getName());
         
+        int total_stars = DAO_Order_Details.get_total_stars(item_id);//DAO_Item.get_total_stars(item_id);
+        int total_users_rated = DAO_Order_Details.get_total_users_rated(item_id);//DAO_Item.get_total_users_rated(item_id);
         //Adding Quantity
         int quan = DAO_Item.get_quantity(item_id, seller.getSeller_id());
         System.out.println("Item Quantity , seller_id : "+ quan + " " + seller.getSeller_id());
@@ -165,13 +171,29 @@ public class Item_Service {
         obj.put("sub_category", item.getSub_category());
         obj.put("barcode", item.getBarcode());
         obj.put("seller_name", seller.getName());
+        obj.put("total_stars", total_stars);
+        obj.put("total_users_rated", total_users_rated);
         //adding quan
         obj.put("quantity", quan);
         obj.put("dummy_1", item.getDummy_1());
         obj.put("dummy_2", item.getDummy_2());
         obj.put("dummy_3", item.getDummy_3());
         obj.put("dummy_4", item.getDummy_4());
-        System.out.println("json is :  "+ obj);
+        
+        ArrayList<label_table> l_t=DAO_Label_Table.get_all_label_value(item_id);
+        JSONArray json_arr = new JSONArray();
+        for(label_table l:l_t) {
+        JSONObject jo = new JSONObject();
+        jo.put("id", l.getId());
+        jo.put("item_id",l.getItem_id());
+        jo.put("label",l.getLabel());
+        jo.put("attr",l.getAttr());
+        json_arr.put(jo);
+        }
+        System.out.println("fwfwfrffrrefrrrrrrrrrrrrrrrrrrrrrrrrrr");
+        System.out.println("json arr is5 :  "+l_t.size());
+        obj.put("key_value", json_arr);
+        System.out.println("json is5 :  "+ obj);
         return obj.toString();
                 
      }
@@ -220,18 +242,34 @@ public class Item_Service {
 		int seller_id = get_seller_id(httpheaders);
 		System.out.println(seller_id);
 		String s = "images/"+input_json.getString("Barcode")+".png";
+		System.out.println(input_json.getString("k_v"));
 		boolean result = DAO_Seller.add_item(seller_id, 
 		input_json.getString("Product_Name"),
 		input_json.getString("Barcode"),
 		input_json.getString("Description"), 
 		Float.parseFloat(input_json.getString("Price")),
 		Float.parseFloat(input_json.getString("Discount")),
-    s ,//add here -------------- 
+		s ,
    		Integer.parseInt(input_json.getString("Category")),
    		Integer.parseInt(input_json.getString("Subcategory")),
    		Integer.parseInt(input_json.getString("Quantity")), 
    		Integer.parseInt(input_json.getString("Address")), 
    "","", "","");
+		System.out.println("key_values");
+		String key_values=input_json.getString("k_v");
+		System.out.println(key_values);
+		JSONObject ke_va = new JSONObject(key_values);
+		String key_val=ke_va.getString("key_values");
+		System.out.println(key_val);
+		JSONArray item_json_array = new JSONArray(key_val);
+		for(int i=0;i<item_json_array.length();i++)
+		{
+			System.out.println("int json array");
+			System.out.println(i);
+			DAO_Label_Table.add_Item_Label(input_json.getString("Barcode"),item_json_array.getJSONObject(i).getString("key"), item_json_array.getJSONObject(i).getString("value"));
+		}
+		
+		
 		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
 
 }
@@ -274,7 +312,7 @@ public class Item_Service {
 			@FormDataParam("product_id") String product_id) {
 		System.out.println("In UPLOADPRODUCTPIC");
 		System.out.println(product_id);
-		String uploadedFileLocation="/Users/cherukumilliramkashyap/Desktop/academics/SEM8/OOAD/EC-master/src/main/webapp/images/"+product_id+".png";
+		String uploadedFileLocation="/home/vamshi/IMT2015516/8thsem/OOAD/EC-master 2/EC-master/src/main/webapp/images/"+product_id+".png";
 		writeToFile(fileInputStream,uploadedFileLocation);
 		
 		
