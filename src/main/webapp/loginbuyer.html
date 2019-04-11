@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Sign in or Register|eBay</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+		<link rel="stylesheet" href="css/login_style.css">
+		 <script src="jquery-3.3.1/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+		 <link rel="icon" href="ebayFav.ico">
+	</head>
+	<body>
+		<div >
+		<div>
+				<a href="http://localhost:9000/EC/homepage.html"><img src="images/logo.png" alt="eBay" height="48" width="135"></a>
+				</div>
+			<div id="container">
+				
+				<div id="box">
+					<h1 align="center">Hello</h1>
+					<h3><center>Sign in to eBay or <a href="http://localhost:9000/EC/registerbuyer.html">create an account</a></center></h3>
+					<div id="form">
+							
+								<input type="text" class="text" placeholder="Email or Username" name="buyer_email" id="buyer_email">
+								<input type="password" class="pwd" placeholder="Password" name="buyer_password" id="buyer_password">
+								<p id="p1">By signing into eBay.in you consent to eBay sharing your personal information with eBay.in.</p>
+								<form   id="loginbuyer_form" id="login_buyer_form">
+								<input id="login" type="submit" value="Log in" class="submit">
+								<br>
+								<p id="demo"></p>
+							</form>
+					</div>
+					<div id="checkbox">
+						<input type="checkbox" name="Stay sign in" value="Car" checked>Stay Signed in
+					</div>
+					<div id="temppwd" class="pword">
+						<a href="#">Text a temporary password</a>
+					</div>
+					<br>
+					<div id="rstpwd" class="pword">
+						<p><a href="#">Reset your password</a></p>
+					</div>
+					<p id="lastpara" class="pword">Using a public or shared device? Uncheck to protect your account.<a href="#">Learn more</a><p>
+				</div>
+			</div>
+		</div>
+		<div id="div2">
+			<p>© 2018 eBay India Private Limited. <a href="#">User Agreement</a>,<a href="#">User Privacy Notice</a>,<a href="#">Cookies</a>.</p>
+		</div>
+		<script src="js/loginbuyer.js"></script>
+	</body>
+</html>

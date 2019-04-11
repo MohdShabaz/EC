@@ -1,0 +1,64 @@
+<!-- contribution of SAUMYA to write this code-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Register|eBay</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+		<link rel="stylesheet" href="css/register_style.css">
+		<script src="jquery-3.3.1/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="icon" href="ebayFav.ico">
+	</head>
+	<body bgcolor="#FFFFFF">
+			<div id="header">
+				<br>
+				<h3 align = "right" > Already a member? <a href="http://localhost:9000/EC/loginbuyer.html"> Sign in </a> </h3>
+				<a href="http://localhost:9000/EC/homepage.html"><img src="images/logo.png" alt="eBay" align="center" height="48" width="135"></a>
+				
+			</div>
+			<br>
+		<div id="container">
+	 			<div >
+	 				<h1><center> Create an account </center></h1> 
+					<form  id="register_form">
+						<br>
+		
+						<p id="p1">First name <span id="tab">Last name</span></p>
+						<input type="text" class="text" name="fname" id="text1" required >
+						<input type="text" class="text" name="lname" id="text2" required >
+						<br><br>
+						<p id="p1">Email address</p>
+						<input type="email" class="email" name="buyer_email" id="buyer_email" required>
+						<br><br>
+						<p id="p1">Password</p>
+						<div>
+							<input type="password" class="password" name="buyer_password" id="buyer_password" required>
+						</div>
+						<p id="p1"> Mobile</p>
+						<div>
+							<input type="number" class="text" name="buyer_mobile" id="buyer_mobile" required>
+						</div>
+						<p id ="p1"> Address 1 </p>
+						<div>
+							<input type ="text" class = "text" name = "buyer_address1" id ="buyer_address1" required>
+						</div>
+						<p id ="p1"> Address 2 </p>
+						<div>
+							<input type ="text" class = "text" name = "buyer_address2" id ="buyer_address2" >
+						</div>
+						<p id="p1"> Date  of Birth </p>
+						<div>
+						<input type ="date" class = "text" name = "buyer_dob" id = "buyer_dob" required>
+						</div>
+						<p class="p2">By clicking <b>Register</b>, you agree that you have read and accepted our <a id="a" href="#">User Agreement, User Privacy Notice, Rules and Policies </a>
+						and the <a id="a" href="#">UPaisaPay User Agreement</a>.</p>
+						<button type="button" class="Register" id="submit" onclick="Submit()">Register</button>
+
+					</form>
+				</div>
+		</div>
+		<script src="js/registerbuyer.js"></script>
+	</body>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Admin | eBay</title>
+	<meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<link rel="icon" href="ebayFav.ico">
+</head>
+
+<body>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<img class="img-responsive" src="images/logo.png" title="eBay">
+			</div>
+			<div class="col-md-4 col-md-offset-5" id="sign_out">
+				Welcome admin!, <span> <a href="#">SignOut</a> </span>
+			</div>
+		</div>
+		<br>
+		<br>
+		<!--===============================================================FORM START==================================================================  -->
+		<div>
+			<div class="row">
+        		<div class="col-sm-2 sidebar">
+	          		<ul class="nav nav-pills nav-stacked">
+	            		<li id="b1"><a href="admin_add_cat.html">Add Category<span class="sr-only">(current)</span></a></li>
+	            		<li id="b2"><a href="admin_mod_cat.html">Modify Category</a></li>
+	            		<li id="b3" class=" active"><a href="#">Add Sub Category</a></li>
+	          		</ul>
+        		</div>
+        		<div class="col-sm-6 col-sm-offset-2" id="content">
+        		
+        				
+        			<form class="form" method="post"> 
+        					<div class="form-group"> 
+        						<label for = "categories">Select Category</label> 
+        						<select id="categories" class="form-control" name="categories">
+        						</select> 
+        					</div>
+        					
+        					<div class="form-group"> 
+        						<label for = "new_subcat">New Sub Category</label> 
+        						<input type="text" id="new_subcat" name="new_subcat" class="form-control"> 
+        					</div>
+        					 
+        					<button type="submit" class="btn btn-primary" id="add_subcat">Add</button>
+        			</form>
+        			
+        		</div>
+        	</div>
+		</div>
+	</div>
+	<script>
+				
+		var category_all;
+		
+         $.ajax({  
+             url: 'webapi/category/getAllCategoryAdmin',  
+             type: 'GET',
+             async: false,
+             headers: {
+            	 "username": "admin",
+            	 "password": "admin"
+             },
+             success: function (hdata) {  
+            	 console.log("Reached here");
+                 //console.log(JSON.stringify(hdata));
+                 category_all=JSON.stringify(hdata);
+             },  
+             error: function (xhr, textStatus, errorThrown) {  
+                 console.log('Error in Operation');  
+             }    
+	     });
+		
+        //console.log(category_all) 
+        category_all=JSON.parse(category_all);
+		//console.log(category_all)
+		
+		options = category_all.CategoryNames;
+		//options=["ee","fe"];
+		//console.log(options)
+		
+		document.getElementById('b3').className += " active";
+			//document.getElementById('b2').className=document.getElementById('b2').className.replace(" active", "");
+			//document.getElementById('b1').className=document.getElementById('b1').className.replace(" active", "");
+			//document.getElementById("content").innerHTML = '<form class="form" method="post"> <div class="form-group"> <label for = "categories">Select Category</label> <select id="categories" class="form-control" name="categories"> </select> </div> <div class="form-group"> <label for = "new_subcat">New Sub Category</label> <input type="text" id="new_subcat" name="new_subcat" class="form-control"> </div> <button type="submit" class="btn btn-primary" id="add_subcat">Change</button> </form> '
+			var cat = document.getElementById("categories");
+			var i=0;
+			for (i = 0; i < cat.options.length; i++) {
+				cat.options[i] = null;
+			}
+			for(i = 0; i < options.length; i++) {
+ 			    var opt = options[i];
+ 			    var el = document.createElement("option");
+			    el.textContent = opt;
+			    el.value = opt;
+			    cat.appendChild(el);
+			}
+	
+		function block_add_category(){
+			document.getElementById('b1').className += " active";
+			document.getElementById('b2').className = document.getElementById('b2').className.replace("active", "");
+			document.getElementById('b3').className = document.getElementById('b3').className.replace("active", "");
+			//tablinks[i].className = tablinks[i].className.replace(" active", "");
+			document.getElementById("content").innerHTML='<form class="form" method="post"> <div class="form-group"> <label for = "new_category">New Category </label> <input type="text" class="form-control" placeholder="Enter New Category" name="new_category" id="new_category"> </div> <button type="submit" class="btn btn-primary" id="add_cat">Submit</button> </form>' ;
+	
+		}
+		
+		function block_rename_category(){
+			document.getElementById('b2').className += " active";
+			document.getElementById('b1').className=document.getElementById('b1').className.replace(" active", "");
+			document.getElementById('b3').className=document.getElementById('b3').className.replace(" active", "");
+			document.getElementById("content").innerHTML='<form class="form" method="post"> <div class="form-group"> <label for = "categories">Select Category</label> <select id="categories" class="form-control" name="categories"> </select> </div> <div class="form-group"> <label for = "new_cat_name">New Name</label> <input type="text" id="new_cat_name"" name="new_cat_name" class="form-control"> </div> <button type="submit" class="btn btn-primary" id="rename_cat">Rename</button> <button type="submit" class="btn btn-danger" id="delete_cat">Delete</button> </form> '
+			var cat = document.getElementById("categories");
+			var i=0;
+			for (i = 0; i < cat.options.length; i++) {
+				cat.options[i] = null;
+			}
+			for(i = 0; i < options.length; i++) {
+ 			    var opt = options[i];
+ 			    var el = document.createElement("option");
+			    el.textContent = opt;
+			    el.value = opt;
+			    cat.appendChild(el);
+			}
+		}
+		
+		function block_add_subcategory(){
+			document.getElementById('b3').className += " active";
+			document.getElementById('b2').className=document.getElementById('b2').className.replace(" active", "");
+			document.getElementById('b1').className=document.getElementById('b1').className.replace(" active", "");
+			document.getElementById("content").innerHTML = '<form class="form" method="post"> <div class="form-group"> <label for = "categories">Select Category</label> <select id="categories" class="form-control" name="categories"> </select> </div> <div class="form-group"> <label for = "new_subcat">New Sub Category</label> <input type="text" id="new_subcat" name="new_subcat" class="form-control"> </div> <button type="submit" class="btn btn-primary" id="add_subcat">Change</button> </form> '
+			var cat = document.getElementById("categories");
+			var i=0;
+			for (i = 0; i < cat.options.length; i++) {
+				cat.options[i] = null;
+			}
+			for(i = 0; i < options.length; i++) {
+ 			    var opt = options[i];
+ 			    var el = document.createElement("option");
+			    el.textContent = opt;
+			    el.value = opt;
+			    cat.appendChild(el);
+			}
+		}
+		
+		$(document).ready(function () {  
+		     $("#add_cat").click(function () {  
+		         var category = $("new_category").val()
+		         
+		         $.ajax({  
+		             url: 'webapi/category/addCategory',  
+		             type: 'POST',  
+		             dataType: 'text',  
+		             data: category,  
+		             headers: {
+		            	 "username": "admin",
+		            	 "password": "admin"
+		             },
+		             success: function (data, textStatus, xhr) {  
+		                 console.log(data);  
+		             },  
+		             error: function (xhr, textStatus, errorThrown) {  
+		                 console.log('Error in Operation');  
+		             }  
+		         });  
+		     });
+		     
+		     console.log("in");
+		     
+		     $("#add_subcat").click(function () {  
+		    	 
+		    	 
+		    	 var e = document.getElementById("categories");
+		    	 var cat = e.options[e.selectedIndex].text;
+		    	 var subcat = $("#new_subcat").val();
+		         var tdata = {categoryName: cat,subCategoryName: subcat};
+		         var data = JSON.stringify(tdata)
+		         
+		    	 console.log(JSON.stringify(data));
+		         $.ajax({  
+		             url: 'webapi/subcategory/addSubCategory',  
+		             type: 'POST',  
+		             dataType: 'text',  
+		             data: data,  
+		             headers: {
+		            	 "username": "admin",
+		            	 "password": "admin"
+		             },
+		             success: function (data, textStatus, xhr) {  
+		                 console.log(data);  
+		             },  
+		             error: function (xhr, textStatus, errorThrown) {  
+		                 console.log('Error in Operation');  
+		             }  
+		         });  
+		     });
+		     
+			$("#rename_cat").click(function () {  
+		    	 
+		    	 
+				 console.log("got in");				
+		    	 var e = document.getElementById("categories");
+		    	 var cat = e.options[e.selectedIndex].text;
+		    	 var subcat = $("#new_cat_name").val();
+		         var tdata = {category: cat,name: subcat};
+		         var data = JSON.stringify(tdata)
+		         
+		    	 console.log(JSON.stringify(data));
+		         $.ajax({  
+		             url: 'webapi/category/renameCategory',  
+		             type: 'POST',  
+		             dataType: 'text',  
+		             data: data,  
+		             headers: {
+		            	 "username": "admin",
+		            	 "password": "admin"
+		             },
+		             success: function (data, textStatus, xhr) {  
+		                 console.log(data);  
+		             },  
+		             error: function (xhr, textStatus, errorThrown) {  
+		                 console.log('Error in Operation');  
+		             }  
+		         });  
+		     });  
+			
+			$("#delete_cat").click(function () {  
+		    	 
+		    	 
+		    	 var e = document.getElementById("categories");
+		    	 var cat = e.options[e.selectedIndex].text;
+		         
+		    	 console.log(JSON.stringify(cat));
+		         $.ajax({  
+		             url: 'webapi/category/deleteCategory',  
+		             type: 'POST',  
+		             dataType: 'text',  
+		             data: cat,  
+		             headers: {
+		            	 "username": "admin",
+		            	 "password": "admin"
+		             },
+		             success: function (data, textStatus, xhr) {  
+		                 console.log(data);  
+		             },  
+		             error: function (xhr, textStatus, errorThrown) {  
+		                 console.log('Error in Operation');  
+		             }  
+		         });  
+		     });  
+		     
+		 });  
+		
+		
+// 		function add_category(){
+//  			document.getElementById("content").innerHTML='hello'
+// 		}
+	</script>
+<!-- 	<script src="javascript/admin_category.js"></script> -->
+<!-- 	<script src="ajax/admin_category_ajax.js"></script> -->
+</body>
+</html>

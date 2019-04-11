@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Admin | eBay</title>
+	<meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<link rel="icon" href="ebayFav.ico">
+</head>
+
+<body>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<img class="img-responsive" src="images/logo.png" title="eBay">
+			</div>
+			<div class="col-md-4 col-md-offset-5" id="sign_out">
+				Welcome admin!, <span> <a href="#">SignOut</a> </span>
+			</div>
+		</div>
+		<br>
+		<br>
+		<!--===============================================================FORM START==================================================================  -->
+		<div>
+			<div class="row">
+        		<div class="col-sm-2 sidebar">
+	          		<ul class="nav nav-pills nav-stacked">
+	            		<li id="b1" class=" active"><a href="#">Add Category<span class="sr-only">(current)</span></a></li>
+	            		<li id="b2"><a href="admin_mod_cat.html">Modify Category</a></li>
+	            		<li id="b3"><a href="admin_add_subcat.html">Add Sub Category</a></li>
+	            		<li id="b3"><a href="admin_check_status.html">Notify Seller</a></li>
+	          		</ul>
+        		</div>
+        		<div class="col-sm-6 col-sm-offset-2" id="content">
+        		
+        				<form class="form" method="post">
+        				 <div class="form-group">
+        				  <label for = "new_category">New Category </label>
+        				   <input type="text" class="form-control" placeholder="Enter New Category" name="new_category" id="new_category">
+        				 </div>
+        				  <button type="submit" class="btn btn-primary" id="add_cat">Submit</button> 
+        				</form>
+
+        		</div>
+        	</div>
+		</div>
+	</div>
+	<script>
+				
+		$(document).ready(function () {  
+		     $("#add_cat").click(function () {  
+		         var category = $("#new_category").val()
+		         
+		         $.ajax({  
+		             url: 'webapi/category/addCategory',  
+		             type: 'POST',  
+		             dataType: 'text',  
+		             data: category,  
+		             headers: {
+		            	 "username": "admin",
+		            	 "password": "admin"
+		             },
+		             success: function (data, textStatus, xhr) {  
+		                 console.log(data);  
+		             },  
+		             error: function (xhr, textStatus, errorThrown) {  
+		                 console.log('Error in Operation');  
+		             }  
+		         });  
+		     });
+		     
+		     console.log("in");
+		     
+		 });  
+		
+		
+// 		function add_category(){
+//  			document.getElementById("content").innerHTML='hello'
+// 		}
+	</script>
+<!-- 	<script src="javascript/admin_category.js"></script> -->
+<!-- 	<script src="ajax/admin_category_ajax.js"></script> -->
+</body>
+</html>

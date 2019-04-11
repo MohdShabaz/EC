@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Register Seller|eBay</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+     <link rel="icon" href="ebayFav.ico">
+  </head>
+  <body>
+    <div id="header">
+				<br>
+				 <h3 align = "right" > Already a member? <a href="http://localhost:9000/EC/loginseller.html"> Sign in </a> </h3> 
+				<a href="http://localhost:9000/EC/homepage.html"><img src="images/logo.png" alt="eBay" align="center" height="48" width="135"></a>
+				
+	</div>
+    <div class="container">
+      <h2>Register Seller</h2>
+      <div class="row">
+<!--            <div class="col-sm-11"><a href="http://localhost:9000/EC/homepage.html"><img src="images/logo.png" title="eBay"></a></div>
+ -->       </div>
+      <form class="form-horizontal" id="Seller_detail_form">
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="Seller_Name">Name</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="Seller_Name" name="Seller_Name" value="" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="Seller_Mobile">Mobile</label>
+          <div class="col-sm-10">
+            <input type="number" class="form-control" id="Seller_Mobile"  name="Seller_Mobile" value="" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="Seller_Email">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="Seller_Email" name="Seller_Email" value="" required>
+          </div>
+        </div>
+		<div class="form-group">
+          <label class="control-label col-sm-2" for="Seller_password">Password</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="Seller_password"  name="Seller_password" value="" required>
+          </div>
+        </div>  
+     	<div class="form-group">
+          <label class="control-label col-sm-2" for="Seller_Address1">Address 1</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="Seller_Address1"  name="Seller_Address1" value="" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="Seller_Address2">Address 2</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="Seller_Address2"  name="Seller_Address2" value="" required>
+          </div>
+        </div>
+         
+        
+<!--===================================================================DEAL TIMR==============================================================  -->
+        <!-- <div class="form-group">
+          <label class="control-label col-sm-2" for="Deal_start">Deal Start Date</label>
+          <div class="col-sm-10">
+            <div class="col-sm-6">
+              <input id="date" type="date">
+              <span><input id="time" type="time"></span>
+            </div>
+            <div class="col-sm-6">
+              <span><label class="control-label col-sm-4" for="Deal_end">Deal End Date</label></span>
+              <span><input id="date" type="date"></span>
+              <span><input id="time" type="time"></span>
+            </div>
+          </div>
+        </div> -->
+<!--==================================================================DEAL TIME END===========================================================  -->
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script src="js/registerseller.js"></script>
+  </body>
+</html>
