@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Order_Details;
+import org.iiitb.EC.dao.DAO_Seller;
 import org.iiitb.EC.model.Order_Details;
 
 @Path("bankService")
@@ -21,6 +22,41 @@ public class BankAccountService {
 	
 	private static final String SUCCESS_RESULT="Success";
 	private static final String FAILURE_RESULT="Failure";
+	
+	@Path("getBuyerBalance")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String GetBuyerBalance(@Context HttpHeaders httpheaders) {
+		String username = httpheaders.getHeaderString("username");
+		int buyer_id = DAO_Buyer.get_buyer_id(username);
+		
+		int balance = DAO_BankAccount.getBuyerAccountBalance(buyer_id);
+		return String.valueOf(balance);
+	}
+	
+	@Path("getSellerBalance")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String GetSellerBalance(@Context HttpHeaders httpheaders) {
+		String username = httpheaders.getHeaderString("username");
+		int seller_id = DAO_Seller.get_seller_id(username);
+		
+		int balance = DAO_BankAccount.getSellerAccountBalance(seller_id);
+		return String.valueOf(balance);
+	}
+	
+	@Path("addBuyerWallet")
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	public String AddBuyerWallet(String data, @Context HttpHeaders httpheaders) {
+		int balanceToAdd = Integer.parseInt(data);
+		int buyer_id = DAO_Buyer.get_buyer_id(httpheaders.getHeaderString("username"));
+		int newBalance = DAO_BankAccount.getBuyerAccountBalance(buyer_id) + balanceToAdd;
+		boolean result = DAO_BankAccount.setBuyerAccountBalance(buyer_id, newBalance);
+		
+		
+		return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	}
 
 	@Path("transaction")
 	@POST
