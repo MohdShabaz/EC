@@ -383,3 +383,6 @@ INSERT INTO ebay_account_details(account_name, account_number, current_balance) 
 
 INSERT INTO buyer_account_details(buyer_id, account_number, current_balance) VALUES
 (1, '123131316', 1000000)
+
+INSERT INTO seller_account_details(seller_id, account_number, current_balance) VALUES
+(1, '123131331', 1000000)
