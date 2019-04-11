@@ -333,4 +333,38 @@ public class DAO_Order_Details {
 		
 		return order_details;
 	}
+	
+	public static Order_Details getOrderWithItemId(int order_id, int item_id) {
+		Connection conn = DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		Order_Details order_details = new Order_Details();
+
+		try {
+			String query = "select * from order_details where order_id=? and item_id=?;";
+			
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, order_id);
+			preparedStatement.setInt(2, item_id);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			if(rs.next()) {
+				Order_Details order_details_object = new Order_Details();
+				order_details_object.setItem_id(rs.getInt("item_id"));
+				order_details_object.setSeller_id(rs.getInt("seller_id"));
+				order_details_object.setBuyer_id(rs.getInt("buyer_id"));
+				order_details_object.setOrder_id(rs.getInt("order_id"));
+				order_details_object.setId(rs.getInt("id"));
+				order_details_object.setShipping_address(rs.getString("shipping_address"));
+				order_details_object.setOrder_date(rs.getString("order_date"));
+				order_details_object.setTotal_amount(rs.getInt("total_amount"));
+				order_details_object.setPayment_type(rs.getInt("payment_type"));
+				order_details_object.setQuantity(rs.getInt("quantity"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return order_details;
+	}
 }

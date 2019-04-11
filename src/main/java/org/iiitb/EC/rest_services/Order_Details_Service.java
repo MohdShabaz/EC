@@ -14,6 +14,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Order_Details;
@@ -259,6 +260,9 @@ public String updateBuyerStatusOrderItem(@PathParam("order_id") String order_id,
 	
 	if(result)
 	{
+		Order_Details order_details = DAO_Order_Details.getOrderWithItemId(Integer.parseInt(order_id), Integer.parseInt(item_id));
+		int seller_id = order_details.getSeller_id();
+		boolean res = DAO_BankAccount.performTransaction2(order_details.getTotal_amount(), Integer.parseInt(order_id), Integer.parseInt(item_id), seller_id);
 		json.put("result","success");
 	}
 	else
