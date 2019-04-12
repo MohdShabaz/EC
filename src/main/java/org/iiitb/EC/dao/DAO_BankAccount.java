@@ -59,6 +59,77 @@ public class DAO_BankAccount {
 		}
 	}
 	
+	public static boolean add_Buyer_Account(int buyer_id,int acc_no,int balance)
+	{
+		System.out.println("IN add_Buyer_Account");
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		String query=null;
+		query = "insert into buyer_account_details(buyer_id,account_number,current_balance) VALUES (?,?,?)";
+		//query = "insert into buyer_table(name,dob,mobile,address_1,address_2,email,password) VALUES " +
+		//		 "(?,?,?,?,?,?,?);";
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, buyer_id);
+			preparedStatement.setInt(2, acc_no);
+			preparedStatement.setInt(3, balance);
+			System.out.println("ps is ---> "+preparedStatement);
+
+			int rs = preparedStatement.executeUpdate();
+			if(rs==0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	
+	
+	public static boolean add_Seller_Account(int seller_id,int acc_no,int balance)
+	{
+		System.out.println("IN add_Seller_Account");
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		String query=null;
+		query = "insert into seller_account_details(seller_id,account_number,current_balance) VALUES (?,?,?)";
+		//query = "insert into buyer_table(name,dob,mobile,address_1,address_2,email,password) VALUES " +
+		//		 "(?,?,?,?,?,?,?);";
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, seller_id);
+			preparedStatement.setInt(2, acc_no);
+			preparedStatement.setInt(3, balance);
+			System.out.println("ps is ---> "+preparedStatement);
+
+			int rs = preparedStatement.executeUpdate();
+			if(rs==0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	
 	public static int getSellerAccountBalance(int seller_id) {
 		BankAccount bankAccount = new BankAccount();
 		ResultSet rs;
@@ -219,6 +290,7 @@ public class DAO_BankAccount {
 	public static boolean performTransaction2(int transactionAmount, int order_id, int item_id, int seller_id) {
 		int sellerBalance = getSellerAccountBalance(seller_id);
 		String updateSellerBalanceQuery = "update seller_account_details set current_balance = " + '"' + (sellerBalance + transactionAmount) + '"' + " where seller_id = " + '"' + seller_id + '"';
+		System.out.println(updateSellerBalanceQuery);
 		try {
 			Connection conn = DatabaseConnection.getConnection();
 			PreparedStatement preparedStatement = null;
@@ -233,6 +305,7 @@ public class DAO_BankAccount {
 				BankAccount ebayAccount = DAO_BankAccount.getEbayAccount();
 				String updateEbayBalanceQuery = "update ebay_account_details set current_balance = " + '"' + (ebayAccount.getCurrentBalance() - transactionAmount) + '"' + " where account_name = " + '"' + "ebay_account" + '"';
 				preparedStatement = conn.prepareStatement(updateEbayBalanceQuery);
+				System.out.println(updateEbayBalanceQuery);
 				int ebay_trans_res = preparedStatement.executeUpdate();
 				if (ebay_trans_res == 0) {
 					return false;

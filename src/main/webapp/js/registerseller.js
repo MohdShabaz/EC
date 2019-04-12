@@ -7,6 +7,8 @@ $('#Seller_detail_form').submit(function(){
 	             Password: jQuery("#Seller_password").val(),
 	             Address1: jQuery("#Seller_Address1").val(),
 	             Address2: jQuery("#Seller_Address2").val(), 
+	             Acc_No: jQuery("#acc_no").val(),
+	             Balance: jQuery("#balance").val()
 	        };
 		
 		console.log(jsondata);

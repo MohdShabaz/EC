@@ -368,16 +368,20 @@ public class DAO_Order_Details {
 		Order_Details order_details_object = new Order_Details();
 
 		try {
-			String query = "select * from order_details where id=" + '"' + order_id + '"' + " and item_id=" + '"' + item_id + '"';
+			String query = "select * from order_details where id=? and item_id=?";
+			System.out.println(query);
 			
 			preparedStatement = conn.prepareStatement(query);
-//			preparedStatement.setInt(1, order_id);
-//			preparedStatement.setInt(2, item_id);
+			preparedStatement.setInt(1, order_id);
+			preparedStatement.setInt(2, item_id);
 
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			if(rs.next()) {
+			
 				order_details_object.setItem_id(rs.getInt("item_id"));
+				System.out.println("IN ORDbrcjc");
+				System.out.println(rs.getInt("item_id"));
 				order_details_object.setSeller_id(rs.getInt("seller_id"));
 				order_details_object.setBuyer_id(rs.getInt("buyer_id"));
 				order_details_object.setOrder_id(rs.getInt("order_id"));

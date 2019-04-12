@@ -8,8 +8,12 @@ function Submit(){
             Password: jQuery("#buyer_password").val(),
             Address1: jQuery("#buyer_address1").val(),
             Address2: jQuery("#buyer_address2").val(),
-            DoB : jQuery("#buyer_dob").val().split("/").reverse().join("-")
+            DoB : jQuery("#buyer_dob").val().split("/").reverse().join("-"),
+            Acc_No: jQuery("#acc_no").val(),
+            Balance: jQuery("#balance").val()
        };
+	alert(jsondata);
+	console.log(jsondata);
 	
 	console.log(jQuery("#buyer_dob").val().split("/").reverse().join("-"));
 	console.log($('#register_form').serialize());

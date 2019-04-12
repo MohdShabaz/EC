@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Category;
 import org.iiitb.EC.dao.DAO_Item;
@@ -63,8 +64,8 @@ public static void main(String args[]) throws Exception {
 //	json.put("quantity", "4");
 //	String s = json.toString();
 	System.out.println(DAO_Buyer.add_Buyer("John", "1997-08-05", "9876543210", "abc@hmail.com", "Somajiguda Hyd.", "Post Box : 1562", "1234"));
- 
-
+ boolean bou = DAO_BankAccount.add_Buyer_Account(2, 123131317, 98765);
+System.out.println(bou);
 // testUpdateUser();
 }
 public String get_user() throws JSONException {

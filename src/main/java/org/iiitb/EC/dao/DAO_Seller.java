@@ -79,7 +79,6 @@ public class DAO_Seller {
 
 	
 	public static int get_seller_id(String mobile) {
-		System.out.println("entered dao");
 		ResultSet rs;
 		System.out.println("mobile num"+mobile);
 		try {
@@ -89,7 +88,6 @@ public class DAO_Seller {
 			preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setString(1, mobile);
 			rs = preparedStatement.executeQuery();
-			
 			
 			if(rs.next()) {
 				
