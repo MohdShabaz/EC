@@ -2,6 +2,7 @@ package org.iiitb.EC.rest_services;
 
 import java.sql.Connection;
 
+import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Seller;
 
@@ -50,11 +51,8 @@ public class Seller_Service {
     @Produces(MediaType.TEXT_PLAIN)
 	 public static String getSellerInfo(@Context HttpHeaders httpheaders ) throws Exception{
         
-		System.out.println("entered REST");
 		
 		int seller_id = get_seller_id(httpheaders);
-		
-		
 		
         Seller seller=DAO_Seller.get_seller_details(seller_id);     
         JSONObject sell = new JSONObject();
@@ -77,7 +75,12 @@ public class Seller_Service {
 		JSONObject input_json = new JSONObject(input);
 		boolean result = DAO_Seller.add_Seller(input_json.getString("Name"),  input_json.getString("Mobile"),input_json.getString("Email"),input_json.getString("Password"),input_json.getString("Address1"),input_json.getString("Address2"));
 		System.out.println("Seller Service "+ result);
-		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
+		
+		
+		int seller_id = DAO_Seller.get_seller_id(input_json.getString("Mobile"));
+		boolean add_seller_acc = DAO_BankAccount.add_Seller_Account(seller_id, Integer.parseInt(input_json.getString("Acc_No")), Integer.parseInt(input_json.getString("Balance")));
+		
+		return (result && add_seller_acc) ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
 	}
 	
 	

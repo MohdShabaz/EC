@@ -1,6 +1,8 @@
 package org.iiitb.EC.rest_services;
 
 import java.sql.Connection;
+
+import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Seller;
 
@@ -67,30 +69,39 @@ public class Buyer_Service {
 //        return "abc";
         
      }
-	@Path("addBuyer")
-	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.TEXT_PLAIN)
-	public String addBuyer(
-			@FormDataParam("buyer_name") String name,
-			@FormDataParam("buyer_dob") String dob,
-			@FormDataParam("buyer_mobile") String mobile,
-			@FormDataParam("buyer_email") String email,
-			@FormDataParam("buyer_address_1") String address_1,
-			@FormDataParam("buyer_address_2") String address_2,
-			@FormDataParam("buyer_address_2") String password) throws Exception{
-		boolean result = DAO_Buyer.add_Buyer(name, dob, mobile, email, address_1, address_2,password);
-		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
-		
-	}
+//	@Path("addBuyer")
+//	@POST
+//	@Consumes(MediaType.MULTIPART_FORM_DATA)
+//	@Produces(MediaType.TEXT_PLAIN)
+//	public String addBuyer(
+//			@FormDataParam("buyer_name") String name,
+//			@FormDataParam("buyer_dob") String dob,
+//			@FormDataParam("buyer_mobile") String mobile,
+//			@FormDataParam("buyer_email") String email,
+//			@FormDataParam("buyer_address_1") String address_1,
+//			@FormDataParam("buyer_address_2") String address_2,
+//			@FormDataParam("buyer_address_2") String password) throws Exception{
+//		boolean result = DAO_Buyer.add_Buyer(name, dob, mobile, email, address_1, address_2,password);
+//		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
+//		
+//	}
 	@Path("addBuyer")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	public String addBuyer(String input) throws Exception{
 		JSONObject input_json = new JSONObject(input);
+		System.out.println(input_json);
 		boolean result = DAO_Buyer.add_Buyer(input_json.getString("Name"),input_json.getString("DoB"),input_json.getString("Mobile"),input_json.getString("Email"),input_json.getString("Address1"),input_json.getString("Address2"),input_json.getString("Password"));
 		System.out.println("Seller Service "+ result);
-		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
+		
+		int buyer_id = DAO_Buyer.get_buyer_id(input_json.getString("Mobile"));
+		System.out.println("Buyer_id is ------>"+ buyer_id);
+		
+		boolean add_acc = DAO_BankAccount.add_Buyer_Account(buyer_id, Integer.parseInt(input_json.getString("Acc_No")), Integer.parseInt(input_json.getString("Balance")));
+		
+		System.out.println("add_acc "+add_acc);
+		
+		return (result && add_acc) ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
 	}
 	
 	@Path("deleteBuyer")

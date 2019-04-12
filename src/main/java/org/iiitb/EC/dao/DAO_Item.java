@@ -177,13 +177,14 @@ public class DAO_Item {
 		PreparedStatement preparedStatement = null;		
 		
 		try {
-			String query = "select * from item_table LIMIT 5;";
+			String query = "select * from item_table;";
 			
 			preparedStatement = conn.prepareStatement(query);
 			Item item_object = new Item();
 			ResultSet rs = preparedStatement.executeQuery();
-			for(int i=0;i<5;i++) {
-				if(rs.next()) {
+//			for(int i=0;i<5;i++) {
+			while(rs.next()) {
+//				if(rs.next()) {
 					item_object.setItem_id(rs.getInt("item_id"));
 					item_object.setDescription(rs.getString("description"));
 					item_object.setName(rs.getString("name"));
@@ -197,8 +198,15 @@ public class DAO_Item {
 					list.add(item_object);
 					item_object = new Item();
 
-				}
+//				}
 			}
+			System.out.println("IM TOP 5 Items dskjc bjkdcnxs");
+			System.out.println(list.size());
+			for(int i=0;i<list.size();i++)
+			{
+				System.out.println(list.get(i).getItem_id());
+			}
+			System.out.println(list);
 			
 		}catch (SQLException e) {
 			e.printStackTrace();

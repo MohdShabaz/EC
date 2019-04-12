@@ -36,6 +36,9 @@ $.ajax({
 	      document.getElementById("sellerBalance").innerHTML = "Balance: Rs. " + data;
 	      
 	      ///document.getElementById("categories").style.cursor = pointer;
-	      //console.log("here12")
-	    }
+	      console.log("here12");
+	    },
+		error :function(data){
+			console.log("here11");
+		}
 	  });

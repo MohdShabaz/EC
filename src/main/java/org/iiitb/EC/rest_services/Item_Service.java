@@ -53,7 +53,7 @@ public class Item_Service {
 	
 	@Path("itemsTop")
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
 	 public String getTopItems() throws Exception{
 		
 		ArrayList<Item> items = DAO_Item.get_Top5_Items();
@@ -309,7 +309,7 @@ public class Item_Service {
 			@FormDataParam("product_id") String product_id) {
 		System.out.println("In UPLOADPRODUCTPIC");
 		System.out.println(product_id);
-		String uploadedFileLocation="/home/udit/EC/src/main/webapp/images/"+product_id+".png";
+		String uploadedFileLocation="/Users/cherukumilliramkashyap/Desktop/academics/SEM8/OOAD/EC-master/src/main/webapp/images/"+product_id+".png";
 		writeToFile(fileInputStream,uploadedFileLocation);
 		
 		
