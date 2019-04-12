@@ -309,7 +309,7 @@ public class Item_Service {
 			@FormDataParam("product_id") String product_id) {
 		System.out.println("In UPLOADPRODUCTPIC");
 		System.out.println(product_id);
-		String uploadedFileLocation="/Users/cherukumilliramkashyap/Desktop/academics/SEM8/OOAD/EC-master/src/main/webapp/images/"+product_id+".png";
+		String uploadedFileLocation="/home/udit/EC/src/main/webapp/images/"+product_id+".png";
 		writeToFile(fileInputStream,uploadedFileLocation);
 		
 		

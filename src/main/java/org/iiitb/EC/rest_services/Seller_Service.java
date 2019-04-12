@@ -50,8 +50,11 @@ public class Seller_Service {
     @Produces(MediaType.TEXT_PLAIN)
 	 public static String getSellerInfo(@Context HttpHeaders httpheaders ) throws Exception{
         
+		System.out.println("entered REST");
 		
 		int seller_id = get_seller_id(httpheaders);
+		
+		
 		
         Seller seller=DAO_Seller.get_seller_details(seller_id);     
         JSONObject sell = new JSONObject();
