@@ -5,8 +5,8 @@ $.ajax({
       //data: JSON.stringify(myFunction()),
       //datatype : JSON,
       headers: {
-    	  'username':sessionStorage.username?sessionStorage.getItem('username'):'',
-    		       'password':sessionStorage.password?sessionStorage.getItem('password'):''
+       'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+             'password':sessionStorage.password?sessionStorage.getItem('password'):''
 
  },
       success: function(productArray){
@@ -56,9 +56,15 @@ $.ajax({
        html+="</td>";
 
        html+="<td>";
-
-       html += "<a><img src="+productArray[i].pic_location+" height='75' width='75' /></a>";
-
+       
+       html += "<div id='container'>";
+       
+       html += "<div style='position: relative;'><a><img id='content_img"+i+"' src="+productArray[i].pic_location+" height='75' width='75' /></a></div>";
+       
+       html += "<div style='border:1px solid black;position: absolute;left: 50px;z-index: 2;display: none;' id=content_img"+i+"details> <div>Item Name:"+productArray[i].name+"</div>" +
+           "<div>Description: "+productArray[i].description+"</div></div>";
+       
+       
        html+="</td>";
 
        html+="</tr>";
@@ -76,7 +82,9 @@ $.ajax({
        html += "</div>";
 
        html += "</div>";
-
+       
+       
+       
        html += "</li>";
        
                           
@@ -103,3 +111,26 @@ return b;
 function itemDisplay(itemId){
 window.location.href = "http://localhost:9000/EC/displaySelectedItem.html?itemId="+itemId;
 }
+
+jQuery(document).ready(function($){ 
+window.onmouseover = function (event)
+{
+ var imgContent=event.target;
+ if (imgContent.id.includes('content_img'))
+ {
+  var idOfDetails=imgContent.id+"details";
+  document.getElementById(idOfDetails).style.display = "block";
+ }
+}
+
+window.onmouseout = function (event)
+{
+ var imgContent=event.target;
+ if (imgContent.id.includes('content_img'))
+ {
+  var idOfDetails=imgContent.id+"details";
+  document.getElementById(idOfDetails).style.display = "none";
+ }
+}
+
+});
