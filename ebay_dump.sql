@@ -1,15 +1,3 @@
--- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
---
--- Host: localhost    Database: flipkart
--- Host: localhost    Database: ebayv1
--- ------------------------------------------------------
--- Server version 8.0.12
---
--- Table structure for table `buyer_table`
---
-
-SET NAMES utf8;
-
 DROP TABLE IF EXISTS `buyer_table`;
 CREATE TABLE `buyer_table` (
   `buyer_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -382,7 +370,7 @@ INSERT INTO ebay_account_details(account_name, account_number, current_balance) 
 ('ebay_account', '346712124', 500000);
 
 INSERT INTO buyer_account_details(buyer_id, account_number, current_balance) VALUES
-(1, '123131316', 1000000)
+(1, '123131316', 1000000);
 
 INSERT INTO seller_account_details(seller_id, account_number, current_balance) VALUES
-(1, '123131331', 1000000)
+(1, '123131331', 1000000);

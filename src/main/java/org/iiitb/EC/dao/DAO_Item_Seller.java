@@ -68,6 +68,37 @@ public class DAO_Item_Seller {
 				
 	}
 	
+	public static boolean update_Order_Item_Seller(int order_id,int item_id) {
+		int seller_id=get_seller_id(item_id);
+		int initial_quantity=DAO_Item.get_quantity(item_id, seller_id);
+		int quantity=DAO_Order_Details.get_quantity(order_id, item_id);
+		
+		int final_quantity=initial_quantity-quantity;
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		String query=null;
+		query = "update item_seller set quantity=? where item_id=? and seller_id=? ;";
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, final_quantity);
+			preparedStatement.setInt(2, item_id);
+			preparedStatement.setInt(3, seller_id);
+			int rs = preparedStatement.executeUpdate();
+			if(rs==0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+		
+				
+	}
+	
 	//meth can also be used to check if the entry is present or not
 	public static int get_quantity(int item_id,int seller_id) {
 		Connection conn = DatabaseConnection.getConnection();

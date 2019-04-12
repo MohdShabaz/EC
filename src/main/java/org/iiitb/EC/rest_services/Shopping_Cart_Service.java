@@ -190,16 +190,27 @@ public class Shopping_Cart_Service {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String addCart(
 	  String cart, @Context HttpHeaders httpheaders) throws Exception{
-	 System.out.println("1");
+	 System.out.println("Test jsdbhcjsdckn");
 	 System.out.println(cart);
-	 //JSONObject cart_json = new JSONObject(cart);
+	 JSONObject cart_json = new JSONObject(cart);
 	 int buyer_id = get_buyer_id(httpheaders);// 
-	 int item_id = Integer.parseInt(cart);
-	 int quantity = 1;
+	 int item_id = Integer.parseInt(cart_json.getString("item_id"));
+	 int quantity = Integer.parseInt(cart_json.getString("quantity"));
 	 boolean result = DAO_Shopping_cart.add_To_Shopping_Cart(buyer_id, item_id, quantity);
 	 System.out.println("result"+result);
-	 System.out.println(result ? SUCCESS_RESULT : FAILURE_RESULT);
-	 return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	 
+	 JSONObject json = new JSONObject();
+		
+		if(result)
+		{
+			json.put("result","success");
+		}
+		else
+		{
+			json.put("result","failure");
+		}
+	 
+		return json.toString();
 	 
 	}
 	

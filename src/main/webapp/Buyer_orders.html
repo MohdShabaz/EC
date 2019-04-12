@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
   <!-- external script file -->
   <link rel="icon" href="ebayFav.ico">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
   <script src="js/myjquery.js"></script>
@@ -33,6 +33,7 @@
             overflow:auto;
          }
       </style>
+ 
   
   
 <style >
@@ -97,6 +98,50 @@ li a:hover .category{
   color: white;
 }
 </style>
+<style>
+
+
+fieldset, label { margin: 0; padding: 0; }
+
+/****** Style Star Rating Widget *****/
+
+.rating { 
+  border: none;
+  float: left;
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+
+</style>
 
   <script>
   function cart(){
@@ -159,8 +204,6 @@ li a:hover .category{
 	 }
   }
   </script>
-  <script src="javascript/home.js">
-  </script>
   <!-- track my order function call  -->
     <script>
     function TrackOrder(){
@@ -201,7 +244,7 @@ li a:hover .category{
               <div>
                 <ul style="list-style-type: none;">
                 <li style="text-align:left"><a href=href="#" id="account_setting" ></a></li>
-                <li><a href="http://localhost:9000/EC/home.html" id="sign_out"></a></li>
+                <li><a href="http://localhost:9000/EC/homepage.html" id="sign_out"></a></li>
               </ul>
               </div>
             </ul>
@@ -284,7 +327,7 @@ li a:hover .category{
     <!-- logo -->
     <div class="navbar-header">
       <a class="navbar-brand" href="#">
-        <img role="presentation" width=100 height=38 alt="" href = "http://localhost:9000/EC/homepage.html" src="images/logo.png" id="gh-logo">
+        <img role="presentation" width=100 height=38 href = "http://localhost:9000/EC/homepage.html" alt=""  src="images/logo.png" id="gh-logo">
       </a>
     </div>
 
@@ -427,7 +470,14 @@ li a:hover .category{
 
 <div id = "allitemsubcat">
 
-</div>
+</div> 
+<!-- <div class="rating">
+    <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
+    <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
+    <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
+    <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
+    <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
+</div> -->
 
 
 

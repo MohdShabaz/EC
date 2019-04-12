@@ -51,22 +51,32 @@ var price = 0;
 var accountNumber;
 
 function AddOrder() {
-	$.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
-		 
-		 headers: {
-				'username':sessionStorage.getItem("username"),
-				'password':sessionStorage.getItem("password")
-			},
-		 async: false,
-		 success: function(data){
-			 window.location="http://localhost:9000/EC/Buyer_orders.html";
-		  console.log(data);
+	console.log("in ADD ORDER");
+	console.log(localStorage.addr);
+	 var json_={
+			   shipping_address: localStorage.addr
+			 };
+			 
+	 console.log(json_);
+	 
+	 $.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrder", type:"POST",
+	 
+	 data: JSON.stringify(json_),
+	 datatype: "json",
+	 headers: {
+			'username':sessionStorage.getItem("username"),
+			'password':sessionStorage.getItem("password")
 		},
-		 error: function(data)
-		 {
-		  
-		 }
-		 });
+	 async: false,
+	 success: function(data){
+	  console.log(data);
+	},
+	 error: function(data)
+	 {
+	  
+	 }
+	 });
+	//window.location.href = "items.html";
 		 //window.location.href = "items.html";
 		 }
 function ConfirmOrder()
@@ -87,12 +97,15 @@ function ConfirmOrder()
 		 success: function(data){
 			 AddOrder();
 		 	console.log(data);
+		 	
 		},
 		 error: function(data)
 		 {
+			 alert("Failed");
 		  
 		 }
 		 });
+	window.location.href = "Buyer_orders.html";
 }
 $.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
 	 async: false,

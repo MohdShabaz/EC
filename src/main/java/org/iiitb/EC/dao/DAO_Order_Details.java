@@ -333,6 +333,34 @@ public class DAO_Order_Details {
 		
 		return order_details;
 	}
+	public static int get_quantity(int order_id,int item_id) {
+//		Seller sell = new Seller();
+		//Connection conn = null;
+		ResultSet rs;
+		int quan=-1;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select quantity from order_details where item_id=? and id=?";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, item_id);
+			preparedStatement.setInt(2, order_id);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				quan=rs.getInt("quantity");
+				
+			}
+			else {
+				//item.put("result", "fail");
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//return item.toString();
+		return quan;
+	}
 	
 	public static Order_Details getOrderWithItemId(int order_id, int item_id) {
 		Connection conn = DatabaseConnection.getConnection();
@@ -367,4 +395,87 @@ public class DAO_Order_Details {
 		
 		return order_details;
 	}
+	
+	public static int get_total_stars(int item_id) {
+		ResultSet rs;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select SUM(rating) from order_details where item_id=?";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, item_id);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				//seller_id=rs.getInt("seller_id");
+				return rs.getInt("SUM(rating)");
+				
+			}
+			else {
+				//item.put("result", "fail");
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//return item.toString();
+		return 0;
+	}
+	
+	
+	//shabaz
+	public static int get_total_users_rated(int item_id) {
+		ResultSet rs;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select COUNT(rating) from order_details where item_id=?";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, item_id);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				//seller_id=rs.getInt("seller_id");
+				return rs.getInt("COUNT(rating)");
+				
+			}
+			else {
+				//item.put("result", "fail");
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//return item.toString();
+		return 0;
+	}
+	
+	//shabaz
+	public static boolean update_rating_order_item(int order_id,int item_id,int stars) {
+		 Connection conn = DatabaseConnection.getConnection();
+		 PreparedStatement preparedStatement = null;
+		 try {
+
+		  String query = "update order_details set rating = ? where id=? and item_id=?";
+		  preparedStatement = conn.prepareStatement(query);
+		  preparedStatement.setInt(1, stars);      
+		  preparedStatement.setInt(2, order_id);      
+		  preparedStatement.setInt(3, item_id);      
+
+		  System.out.println(preparedStatement);
+		  
+		  int rs = preparedStatement.executeUpdate();
+		  if(rs==0) {
+		   System.out.println("not updated");
+		   return false;
+		  }
+		  return true;
+
+		 }catch (SQLException e) {
+		  System.out.println("3");
+		  e.printStackTrace();
+		 }
+		 System.out.println("2");
+		 return false;
+		}
 }
