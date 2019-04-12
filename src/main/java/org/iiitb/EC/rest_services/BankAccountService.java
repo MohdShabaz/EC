@@ -46,6 +46,14 @@ public class BankAccountService {
 		return String.valueOf(balance);
 	}
 	
+	@Path("getEbayBalance")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String GetEbayBalance(@Context HttpHeaders httpheaders) {
+		int balance = DAO_BankAccount.getEbayAccountBalance();
+		return String.valueOf(balance);
+	}
+	
 	@Path("addBuyerWallet")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)

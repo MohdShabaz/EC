@@ -365,19 +365,18 @@ public class DAO_Order_Details {
 	public static Order_Details getOrderWithItemId(int order_id, int item_id) {
 		Connection conn = DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;
-		Order_Details order_details = new Order_Details();
+		Order_Details order_details_object = new Order_Details();
 
 		try {
-			String query = "select * from order_details where order_id=? and item_id=?;";
+			String query = "select * from order_details where id=" + '"' + order_id + '"' + " and item_id=" + '"' + item_id + '"';
 			
 			preparedStatement = conn.prepareStatement(query);
-			preparedStatement.setInt(1, order_id);
-			preparedStatement.setInt(2, item_id);
+//			preparedStatement.setInt(1, order_id);
+//			preparedStatement.setInt(2, item_id);
 
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			if(rs.next()) {
-				Order_Details order_details_object = new Order_Details();
 				order_details_object.setItem_id(rs.getInt("item_id"));
 				order_details_object.setSeller_id(rs.getInt("seller_id"));
 				order_details_object.setBuyer_id(rs.getInt("buyer_id"));
@@ -388,12 +387,13 @@ public class DAO_Order_Details {
 				order_details_object.setTotal_amount(rs.getInt("total_amount"));
 				order_details_object.setPayment_type(rs.getInt("payment_type"));
 				order_details_object.setQuantity(rs.getInt("quantity"));
+				return order_details_object;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return order_details;
+		return order_details_object;
 	}
 	
 	public static int get_total_stars(int item_id) {

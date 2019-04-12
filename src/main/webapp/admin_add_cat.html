@@ -27,6 +27,7 @@
 		<br>
 		<!--===============================================================FORM START==================================================================  -->
 		<div>
+		<h2 id = "balance">Balance: </h2>
 			<div class="row">
         		<div class="col-sm-2 sidebar">
 	          		<ul class="nav nav-pills nav-stacked">
@@ -51,7 +52,23 @@
 		</div>
 	</div>
 	<script>
-				
+	$.ajax({
+	    type: "get",
+	    url:  "http://localhost:9000/EC/webapi/bankService/getEbayBalance/",
+	    dataType: "text",
+	    headers: {
+	    	'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	    	'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+	},
+	    success: function(data){
+	     
+	      document.getElementById("balance").innerHTML = "Balance: Rs. " + data;
+	      
+	      ///document.getElementById("categories").style.cursor = pointer;
+	      //console.log("here12")
+	    }
+	  });
+
 		$(document).ready(function () {  
 		     $("#add_cat").click(function () {  
 		         var category = $("#new_category").val()
