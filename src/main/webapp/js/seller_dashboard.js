@@ -22,3 +22,20 @@ $('#Orders').click(function(){
 //$('#AddDeal').click(function(){
 //	  window.location="http://localhost:9000/EC/addDealToProduct.html";
 //	});
+
+$.ajax({
+	    type: "get",
+	    url:  "http://localhost:9000/EC/webapi/bankService/getSellerBalance/",
+	    dataType: "text",
+	    headers: {
+	    	'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	    	'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+	},
+	    success: function(data){
+	     
+	      document.getElementById("sellerBalance").innerHTML = "Balance: Rs. " + data;
+	      
+	      ///document.getElementById("categories").style.cursor = pointer;
+	      //console.log("here12")
+	    }
+	  });

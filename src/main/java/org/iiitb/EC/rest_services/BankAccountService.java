@@ -42,6 +42,7 @@ public class BankAccountService {
 		int seller_id = DAO_Seller.get_seller_id(username);
 		
 		int balance = DAO_BankAccount.getSellerAccountBalance(seller_id);
+		System.out.println(seller_id);
 		return String.valueOf(balance);
 	}
 	

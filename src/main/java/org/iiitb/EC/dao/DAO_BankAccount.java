@@ -65,9 +65,8 @@ public class DAO_BankAccount {
 		try {
 			Connection conn = DatabaseConnection.getConnection();
 			PreparedStatement preparedStatement = null;			
-			String query = "select * from seller_account_details where seller_id=?";
+			String query = "select * from seller_account_details where seller_id=" + '"' + seller_id + '"';
 			preparedStatement = conn.prepareStatement(query);
-			preparedStatement.setInt(1, seller_id);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
 				System.out.println(rs.getInt("current_balance"));
