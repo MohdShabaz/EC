@@ -16,7 +16,7 @@ console.log(document.getElementById('place_order').innerHTML);
  total=0;
  price=[];
   $.ajax({
-        type :"GET",
+       type :"GET",
        url: "http://localhost:9000/EC/webapi/itemService/itemsTop",
        async: false,
        headers: {
@@ -28,23 +28,48 @@ console.log(document.getElementById('place_order').innerHTML);
        
             dataType:'JSON',
        success: function(response){
-        console.log(response);
+    	   	 console.log(response);
         
              result=response;
-             cart_product_list+='<ul class="list-group">';
-              for(i in result)
-              {
-                cart_list(i);/*function call*/
-              }
-              cart_product_list+='</ul>';
-           //console.log(cart_product_list);
-
-              document.getElementById('cart').innerHTML=cart_product_list;
+             load_cart();
+//             cart_product_list+='<ul class="list-group">';
+//              for(i in result)
+//              {
+//                cart_list(i);/*function call*/
+//              }
+//              cart_product_list+='</ul>';
+//           //console.log(cart_product_list);
+//
+//              document.getElementById('cart').innerHTML=cart_product_list;
  
             }
           });
 };
 
+
+
+function sort(type){
+	if(document.getElementById("sort_type").selectedIndex == 0) result.sort(function(a,b){return a.price-b.price});
+	if(document.getElementById("sort_type").selectedIndex == 1) result.sort(function(a,b){return a.discount-b.discount});
+	load_cart();
+}
+
+function reverse(type){
+	result.reverse();
+	load_cart();
+}
+
+
+function load_cart(){
+	//console.log("11")
+	cart_product_list='<ul class="list-group">';
+    for(i in result)
+    {
+      cart_list(i);/*function call*/
+    }
+    cart_product_list+='</ul>';
+    document.getElementById('cart').innerHTML=cart_product_list;
+}
 
 
 
@@ -54,6 +79,7 @@ console.log(document.getElementById('place_order').innerHTML);
 
 
 function cart_list(x){
+	//console.log("xx ")
 	 cart_product_list+='<li class="list-group-item">';
      cart_product_list+=
     	 '<div class="row">'+
@@ -98,7 +124,7 @@ function cart_list(x){
                     '</li>'
          total=parseFloat(parseFloat(total)+parseFloat(result[x].price)).toFixed(2);
                     price.push(parseFloat(result[x].price.toFixed(2)));
-          console.log(cart_product_list);
+          //console.log(cart_product_list);
 
 };
 

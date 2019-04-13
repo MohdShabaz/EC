@@ -1,9 +1,11 @@
 package org.iiitb.EC.rest_services;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Seller;
 
 import javax.ws.rs.GET;
@@ -29,8 +31,9 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dbcon.DatabaseConnection;
 import org.iiitb.EC.model.Buyer;
+import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Seller;
-
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -82,6 +85,34 @@ public class Seller_Service {
 		
 		return (result && add_seller_acc) ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
 	}
+	
+	
+	//under_dev
+	@Path("sellerItemsAll")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+	 public String getSellerItems(String id) throws Exception{
+		
+		ArrayList<Item> items = DAO_Item.get_Top5_Items();
+		JSONArray item_json_array = new JSONArray();
+		for(Item item : items) {
+			JSONObject item_json = new JSONObject();
+			item_json.put("item_id", item.getItem_id());
+			item_json.put("description", item.getDescription());
+			item_json.put("name", item.getName());
+			item_json.put("pic_location", item.getPic_location());
+			item_json.put("category", item.getCategory());
+			item_json.put("sub_category", item.getSub_category());
+			item_json.put("barcode", item.getBarcode());
+			item_json.put("price", item.getPrice());
+			item_json.put("discount", item.getDiscount());
+			item_json_array.put(item_json);
+		}
+		JSONObject result = new JSONObject();
+		result.put("items", item_json_array);
+		return item_json_array.toString();
+	}
+	
 	
 	
 

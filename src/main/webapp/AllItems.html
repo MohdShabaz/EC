@@ -65,15 +65,27 @@ body {
 
             
             <div class="row" style="background-color:#eee ;height:70px">
-              <div class="col-sm-offset-8 col-sm-2" style="padding-top:20px">
-                <button type="button" class="btn btn-default btn-md" style="color:blue" id="shop_more" onclick="ShopMore()"><b>Sort</b></button>
+            
+            	<div class="col-sm-offset-6 col-sm-2" style="padding-top:24px;  padding-left:45px">
+            		<select id="sort_type">
+              			<option>Price</option>
+              			<option>Discount</option>
+              		</select>
+            	</div>
+            	
+              <div class="col-sm-1" style="padding-top:20px">
+                <button type="button" class="btn btn-default btn-md" id="sort" onclick="sort(1)"><b>Sort</b></button>
               </div>
-              <div class="col-sm-2" style="padding-top:20px">
-                <button type="button" class="btn btn-primary btn-md" id="place_order" onclick="PlaceOrder()">Filter</button>
+              
+              <div class="col-sm-1" style="padding-top:20px">
+                <button type="button" class="btn btn-primary btn-md" id="place_order" onclick="reverse()">Reverse</button>
               </div>
+              
             </div>
+            
             <p style="color:red" id="decision"></p>
           <div>
+          
           <ul class="list-group"><li class="list-group-item"><div class="row"><div><span class="col-sm-11"><div class=row><span class="col-sm-1" style="margin-left:20px"><table style=" border-collapse: separate; border-spacing: 4px;" ><tr ><td colspan="2" style="border: 3px solid #CCC" ><a href="homepage.html"><img id="image1" src="images/logo.png" style="height:30px;width:30px"><a></td></tr></table></span><span class="col-sm-2" style="margin-left:50px"><p><b>Name</b></b></p></span><span class="col-sm-2" style="margin-left:50px"><p><b>Barcode</b></p></span><span class="col-sm-2" style="margin-left:50px"><p><b>Discount</b></p></span></span><span class="col-sm-2"><p><b>Price</b></p></span></div></span></div></div></li>
           <div>
             <div id="cart"></div> 
