@@ -5,18 +5,14 @@
   <title>Electronics,Cars,Fashion|eBay</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--   <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
   <!-- external script file -->
   <link rel="icon" href="ebayFav.ico">
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-   <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
-    <script src="jquery-3.3.1/jquery.min.js"></script>
-    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
   <script src="js/myjquery.js"></script>
   <script src = "js/displaySubCatItems.js"></script>
-    <script src = "js/homepage.js"></script>
-    <script src = "js/showItem.js"></script>
-    
   
   
 <style >
@@ -25,7 +21,7 @@ ul .category{
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #d9d9d9;
+  background-color: #ffffff;
 }
 
 li .category{
@@ -41,7 +37,7 @@ li .category{
 }
 
 li a:hover .category{
-  background-color: #bfbfbf;
+  background-color: #ffffff;
 }
 </style>
 
@@ -68,128 +64,86 @@ li a:hover .category{
   border: none;
   outline: none;
   padding: 12px 16px;
-  background-color: #f1f1f1;
+  background-color: #ffffff;
   cursor: pointer;
 }
 
 .btn:hover {
-  background-color: #ddd;
+  background-color: #ffffff;
 }
 
 .btn.active {
-  background-color: #666;
+  background-color: #ffffff;
   color: white;
 }
-</style>
-
-<style>
-
-@import "lesshat";
-
-
-.star-ratings-css {
-  unicode-bidi: bidi-override;
-  color: #c5c5c5;
-  font-size: 25px;
-  height: 25px;
-  width: 100px;
-  margin: 0 auto;
-  position: relative;
-  padding: 0;
-  text-shadow: 0px 1px 0 #a2a2a2;
-  
-  &-top {
-    color: #e7711b;
-    padding: 0;
-    position: absolute;
-    z-index: 1;
-    display: block;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-  }
-  &-bottom {
-    padding: 0;
-    display: block;
-    z-index: 0;
-  }
-}
-
-
-
 </style>
 
   <script>
   function cart(){
     localStorage.cart="cart";
-  if(localStorage.user_Id!=null)
-   {
-   window.location="http://localhost:9000/EC/cart.html";
-   }
-  else
-   {
-   window.location="http://localhost:9000/EC/loginbuyer.html";
-   }
+	  if(localStorage.user_Id!=null)
+		  {
+		  <!--shabaz changed-->
+		  //window.location="http://localhost:9000/EC/cart.html";
+		  }
+	  else
+		  {
+		  <!--shabaz changed-->
+		  //window.location="http://localhost:9000/EC/login.html";
+		  }
   }
   </script>
   <script >
   $(document).ready(function(){
-  if(localStorage.email=='admin@gmail.com')
-   {
+	  if(localStorage.email=='admin@gmail.com')
+		  {
 
-   }
-  else   if(sessionStorage.name!=null){
-      document.getElementById('signin_top_bar').innerHTML="Hi!  "+sessionStorage.name,
-      $('#user_info').width(80),
-      document.getElementById('user_name').innerHTML=sessionStorage.mobile,
-      //document.getElementById('user_email').innerHTML=sessionStorage.mobile,
-      document.getElementById('user_image').src="images/profile_avatar_60x60.png",
-      document.getElementById('account_setting').innerHTML="Account setting",
-      document.getElementById('sign_out').innerHTML="Sign Out";
-      $('#sign_out').click(function(){
-      	sessionStorage.clear();
-      });
-      $('#user_info').hover(function(){
-      $(this).find('.dropdown-menu').first().stop(true, true).slideDown(0);
-             $(this).toggleClass('open');
-         }, function () {
-             $(this).find('.dropdown-menu').first().stop(true, true).slideUp(0);
-             $(this).toggleClass('open');
-    });
+		  }
+	  else  if(localStorage.fName!=null){
+	        document.getElementById('signin_top_bar').innerHTML="Hi!"+localStorage.fName,
+	        $('#user_info').width(80),
+	        document.getElementById('user_name').innerHTML=localStorage.fName+" "+localStorage.lName,
+	        document.getElementById('user_email').innerHTML=localStorage.email,
+	        document.getElementById('user_image').src="images/profile_avatar_60x60.png",
+	        document.getElementById('account_setting').innerHTML="Account setting",
+	        document.getElementById('sign_out').innerHTML="Sign Out";
+	        $('#sign_out').click(function(){
+	        	localStorage.clear();
+	        });
+	    $('#user_info').hover(function(){
+	      $(this).find('.dropdown-menu').first().stop(true, true).slideDown(0);
+	             $(this).toggleClass('open');
+	         }, function () {
+	             $(this).find('.dropdown-menu').first().stop(true, true).slideUp(0);
+	             $(this).toggleClass('open');
+	    });
          }
-  });
+	  });
 
   </script>
   <script>
   function Seller(){
-  //alert(localStorage.user_PINCODE);
-  if(localStorage.fName!=null)
-  {
-   if(localStorage.user_PINCODE!=8888)
-   {
-     window.location="http://localhost:9000/EC/Seller_dashboard.html";
-   }
-   else {
-     window.location="http://localhost:9000/EC/address_form_seller.html";
-   }
+	  //alert(localStorage.user_PINCODE);
+	  if(localStorage.fName!=null)
+	  {
+	   if(localStorage.user_PINCODE!=8888)
+	   {
+	     window.location="http://localhost:9000/EC/Seller_dashboard.html";
+	   }
+	   else {
+	     window.location="http://localhost:9000/EC/address_form_seller.html";
+	   }
+	  }
+	  else {
+		  window.location="http://localhost:9000/EC/loginseller.html";
+	 }
   }
-  else {
-   window.location="http://localhost:9000/EC/loginseller.html";
- }
-  }
-  
     </script>
   <!-- end external script file  -->
   <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 
-
-<body>
-
-
-
-
-
+<body onload="myFunction()">
 
 
 
@@ -199,7 +153,7 @@ li a:hover .category{
     <div class="row header">
       <div class="col-sm-5" style="margin-left:80px">
         <ul style="list-style-type:none; margin:0px; padding:0px">
-          <li class="dropdown" style="width:150px; display:table-cell; padding-top:1px;padding-bottom:1px;" id="user_info"><p id="signin_top_bar">Hi!<a href="http://localhost:9000/EC/loginbuyer.html"> Sign in</a> or <a href="http://localhost:9000/EC/registerseller.html">registerseller</a></p>
+          <li class="dropdown" style="width:150px; display:table-cell; padding-top:1px;padding-bottom:1px;" id="user_info"><p id="signin_top_bar">Hi!<a href="http://localhost:9000/EC/loginbuyer.html"> Sign in</a> or <a href="http://localhost:9000/EC/registerseller.html">Register</a></p>
             <ul class="dropdown-menu">
               <div class="row">
                 <div class="col-sm-3">
@@ -215,7 +169,7 @@ li a:hover .category{
               <div>
                 <ul style="list-style-type: none;">
                 <li style="text-align:left"><a href=href="#" id="account_setting" ></a></li>
-                <li><a href="http://localhost:9000/EC/homepage.html" id="sign_out"></a></li>
+                <li><a href="http://localhost:9000/EC/home.html" id="sign_out"></a></li>
               </ul>
               </div>
             </ul>
@@ -432,110 +386,37 @@ li a:hover .category{
 
 
 
-<div class="items" id = "showItem">
 
 
-<!-- product section -->
-<section class="product-section">
- <div class="container">
-  <div class="back-link">
-   <a href="./category.html"> &lt;&lt; Back to Category</a>
-  </div>
-  <div class="row">
-    <div class="col-lg-6">
-     <div class="product-pic-zoom">
-    <!--   <img class="product-big-img" src="img/single-product/1.jpg" alt="">-->
-    </div>
-    <div class="product-thumbs" tabindex="1" style="overflow: hidden; outline: none;">
-     <div class="product-thumbs-track">
-      <div class="pt active" data-imgbigurl="img/single-product/1.jpg"><img id="itemImage" src=""  alt=""></div>
-     </div>
-    </div> 
-   </div> 
-   <div class="col-lg-6 product-details">
-    <h2 class="p-title" id = "nameItem"></h2>
-    <h4 class="p-id" id = "idItem"></h4>
-    <h3 class="p-price">INR <strike><span id = "priceItem"></span></strike> <span id = "newprice"></span></h3>
-    <h4 class="p-stock">Available: In Stock <span id="Quantity-left"></span> Items Left</h4>
-    <div >Discount <span id = "discountItem"></span>%</div>
-    <div >Bar-code : <span id = "Item_barcode"></span></div>
-    <div >Seller:  <span id = "seller_name"></span></div>     
-     <div id="KeyValue"></div>
-  
-    <div class="quantity">
-     <p>Enter Quantity</p>
-                        <div class="pro-qty"><input type="text" id = "quan"></div>
-                    </div>
-    <button type="button" onclick="shopNow()">SHOP NOW</button> 
-     <button type="button" onclick="addToCart(this)">ADD TO CART</button> 
-     
-    
-    <div id="accordion" class="accordion-area">
-     <div class="panel">
-      <div class="panel-header" id="headingOne">
-       <button class="panel-link active" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">Description</button>
-      </div>
-      <div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-       <div class="panel-body" id = "descriptionItem">
-        
-       </div>
-      </div>
-     </div>
-    
-    <b>Rating : <span id="stars"></span></b>
-    <b><span id="rating_figure"></span> average based on <span id="total_users_rated"></span> reviews</b> 
-     
-    </div>
-    <div class="social-sharing">
-     <a href=""><i class="fa fa-google-plus"></i></a>
-     <a href=""><i class="fa fa-pinterest"></i></a>
-     <a href=""><i class="fa fa-facebook"></i></a>
-     <a href=""><i class="fa fa-twitter"></i></a>
-     <a href=""><i class="fa fa-youtube"></i></a>
-    </div>
-   </div>
-  </div>
- </div>
-</section>
-<!-- product section end -->
+<!-- new code -->
+
+<H1>Items:</H1>
 
 
+<div id = "allitemsubcat1">
 
+	<div class="container">
+		<div class="row" onclick="itemDisplay(1)">
+			<div class="col-sm-3">
+				<img src="+productArray[i].pic_location+" height='75' width='75' />
+			</div>
+			<div class="col-sm-3">
+			
+			</div>
+			<div class="col-sm-3">
+			
+			</div>
+		</div>
+	</div>
 
 </div>
+
+
+
+
+
+
+
 </body>
- <script type="text/javascript">
-function addToCart(butto){
-	console.log("yes added to cart");
-	console.log(butto.baseURI);
-	var x = butto.baseURI;
-	var itemId = x.split("itemId=")[1];
-	console.log("hello" + itemId);
 
-	var jsonObj = { item_id: itemId, quantity:document.getElementById("quan").value};
-
-	console.log(jsonObj);
-	$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/addCart", type:"POST",
-	 data: JSON.stringify(jsonObj),
-	 dataType: "json",
-	 headers: {
-		 'username':sessionStorage.username?sessionStorage.getItem('username'):'',
-			       'password':sessionStorage.username?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
-
-	 },
-	  async: true,
-	 
-	 success: function(data){
-	  window.location = "http://localhost:9000/EC/Cart_ebay.html"
-	  console.log(23);
-	 },
-	 error: function(data){
-	  console.log("Cart Ebay Failed!!")
-	 }
-	}); 
-
-
-
-
-	}
-</script> 
+</html>

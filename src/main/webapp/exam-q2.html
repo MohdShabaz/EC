@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  
+    <title>eBay.in - Shopping Cart|eBay</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="jquery-3.3.1/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    
+    
+   <link rel="icon" href="ebayFav.ico">
+    
+  </head>
+  <body>
+  	<h1> GUI Header </h1>
+  	<ul class="list-group"><li class="list-group-item"><div class="row"><div><span class="col-sm-11"><div class=row><span class="col-sm-1" style="margin-left:20px"><table ><tr ><td colspan="2"  >Srn No.</td></tr></table></span><span class="col-sm-2" style="margin-left:50px"><p><b>Seller Id</b></b></p></span><span class="col-sm-2" style="margin-left:50px"><p><b>Seller Mobile</b></p></span><span class="col-sm-2" style="margin-left:50px"><p><b>Seller Name</b></p></span></span><span class="col-sm-2"><p><b>Seller A/c Balance</b></p></span></div></span></div></div></li>
+  	
+    <div id="cart">
+    
+    </div>
+    
+     <a class="btn btn-primary" align="right" href="http://localhost:9000/EC/homepage.html"> Home </a>
+    <!--  <script src="js/cart.js"></script>  -->
+    <!-- <script>
+    if(localStorage.message=="already"){
+    	$('#decision').html("Sorry!This product have already in your cart.You can change a quantity");
+    	localStorage.message=null;
+    }
+    </script> -->
+    
+ <script>
+    
+    	
+    var cart_product_list="";/*use to show products list*/
+    var result;/*use to store response */
+    var x;
+    var remove_pid;
+    var pid;
+    var total=0;
+    var price=[];
+    var count=0;
+
+
+    //cart_list_ajax();
+
+    window.onload = function cart_list_ajax(){
+     cart_product_list="";
+     total=0;
+     price=[];
+      $.ajax({
+           type :"GET",
+           url: "http://localhost:9000/EC/webapi/sellerService/sellerItemsAll",
+           async: false,
+           headers: {
+                'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+                'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+           },
+           
+           
+                dataType:'JSON',
+           success: function(response){
+        	   	 console.log(response);
+            
+                 result=response;
+                 load_cart();
+//                 cart_product_list+='<ul class="list-group">';
+//                  for(i in result)
+//                  {
+//                    cart_list(i);/*function call*/
+//                  }
+//                  cart_product_list+='</ul>';
+//               //console.log(cart_product_list);
+    //
+//                  document.getElementById('cart').innerHTML=cart_product_list;
+     
+                }
+              });
+    };
+
+
+
+
+
+    function load_cart(){
+    	//console.log("11")
+    	cart_product_list='<ul class="list-group">';
+        for(i in result)
+        {
+          cart_list(i);/*function call*/
+        }
+        cart_product_list+='</ul>';
+        document.getElementById('cart').innerHTML=cart_product_list;
+    }
+
+
+
+
+
+
+
+
+    function cart_list(x){
+    	//console.log("xx ")
+    	 cart_product_list+='<li class="list-group-item">';
+         cart_product_list+=
+        	 '<div class="row">'+
+//                              '<div class=row >'+
+//                               //'<p style="Color:grey;margin-left:20px" ><strong>From </strong>'+result[x].name+'</p>'+
+//                               '<p style="Color:grey;margin-left:20px">Barcode: '+result[x].barcode+'</p>'+
+//                              '</div>'+
+//                              '<div class=row>'+
+//                                '<a href="#" id = "' + x +'" onclick="Remove('+x+')">'+
+//                                '<p style="Color:grey;text-align:right;margin-right:50px"><span class="glyphicon glyphicon-remove"></span>Remove</p>'+
+//                                '</a>'+
+//                              '</div>'+
+                              '<div>'+
+//                                '<span class="col-sm-1" style="text-align:right ;width:20px">'+
+//    															 	//'<input type="checkbox" onChange="checkbok('+x+')" id="checkbox'+result[x].id+'" name="'+result[x].id+'" value="'+result[x].product_id+'" checked>'+
+//    														'</span>'+
+                                '<span class="col-sm-11"><div class=row>'+
+                                    '<span class="col-sm-1" style="margin-left:20px">'+
+                                      +JSON.stringify(parseInt(x)+1)+
+                                    '</span>'+
+                                    '<span class="col-sm-2" style="margin-left:50px"><p>'+result[x].seller_id+'</p></span>'+
+                                    '<span class="col-sm-2" style="margin-left:50px"><p>'+result[x].seller_mob+'</p></span>'+
+                                    '<span class="col-sm-2" style="margin-left:50px"><p>'+result[x].seller_name+'</p></span>'+
+//                                    '<span class="col-sm-3">'+
+//    																	 '<p>QTY:<input type="text" value="'+result[x].price+'" style="width:30px" onChange="quantity('+x+')" id="Quantity'+result[x].id+'">'+
+//    																	 '<a  href="#" style="margin-left:10px" onclick="update('+x+')" id="update'+result[x].id+'">Update</a>'+
+//    																	 '</p>'+
+//    																	 '<p>Shipping</p>'+
+    																'</span>'+
+    								'<span class="col-sm-2"><p>'+result[x].seller_acc+'</p></span>'+
+//                                    '<span class="col-sm-2"><p><b>Rs.'+result[x].price+'</b></p>'+
+//                                      '<p>Free</p>'+
+//    																'</span>'+
+    																'</div>'+
+                                '</span>'+
+                             '</div>'+
+                           '</div>'+
+                        '</li>'
+             //total=parseFloat(parseFloat(total)+parseFloat(result[x].price)).toFixed(2);
+              //console.log(cart_product_list);
+
+    };
+
+ 
+
+    
+    
+    
+</script>
+    
+  </body>
+  
+</html>

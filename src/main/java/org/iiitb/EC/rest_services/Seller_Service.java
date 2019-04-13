@@ -1,6 +1,9 @@
 package org.iiitb.EC.rest_services;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.iiitb.EC.dao.DAO_BankAccount;
@@ -34,6 +37,7 @@ import org.iiitb.EC.model.Buyer;
 import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Seller;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -156,6 +160,83 @@ public class Seller_Service {
         return result ? SUCCESS_RESULT : FAILURE_RESULT;
         
      }
+	
+	
+	@Path("sellerItemsAll")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+	public static String get_all_Sellers() {
+		//ArrayList<Item> list = new ArrayList<Item>();
+		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;	
+		
+		JSONArray seller_json_array = new JSONArray();
+		
+		try {
+			String query = "select q.seller_id, q.mobile, q.name, s.current_balance from seller_table as q,seller_account_details as s where q.seller_id=s.seller_id;";
+			
+			preparedStatement = conn.prepareStatement(query);
+			//Item item_object = new Item();
+			ResultSet rs = preparedStatement.executeQuery();
+//			for(int i=0;i<5;i++) {
+			while(rs.next()) {
+//				if(rs.next()) {
+					JSONObject item_json = new JSONObject();
+					try {
+						item_json.put("seller_id", rs.getInt("seller_id"));
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						item_json.put("seller_name", rs.getString("name"));
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						item_json.put("seller_mob", rs.getString("mobile"));
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						item_json.put("seller_acc", rs.getString("current_balance"));
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					seller_json_array.put(item_json);
+					
+					
+//					item_object.setItem_id(rs.getInt("item_id"));
+//					item_object.setDescription(rs.getString("description"));
+//					item_object.setName(rs.getString("name"));
+//					item_object.setPic_location(rs.getString("pic_location"));
+//					item_object.setCategory(rs.getInt("category"));
+//					item_object.setSub_category(rs.getInt("sub_category"));
+//					item_object.setBarcode(rs.getString("barcode"));
+//					item_object.setPrice(rs.getFloat("price"));
+//					item_object.setDiscount(rs.getFloat("discount"));
+					
+
+//				}
+			}
+			JSONObject result = new JSONObject();
+			try {
+				result.put("sellers", seller_json_array);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return seller_json_array.toString();
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return seller_json_array.toString();
+	}
 	
 	
 }

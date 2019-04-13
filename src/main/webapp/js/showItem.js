@@ -10,11 +10,14 @@ $.ajax({
 
  },
       success: function(product){
-       console.log("hereA")
+       console.log("hereA");
         console.log(product);
-       console.log("hereB")
+       console.log("hereB");
         
-          document.getElementById("nameItem").innerHTML = product.name;
+          //document.getElementById("nameItem").innerHTML = product.name;
+       document.getElementById("nameItem").innerHTML = product.name;
+       document.getElementById("idItem").innerHTML = "Item Id : "+myFunction();
+       
           
           var x = (product.discount*100).toFixed(2);          
           document.getElementById("discountItem").innerHTML = x;
