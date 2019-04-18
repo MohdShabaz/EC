@@ -96,9 +96,9 @@ public class Item_Service {
 			item_json.put("discount", item.getDiscount());
 			item_json_array.put(item_json);
 		}
-		JSONObject result = new JSONObject();
-		result.put("items", item_json_array);
-		return result.toString();
+//		JSONObject result = new JSONObject();
+//		result.put("items", item_json_array);
+		return item_json_array.toString();
 	}
 	
 	@Path("checkitem")
@@ -300,6 +300,20 @@ public class Item_Service {
 	 return result ? SUCCESS_RESULT : FAILURE_RESULT;
 	}
 	
+	@Path("setQuantity")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String setQuantity(String input,
+	  @Context HttpHeaders httpheaders) throws Exception{
+		JSONObject input_json = new JSONObject(input);
+		int seller_id = get_seller_id(httpheaders);
+		System.out.println("Set Quantity");
+	 boolean result = DAO_Seller.set_item_quantity(seller_id, input_json.getInt("item_id"), 
+			 input_json.getInt("quantity"));
+		return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Response\" : \"" + FAILURE_RESULT + "\" }";
+	}
+	
 	@POST
 	@Path("uploadProductPic")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -309,7 +323,7 @@ public class Item_Service {
 			@FormDataParam("product_id") String product_id) {
 		System.out.println("In UPLOADPRODUCTPIC");
 		System.out.println(product_id);
-		String uploadedFileLocation="/home/skirmish/ooad/EC/src/main/webapp/images/"+product_id+".png";
+		String uploadedFileLocation="/Users/sankeerth/Documents/ebay_ooad/ECmater11/EC/src/main/webapp/images/"+product_id+".png";
 		writeToFile(fileInputStream,uploadedFileLocation);
 		
 		
@@ -325,6 +339,23 @@ public class Item_Service {
 
 		return "in abc";
 	}
+	
+	@Path("showAllItemsOfSeller")
+    @GET
+	@Produces(MediaType.APPLICATION_JSON)  
+	public String showAllItemsOfSeller(@Context HttpHeaders httpheaders) throws Exception{
+		int seller_id = get_seller_id(httpheaders);
+		return DAO_Item.get_Seller_All_Items_Details(seller_id).toString(); 
+	}
+	
+	@Path("showAllItems")
+    @GET
+	@Produces(MediaType.APPLICATION_JSON)  
+	public String showAllItems(@Context HttpHeaders httpheaders) throws Exception{
+//		int seller_id = get_seller_id(httpheaders);
+		return DAO_Item.get_All_Items_Details().toString();
+	} 
+	
 	
 	private void writeToFile(InputStream uploadedInputStream, String uploadedFileLocation)
 	 {

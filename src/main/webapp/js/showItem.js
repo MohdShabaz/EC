@@ -26,6 +26,7 @@ $.ajax({
           document.getElementById("Quantity-left").innerHTML = product.quantity;
           document.getElementById("seller_name").innerHTML = product.seller_name;
           document.getElementById("descriptionItem").innerHTML = product.description;
+          document.getElementById("quan").max = product.quantity;
           
           var y = (product.price).toFixed(2);
           document.getElementById("priceItem").innerHTML = y;

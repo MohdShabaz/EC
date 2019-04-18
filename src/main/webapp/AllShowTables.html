@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- <style type="text/css">
+.bottom-box {
+  background-color: red;
+  position: absolute;
+  left: 0;
+  bottom: 0; // this is the bottom end of the content, not the bottom end of the viewport
+  width: 200px;
+  height: 20px;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+</style> -->
+
+<style>
+.grid-container {
+  display: grid;
+  grid-column-gap: 0px;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+  background-color: #ffffff;
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 20px;
+  text-align: justify;
+}
+
+
+.grid-container2 {
+  display: grid;
+  grid-column-gap: 0px;
+  grid-template-columns: auto auto auto auto auto auto auto;
+  background-color: #ffffff;
+  padding: 10px;
+}
+
+.grid-item2 {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 20px;
+  text-align: justify;
+}
+
+.grid-container3 {
+  display: grid;
+  grid-column-gap: 0px;
+  grid-template-columns: auto auto auto;
+  background-color: #ffffff;
+  padding: 10px;
+}
+
+.grid-item3 {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 20px;
+  text-align: justify;
+}
+
+
+</style>
+
+  <head>
+  
+    <title>eBay.in - Shopping Cart|eBay</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="jquery-3.3.1/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src = "js/show_tables.js"></script>
+    
+    
+   <link rel="icon" href="ebayFav.ico">
+     <script>
+      $(function(){
+        $("#header").load("header.html");
+      });
+    </script>
+  </head>
+  <body>
+    <div id="header"></div>
+    <br>
+    
+     <div>
+     <h2>Buyer Details</h2>
+     
+     <div id="cart"></div> 
+
+     </div>
+     
+     
+     <h2>Seller Details</h2>
+     
+     <div id="cart2"></div> 
+
+     </div>
+     
+     <h2>Seller Account Details</h2>
+     
+     <div id="cart3"></div> 
+
+     </div>
+     
+     <h2>Buyer Account Details</h2>
+     
+     <div id="cart4"></div> 
+
+     </div>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-1"></div>
+          <div class="col-sm-10" style="border-style: solid;border-width: 10px;border-color:#ddd">
+
+
+
+            
+            <div class="row" style="background-color:#eee ;height:70px">
+              <div class="col-sm-offset-8 col-sm-2" style="padding-top:20px">
+                <button type="button" class="btn btn-default btn-md" style="color:blue" id="shop_more"><b></b></button>
+              </div>
+              <div class="col-sm-2" style="padding-top:20px">
+                <button type="button" class="btn btn-primary btn-md" id="place_order"></button>
+              </div>
+            </div>
+            <p style="color:red" id="decision"></p>
+         
+          </div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+    </div>
+    <!--  <script src="js/cart.js"></script>  -->
+    <!-- <script>
+    if(localStorage.message=="already"){
+    	$('#decision').html("Sorry!This product have already in your cart.You can change a quantity");
+    	localStorage.message=null;
+    }
+    </script> -->
+  </body>
+</html>

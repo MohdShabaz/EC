@@ -21,7 +21,7 @@ $('#login')
         'password': sessionStorage.getItem("password")
 		},
        success: function (dataofconfirm) {
-       	/* window.open("http://localhost:8080"+"/EC/404.html", "_blank"); */
+       	/* window.open("http://localhost:9000"+"/EC/404.html", "_blank"); */
        	console.log(dataofconfirm);
        	
        	//sessionStorage.setItem('username', JSON.parse(dataofconfirm).mobile);

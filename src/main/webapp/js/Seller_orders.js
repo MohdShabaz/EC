@@ -111,7 +111,7 @@ $.ajax({
     	   {
     	   
        html+="</td>";
-       html += "<button type='button' onclick='orderUpdate("+OrdersArray[i].id+","+OrdersArray[i].item_id+")'>Ship</button>";
+       html += "<li onclick='orderUpdate("+OrdersArray[i].id+","+OrdersArray[i].item_id+")'>Ship<\li>";
        html+="<td>";
     	   }
        

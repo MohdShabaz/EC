@@ -1,7 +1,12 @@
 package org.iiitb.EC.dao;
 import org.iiitb.EC.model.Buyer;
+import org.iiitb.EC.model.Item;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import org.iiitb.EC.dbcon.DatabaseConnection;
 
@@ -203,6 +208,105 @@ public class DAO_Buyer {
 	 }
 	 return false;
 	 
+	}
+	
+	public static JSONArray get_All_Buyer_Details() throws JSONException {
+		 Connection conn=DatabaseConnection.getConnection();
+		 PreparedStatement preparedStatement = null;  
+		 System.out.println("In get_Seller_Items_Details");
+		 JSONArray item_json_array = null;
+		 try {
+//		  String query = "select item_table.item_id, item_table.name, item_table.discount, "
+//		    + "item_table.price, item_table.barcode, item_table.pic_location, "
+//		    + "item_table.description, category.category_name, "
+//		    + "sub_category.sub_category_name, item_seller.quantity from item_seller "
+//		    + "inner join seller_table on item_seller.seller_id = seller_table.seller_id "
+//		    + "and seller_table.seller_id = ? inner join item_table on"
+//		    + " item_seller.item_id = item_table.item_id inner join category on "
+//		    + "category.id = item_table.category inner join sub_category on "
+//		    + "sub_category.id = item_table.sub_category;";
+			 String query="select * from buyer_table,buyer_account_details where buyer_table.buyer_id=buyer_account_details.buyer_id";
+		  
+		  preparedStatement = conn.prepareStatement(query);
+//		  preparedStatement.setInt(1, seller_id);
+//		  Item item_object = new Item();
+		  ResultSet rs = preparedStatement.executeQuery();
+		  item_json_array = new JSONArray();
+		//   for(int i=0;i<5;i++) {
+		  while(rs.next()) {
+//		    if(rs.next()) {
+		    System.out.println("In get_All_Buyer_Details, in loop");
+		    JSONObject item_json = new JSONObject();
+		    item_json.put("buyer_id", rs.getString("mobile"));
+		    item_json.put("buyer_name", rs.getString("name"));
+		    item_json.put("buyer_balance", rs.getInt("current_balance"));
+		    System.out.println(item_json);
+		    item_json_array.put(item_json);
+		    
+
+//		    }
+		  }
+		  return item_json_array;
+		  
+		 }catch (SQLException e) {
+		  e.printStackTrace();
+		 }
+		 
+		 return item_json_array;
+		}
+
+
+public static JSONArray get_All_Buyer_Order_Details() throws JSONException {
+	 Connection conn=DatabaseConnection.getConnection();
+	 PreparedStatement preparedStatement = null;  
+	 System.out.println("In get_Seller_Items_Details");
+	 JSONArray item_json_array = null;
+	 try {
+//	  String query = "select item_table.item_id, item_table.name, item_table.discount, "
+//	    + "item_table.price, item_table.barcode, item_table.pic_location, "
+//	    + "item_table.description, category.category_name, "
+//	    + "sub_category.sub_category_name, item_seller.quantity from item_seller "
+//	    + "inner join seller_table on item_seller.seller_id = seller_table.seller_id "
+//	    + "and seller_table.seller_id = ? inner join item_table on"
+//	    + " item_seller.item_id = item_table.item_id inner join category on "
+//	    + "category.id = item_table.category inner join sub_category on "
+//	    + "sub_category.id = item_table.sub_category;";
+		 String query="select DISTINCT item_table.item_id as ite_id, item_table.barcode as it_id,item_table.price as it_price,seller_table.mobile as s_id ,buyer_table.mobile as b_id,item_table.pic_location as pic_location from item_table,buyer_table,seller_table,item_seller,order_details where item_table.item_id=order_details.item_id and buyer_table.buyer_id=order_details.buyer_id and item_table.item_id=item_seller.item_id and item_seller.seller_id=seller_table.seller_id";
+		 
+	  preparedStatement = conn.prepareStatement(query);
+//	  preparedStatement .setString(1, buyer_id);
+//	  preparedStatement.setInt(1, seller_id);
+//	  Item item_object = new Item();
+	  ResultSet rs = preparedStatement.executeQuery();
+	  item_json_array = new JSONArray();
+	//   for(int i=0;i<5;i++) {
+	  while(rs.next()) {
+//	    if(rs.next()) {
+	    System.out.println("In get_All_Buyer_Details, in loop");
+	    JSONObject item_json = new JSONObject();
+	    item_json.put("item_id", rs.getString("it_id"));
+	    item_json.put("item_price", rs.getFloat("it_price"));
+	    item_json.put("seller_id", rs.getString("s_id"));
+	    item_json.put("buyer_id", rs.getString("b_id"));
+	    
+	    int ite_id=rs.getInt("ite_id");
+//	    int rating=DAO_Orde
+	    
+	    
+	    item_json.put("pic_location", rs.getString("pic_location"));
+	    System.out.println(item_json);
+	    item_json_array.put(item_json);
+	    
+
+//	    }
+	  }
+	  return item_json_array;
+	  
+	 }catch (SQLException e) {
+	  e.printStackTrace();
+	 }
+	 
+	 return item_json_array;
 	}
 
 }

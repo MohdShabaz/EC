@@ -7,7 +7,7 @@ var jsonObj = { "item_id ":butt.name, "quantity":1};
 console.log(sessionStorage.getItem("username"));
 
 
-$.ajax({url:"http://localhost:8080/EC/webapi/ShoppingCartService/addCart", type:"POST",
+$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/addCart", type:"POST",
  data: butt.name,
  dataType: "text",
  headers: {
@@ -39,7 +39,7 @@ var test="Hi";
 
     
     
-$.ajax({url:"http://localhost:8080/EC/webapi/itemService/itemsTop", type:"GET",
+$.ajax({url:"http://localhost:9000/EC/webapi/itemService/itemsTop", type:"GET",
  async: false,
  headers: {
 		'username':sessionStorage.getItem("username"),
