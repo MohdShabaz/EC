@@ -195,7 +195,29 @@ public class Item_Service {
                 
      }
 	
-	
+	@Path("/getitemnew/{item_id_str}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+	public static String getItemnew(
+			  @PathParam("item_str") String item_str ) throws Exception{
+			        
+			        int barcode = Integer.parseInt(item_str);
+			        System.out.println("Iashdckjsnd "+ item_str);
+			        Item item=DAO_Item.Get_Item(barcode);
+			       
+			        JSONObject obj = new JSONObject();
+			        obj.put("name", item.getName());
+			        obj.put("description", item.getDescription());
+			        obj.put("price", item.getPrice());
+			        obj.put("discount", item.getDiscount());
+			        obj.put("pic_location", item.getPic_location());
+			        obj.put("category", item.getCategory());
+			        obj.put("sub_category", item.getSub_category());
+			        obj.put("barcode", item.getBarcode());
+			        
+			        return obj.toString();
+			                
+			     }
 		
 	
 	/*@Path("addItem")

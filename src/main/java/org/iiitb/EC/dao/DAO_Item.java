@@ -171,6 +171,7 @@ public class DAO_Item {
 	}
 	
 	
+	
 	public static ArrayList<Item> get_Top5_Items() {
 		ArrayList<Item> list = new ArrayList<Item>();
 		Connection conn=DatabaseConnection.getConnection();

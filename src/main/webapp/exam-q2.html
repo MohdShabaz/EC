@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>q2</title>\
+	
+	<meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<link rel="icon" href="ebayFav.ico">
+	<style>
+	.button {
+	  background-color: #000000;
+	  border: none;
+	  color: white;
+	  padding: 15px 32px;
+	  text-align: right;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  margin: 4px 2px;
+	  cursor: pointer;
+	}
+	</style>
+</head>
+
+<body>
+	
+	<div class="container">
+		<div class="row">
+		<span><h4>Student Name: Udit Jindal</h2>
+		<h4>Student Roll Number: IMT2015043</h2></h4></span>
+	    <hr>		
+    		<table style="width:100%" id = "all_sellers">
+			</table>
+		 <button class="btn btn-success" onclick="window.location = 'http://localhost:9000/EC/homepage.html';">Home </button>	
+		</div>
+   </div>
+<script>
+$(document).ready(function() {	
+	console.log("here");
+	var category_all;
+	
+     $.ajax({  
+         url: 'webapi/sellerService/allSellers',  
+         type: 'GET',
+         async: false,
+         headers: {
+        	 "username": "admin",
+        	 "password": "admin"
+         },
+         success: function (hdata) {  
+        	 console.log("Reached here");
+             category_all=JSON.stringify(hdata);
+         },  
+         error: function (xhr, textStatus, errorThrown) {  
+             console.log('Error in Operation');  
+         }    
+     });
+    console.log("Reached here1");
+    
+	var option = JSON.parse(category_all);
+	console.log(option.length);
+	var i=0;
+	var html = "";
+	html += "<tr>";
+	html += "<td>" + "<b>seller_id" + "</td>";
+	html += "<td>" + "<b>seller_name" + "</td>";
+	html += "<td>" + "<b>seller_balance" + "</td>";
+	html += "</tr>";
+	for(i = 0; i < option.length; i++){
+		console.log(option);
+		html += "<tr>";
+		html += "<td>" + option[i].seller_id + "</td>";
+		html += "<td>" + option[i].seller_name + "</td>";
+		html += "<td>" + option[i].seller_balance + "</td>";
+		html += "</tr>";
+	}		
+	document.getElementById("all_sellers").innerHTML = html;
+	});
+	
+</script>
+</body>
+</html>

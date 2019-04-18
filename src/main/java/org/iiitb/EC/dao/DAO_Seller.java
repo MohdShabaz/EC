@@ -1,6 +1,10 @@
 package org.iiitb.EC.dao;
 import org.iiitb.EC.model.Buyer;
 import org.iiitb.EC. model.Seller;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.*;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -74,7 +78,36 @@ public class DAO_Seller {
 		//return item.toString();
 		return sell;
 	}
-	
+	public static String get_all_sellers() throws JSONException, SQLException {
+		ResultSet rs, rs1;
+		Connection conn = DatabaseConnection.getConnection();
+		java.sql.PreparedStatement preparedStatement = null;			
+		String query = "select * from seller_table";
+		preparedStatement = conn.prepareStatement(query);
+		rs = preparedStatement.executeQuery();
+		JSONArray all_sellers = new JSONArray();			
+		try {
+				while(rs.next()) {
+				JSONObject seller = new JSONObject();
+				seller.put("seller_id", rs.getString("seller_id"));
+				seller.put("seller_name", rs.getString("name"));
+				java.sql.PreparedStatement preparedStatement1 = null;
+				System.out.println(rs.getString("seller_id"));
+				String query1 = "select * from seller_account_details where seller_id = " + rs.getString("seller_id");
+				preparedStatement1 = conn.prepareStatement(query1);
+				rs1 = preparedStatement1.executeQuery();
+				rs1.next();
+				seller.put("seller_balance", rs1.getString("current_balance"));
+				all_sellers.put(seller);
+			}
+		JSONObject ans = new JSONObject();
+		ans.put("sellers", all_sellers);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return all_sellers.toString();
+	}
 	//just dummy, replace with login
 
 	
