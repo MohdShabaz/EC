@@ -37,7 +37,7 @@ $.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/AllCartDetails"
 });
 
 
-$.ajax({url:"http://localhost:8080/EC/webapi/ShoppingCartService/getPrice", type:"GET",
+$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
  async: false,
  headers: {
 		'username':sessionStorage.getItem("username"),

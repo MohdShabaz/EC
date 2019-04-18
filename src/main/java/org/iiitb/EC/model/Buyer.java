@@ -8,7 +8,14 @@ public class Buyer {
 	private String address_1;
 	private String address_2;
 	private String email;
+	private String password;
 	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public int getBuyer_id() {
 		return buyer_id;
 	}

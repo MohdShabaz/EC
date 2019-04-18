@@ -49,6 +49,8 @@
 <script>
 var price = 0;
 var accountNumber;
+var buyer_balance;
+var total_amount;
 
 function AddOrder() {
 	console.log("in ADD ORDER");
@@ -79,11 +81,99 @@ function AddOrder() {
 	//window.location.href = "items.html";
 		 //window.location.href = "items.html";
 		 }
+		 
+$.ajax({
+    type: "get",
+    url:  "http://localhost:9000/EC/webapi/bankService/getBuyerBalance/",
+    dataType: "text",
+    headers: {
+  'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+  'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+},
+    success: function(data){
+     
+      buyer_balance = data;
+      
+      ///document.getElementById("categories").style.cursor = pointer;
+      //console.log("here12")
+    },
+error: function(data){
+    
+	console.log("IN ERROR BUYER BALANCE");
+ //   buyer_balance = data;/
+    
+    ///document.getElementById("categories").style.cursor = pointer;
+    //console.log("here12")
+  }
+  });
+  
+$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
+	 async: false,
+	 headers: {
+	     'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	     'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+	},
+	 success: function(data){
+		 console.log("price :");
+		 console.log(data);
+	 	 total =data;
+	 },
+	 error: function(data)
+	 {
+		 console.log("IN ERROR BUYER BALANCE");
+	 }
+	});
+
 function ConfirmOrder()
 {
 	accountNumber = document.getElementById("cardno").value;
-	
 	console.log("Account: " + accountNumber);
+	console.log("IN CONFORM ORDER");
+	console.log(Number(total));
+	console.log(Number(buyer_balance)-Number(total));
+	console.log(Number(buyer_balance));
+	if(parseInt(buyer_balance,10)>parseInt(total,10))
+		{
+		console.log("IF TOTAL<BALANCE")
+		//alert("Sufficient balance");
+		 AddOrder();
+			
+			$.ajax({url:"http://localhost:9000/EC/webapi/bankService/transaction", type:"POST",
+				 
+				 headers: {
+						'username':sessionStorage.getItem("username"),
+						'password': sessionStorage.getItem("password")
+					},
+				dataType : "text",	
+				data : accountNumber,	
+				 async: false,
+				 success: function(data){
+					/*  AddOrder(); */
+				 	console.log(data);
+				 	
+				},
+				 error: function(data)
+				 {
+					 alert("Failed");
+				  
+				 }
+				 });
+			window.location.href = "Buyer_orders.html";
+
+		}
+	else
+		{
+		console.log("IF TOTAL>BALANCE")
+		alert("Sorry order cannot be placed due to inSufficient balance.Redirecting to homepage ");
+		window.location.href = "homepage.html";
+
+		}
+	
+/* 	accountNumber = document.getElementById("cardno").value; */
+	
+	/* console.log("Account: " + accountNumber); */
+/* 	 AddOrder();
 	
 	$.ajax({url:"http://localhost:9000/EC/webapi/bankService/transaction", type:"POST",
 		 
@@ -95,7 +185,7 @@ function ConfirmOrder()
 		data : accountNumber,	
 		 async: false,
 		 success: function(data){
-			 AddOrder();
+			  AddOrder(); 
 		 	console.log(data);
 		 	
 		},
@@ -105,7 +195,7 @@ function ConfirmOrder()
 		  
 		 }
 		 });
-	window.location.href = "Buyer_orders.html";
+	window.location.href = "Buyer_orders.html"; */
 }
 $.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
 	 async: false,

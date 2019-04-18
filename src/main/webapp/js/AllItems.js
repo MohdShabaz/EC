@@ -16,7 +16,7 @@ console.log(document.getElementById('place_order').innerHTML);
  total=0;
  price=[];
   $.ajax({
-       type :"GET",
+        type :"GET",
        url: "http://localhost:9000/EC/webapi/itemService/itemsTop",
        async: false,
        headers: {
@@ -26,48 +26,90 @@ console.log(document.getElementById('place_order').innerHTML);
        },
        
        
-            dataType:'JSON',
+      dataType:'JSON',
        success: function(response){
-    	   	 console.log(response);
+        console.log("response");
+        console.log(response);
         
              result=response;
-             load_cart();
-//             cart_product_list+='<ul class="list-group">';
-//              for(i in result)
-//              {
-//                cart_list(i);/*function call*/
-//              }
-//              cart_product_list+='</ul>';
-//           //console.log(cart_product_list);
-//
-//              document.getElementById('cart').innerHTML=cart_product_list;
+             
+             var sortDropDown="";
+             
+             var keyValues=result[0];
+             
+             console.log(typeof(keyValues));
+             
+             var keys = [];
+             for(var k in keyValues) keys.push(k);
+             
+             console.log(keys);
+             
+             for(i in keys)
+             {
+            	 sortDropDown+="<button value="+keys[i]+",1 onclick='sortFunction(this)'>"+keys[i]+" Low To High</button>";
+            	 sortDropDown+="<button value="+keys[i]+",2 onclick='sortFunction(this)'>"+keys[i]+" High To Low</button>";
+             }
+             document.getElementById('button_dropdown').innerHTML=sortDropDown;
+             cart_product_list='<ul class="list-group">';
+              for(i in result)
+              {
+                cart_list(i);/*function call*/
+              }
+              cart_product_list+='</ul>';
+           //console.log(cart_product_list);
+
+              document.getElementById('cart').innerHTML=cart_product_list;
  
             }
           });
 };
 
-
-
-function sort(type){
-	if(document.getElementById("sort_type").selectedIndex == 0) result.sort(function(a,b){return a.price-b.price});
-	if(document.getElementById("sort_type").selectedIndex == 1) result.sort(function(a,b){return a.discount-b.discount});
-	load_cart();
+function GetSortOrder(prop) {
+    return function(a, b) {  
+        if (a[prop] > b[prop]) {  
+            return 1;  
+        } else if (a[prop] < b[prop]) {  
+            return -1;  
+        }  
+        return 0;  
+    }
 }
 
-function reverse(type){
-	result.reverse();
-	load_cart();
-}
-
-
-function load_cart(){
-	//console.log("11")
+function sortFunction(button){
+	console.log(button);
+//	console.log(result);
+//	result.sort();
+//	console.log("dfvfdsbv");
+//	console.log(key);
+	
+	
+	var res = button.value.split(",");
+	key=res[0];
+	//array.sort(GetSortOrder("EmployeeName"));
+	
+	//console.log("lrjfbegfbet trtgb");
+	//console.log(res);
+	
+	
+	
+	result.sort(GetSortOrder(key));
+	
+	if(res[1]=='2')
+	{
+		//console.log("lrjfvnfrj");
+		result.reverse();
+	}
+	
+	var type=
+	
 	cart_product_list='<ul class="list-group">';
     for(i in result)
     {
       cart_list(i);/*function call*/
     }
     cart_product_list+='</ul>';
+// //console.log(cart_product_list);
+//
     document.getElementById('cart').innerHTML=cart_product_list;
 }
 
@@ -75,11 +117,7 @@ function load_cart(){
 
 
 
-
-
-
 function cart_list(x){
-	//console.log("xx ")
 	 cart_product_list+='<li class="list-group-item">';
      cart_product_list+=
     	 '<div class="row">'+

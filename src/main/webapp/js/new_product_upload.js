@@ -67,7 +67,7 @@ else{
 $('#Product_detail_form').submit(function(){
 //	  alert("seller id: "+localStorage.user_Id);
 	localStorage.barcode=jQuery("#Barcode").val();
-	
+//	alert(localStorage.barcode);
 		var jsondata={
 	             Product_Name: jQuery("#Product_Name").val(),
 	             Category: jQuery("#Category_product").val(),

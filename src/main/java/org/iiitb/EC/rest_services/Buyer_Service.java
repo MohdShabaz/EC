@@ -1,9 +1,11 @@
 package org.iiitb.EC.rest_services;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Seller;
 
 import javax.ws.rs.GET;
@@ -33,6 +35,8 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dbcon.DatabaseConnection;
 import org.iiitb.EC.model.Buyer;
+import org.iiitb.EC.model.Item;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -168,5 +172,22 @@ public class Buyer_Service {
         return result ? "{ \"Response\" : \"" + SUCCESS_RESULT + "\" }" : "{ \"Res;ponse\" : \"" + FAILURE_RESULT + "\" }";
         
      }
+	
+	@Path("allBuyers")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+	public String showAllItemsOfSeller(@Context HttpHeaders httpheaders) throws Exception{
+//		int seller_id = get_seller_id(httpheaders);
+	//	return DAO_Item.get_Seller_All_Items_Details(seller_id).toString(); 
+		return  DAO_Buyer.get_All_Buyer_Details().toString();
+	}
+	@Path("allBuyerOrders")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+	public String showAllOrdersOfBuyer(@Context HttpHeaders httpheaders) throws Exception{
+//		int seller_id = get_seller_id(httpheaders);
+	//	return DAO_Item.get_Seller_All_Items_Details(seller_id).toString(); 
+		return  DAO_Buyer.get_All_Buyer_Order_Details() .toString();
+	}
 	
 }

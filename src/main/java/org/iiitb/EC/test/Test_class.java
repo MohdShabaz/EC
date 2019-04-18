@@ -64,8 +64,10 @@ public static void main(String args[]) throws Exception {
 //	json.put("quantity", "4");
 //	String s = json.toString();
 	System.out.println(DAO_Buyer.add_Buyer("John", "1997-08-05", "9876543210", "abc@hmail.com", "Somajiguda Hyd.", "Post Box : 1562", "1234"));
- boolean bou = DAO_BankAccount.add_Buyer_Account(2, 123131317, 98765);
-System.out.println(bou);
+// boolean bou = DAO_BankAccount.add_Buyer_Account(2, 123131317, 98765);
+//System.out.println(bou);
+	 JSONArray j= DAO_Buyer.get_All_Buyer_Order_Details();
+	 System.out.println(j);
 // testUpdateUser();
 }
 public String get_user() throws JSONException {
@@ -124,7 +126,7 @@ private static void testUpdateUser(){
 //      String dummy="hgh";
 //      Response dump=    
 //      client
-//           .target("http://localhost:8080/EC/webapi/buyerService/buyerInfo2")
+//           .target("http://localhost:9000/EC/webapi/buyerService/buyerInfo2")
 //           .request(MediaType.TEXT_PLAIN)
 //           .get();      
 //      System.out.println("response "+dump);

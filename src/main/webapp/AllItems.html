@@ -19,7 +19,42 @@ body {
 }
 
 </style> -->
+<style>
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+}
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
   <head>
   
     <title>eBay.in - Shopping Cart|eBay</title>
@@ -65,27 +100,20 @@ body {
 
             
             <div class="row" style="background-color:#eee ;height:70px">
-            
-            	<div class="col-sm-offset-6 col-sm-2" style="padding-top:24px;  padding-left:45px">
-            		<select id="sort_type">
-              			<option>Price</option>
-              			<option>Discount</option>
-              		</select>
-            	</div>
-            	
-              <div class="col-sm-1" style="padding-top:20px">
-                <button type="button" class="btn btn-default btn-md" id="sort" onclick="sort(1)"><b>Sort</b></button>
+              <div class="col-sm-offset-8 col-sm-2" style="padding-top:20px">
+                <div class="dropdown">
+  					<button class="dropbtn">Sort</button>
+  						<div class="dropdown-content" id="button_dropdown">
+    						
+  						</div>
+				</div>
               </div>
-              
-              <div class="col-sm-1" style="padding-top:20px">
-                <button type="button" class="btn btn-primary btn-md" id="place_order" onclick="reverse()">Reverse</button>
+              <div class="col-sm-2" style="padding-top:20px">
+                <button type="button" class="btn btn-primary btn-md" id="place_order" onclick="PlaceOrder()">Filter</button>
               </div>
-              
             </div>
-            
             <p style="color:red" id="decision"></p>
           <div>
-          
           <ul class="list-group"><li class="list-group-item"><div class="row"><div><span class="col-sm-11"><div class=row><span class="col-sm-1" style="margin-left:20px"><table style=" border-collapse: separate; border-spacing: 4px;" ><tr ><td colspan="2" style="border: 3px solid #CCC" ><a href="homepage.html"><img id="image1" src="images/logo.png" style="height:30px;width:30px"><a></td></tr></table></span><span class="col-sm-2" style="margin-left:50px"><p><b>Name</b></b></p></span><span class="col-sm-2" style="margin-left:50px"><p><b>Barcode</b></p></span><span class="col-sm-2" style="margin-left:50px"><p><b>Discount</b></p></span></span><span class="col-sm-2"><p><b>Price</b></p></span></div></span></div></div></li>
           <div>
             <div id="cart"></div> 

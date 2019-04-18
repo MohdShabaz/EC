@@ -159,6 +159,32 @@ public class DAO_Seller {
 	}
 	
 	
+	public static boolean set_item_quantity(int seller_id,int item_id,int quantity) {
+		Connection conn = DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		try {
+				String query = "update item_seller set quantity=? where seller_id=? and item_id=?;";
+				preparedStatement = conn.prepareStatement(query);
+				preparedStatement.setInt(1, quantity);
+				preparedStatement.setInt(2, seller_id);
+				preparedStatement.setInt(3, item_id);
+				
+				
+				int rs = preparedStatement.executeUpdate();
+				if(rs==0) {
+					return false;
+				}
+				else {
+					return true;
+				}				
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
 	public static boolean add_quantity_to_existing_item(int seller_id,String barcode,int quantity) {
 		Connection conn = DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;

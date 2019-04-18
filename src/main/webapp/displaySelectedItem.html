@@ -8,11 +8,11 @@
   <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
   <!-- external script file -->
   <link rel="icon" href="ebayFav.ico">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <!-- <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"> -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+  <script src="jquery-3.3.1/jquery.min.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script> 
   <script src="js/myjquery.js"></script>
   <script src = "js/displaySubCatItems.js"></script>
     <script src = "js/homepage.js"></script>
@@ -504,38 +504,52 @@ li a:hover .category{
 
 </div>
 </body>
- <script type="text/javascript">
+<script type="text/javascript">
+
 function addToCart(butto){
-	console.log("yes added to cart");
-	console.log(butto.baseURI);
-	var x = butto.baseURI;
-	var itemId = x.split("itemId=")[1];
-	console.log("hello" + itemId);
 
-	var jsonObj = { item_id: itemId, quantity:document.getElementById("quan").value};
+	console.log(document.getElementById("quan").value+" x,x "+document.getElementById("quan").max);
+	//alert(document.getElementById("quan").value+" x,x "+document.getElementById("quan").max);
+console.log("yes added to cart");
+	
+	if(parseInt(document.getElementById("quan").value) <= parseInt(document.getElementById("quan").max) && parseInt(document.getElementById("quan").value)>0){
 
-	console.log(jsonObj);
-	$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/addCart", type:"POST",
-	 data: JSON.stringify(jsonObj),
-	 dataType: "json",
-	 headers: {
-		 'username':sessionStorage.username?sessionStorage.getItem('username'):'',
-			       'password':sessionStorage.username?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+console.log(butto.baseURI);
+var x = butto.baseURI;
+var itemId = x.split("itemId=")[1];
+console.log("hello" + itemId);
 
-	 },
-	  async: true,
-	 
-	 success: function(data){
-	  window.location = "http://localhost:9000/EC/Cart_ebay.html"
-	  console.log(23);
-	 },
-	 error: function(data){
-	  console.log("Cart Ebay Failed!!")
-	 }
-	}); 
+var jsonObj = { item_id: itemId, quantity:document.getElementById("quan").value};
+
+console.log(jsonObj);
+$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/addCart", type:"POST",
+ data: JSON.stringify(jsonObj),
+ dataType: "json",
+ headers: {
+  'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+         'password':sessionStorage.username?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+ },
+  async: true,
+ 
+ success: function(data){
+  
+  window.location = "http://localhost:9000/EC/Cart_ebay.html"
+  console.log(23);
+ },
+ error: function(data){
+  console.log("Cart Ebay Failed!!")
+ }
+}); 
 
 
 
-
-	}
+}
+else{
+	console.log("IN ERROR");
+	console.log(document.getElementById("quan").value);
+	console.log(document.getElementById("quan").max);
+ alert("Max Quantity Exceeded!!")
+}
+}
 </script> 

@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 import org.iiitb.EC.dbcon.DatabaseConnection;
 import org.iiitb.EC.model.Item;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DAO_Item {
 	//String query = null;
@@ -93,6 +96,107 @@ public class DAO_Item {
 		}
 		return -1;
 	}
+	public static JSONArray get_Seller_All_Items_Details(int seller_id) throws JSONException {
+		 Connection conn=DatabaseConnection.getConnection();
+		 PreparedStatement preparedStatement = null;  
+		 System.out.println("In get_Seller_Items_Details");
+		 JSONArray item_json_array = null;
+		 try {
+		  String query = "select item_table.item_id, item_table.name, item_table.discount, "
+		    + "item_table.price, item_table.barcode, item_table.pic_location, "
+		    + "item_table.description, category.category_name, "
+		    + "sub_category.sub_category_name, item_seller.quantity from item_seller "
+		    + "inner join seller_table on item_seller.seller_id = seller_table.seller_id "
+		    + "and seller_table.seller_id = ? inner join item_table on"
+		    + " item_seller.item_id = item_table.item_id inner join category on "
+		    + "category.id = item_table.category inner join sub_category on "
+		    + "sub_category.id = item_table.sub_category;";
+		  
+		  preparedStatement = conn.prepareStatement(query);
+		  preparedStatement.setInt(1, seller_id);
+		  Item item_object = new Item();
+		  ResultSet rs = preparedStatement.executeQuery();
+		  item_json_array = new JSONArray();
+		//   for(int i=0;i<5;i++) {
+		  while(rs.next()) {
+//		    if(rs.next()) {
+		    System.out.println("In get_Seller_Items_Details, in loop");
+		    JSONObject item_json = new JSONObject();
+		    item_json.put("item_id", rs.getInt("item_id"));
+		    item_json.put("description", rs.getString("description"));
+		    item_json.put("name", rs.getString("name"));
+		    item_json.put("pic_location", rs.getString("pic_location"));
+		    item_json.put("category", rs.getString("category_name"));
+		    item_json.put("sub_category", rs.getString("sub_category_name"));
+		    item_json.put("barcode", rs.getString("barcode"));
+		    item_json.put("price", rs.getFloat("price"));
+		    item_json.put("discount", rs.getFloat("discount"));
+		    item_json.put("quantity", rs.getInt("quantity"));
+		    System.out.println(item_json);
+		    item_json_array.put(item_json);
+		    
+
+//		    }
+		  }
+		  return item_json_array;
+		  
+		 }catch (SQLException e) {
+		  e.printStackTrace();
+		 }
+		 
+		 return item_json_array;
+		}
+	
+	public static JSONArray get_All_Items_Details() throws JSONException {
+		 Connection conn=DatabaseConnection.getConnection();
+		 PreparedStatement preparedStatement = null;  
+		 System.out.println("In get_Seller_Items_Details");
+		 JSONArray item_json_array = null;
+		 try {
+		  String query = "select  seller_table.name as seller_name, item_table.item_id, item_table.name, item_table.discount, "
+		    + "item_table.price, item_table.barcode, item_table.pic_location, "
+		    + "item_table.description, category.category_name, "
+		    + "sub_category.sub_category_name, item_seller.quantity from item_seller "
+		    + "inner join seller_table on item_seller.seller_id = seller_table.seller_id "
+		    + " inner join item_table on"
+		    + " item_seller.item_id = item_table.item_id inner join category on "
+		    + "category.id = item_table.category inner join sub_category on "
+		    + "sub_category.id = item_table.sub_category;";
+		  
+		  preparedStatement = conn.prepareStatement(query);
+		  Item item_object = new Item();
+		  ResultSet rs = preparedStatement.executeQuery();
+		  item_json_array = new JSONArray();
+		//   for(int i=0;i<5;i++) {
+		  while(rs.next()) {
+//		    if(rs.next()) {
+		    System.out.println("In get_Seller_Items_Details, in loop");
+		    JSONObject item_json = new JSONObject();
+		    item_json.put("item_id", rs.getInt("item_id"));
+		    item_json.put("seller_name", rs.getString("seller_name"));
+		    item_json.put("description", rs.getString("description"));
+		    item_json.put("name", rs.getString("name"));
+		    item_json.put("pic_location", rs.getString("pic_location"));
+		    item_json.put("category", rs.getString("category_name"));
+		    item_json.put("sub_category", rs.getString("sub_category_name"));
+		    item_json.put("barcode", rs.getString("barcode"));
+		    item_json.put("price", rs.getFloat("price"));
+		    item_json.put("discount", rs.getFloat("discount"));
+		    item_json.put("quantity", rs.getInt("quantity"));
+		    System.out.println(item_json);
+		    item_json_array.put(item_json);
+		    
+
+//		    }
+		  }
+		  return item_json_array;
+		  
+		 }catch (SQLException e) {
+		  e.printStackTrace();
+		 }
+		 
+		 return item_json_array;
+		}
 	
 	public static int get_quantity(int item_id,int seller_id) {
 		Connection conn = DatabaseConnection.getConnection();
