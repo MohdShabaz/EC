@@ -250,4 +250,25 @@ public class DAO_Item_Seller {
 		//return item.toString();
 		return sell;
 	}
+	
+	public static int GetItemSellerId(int seller_id, int item_id) {
+		ResultSet rs;
+		try {
+			Connection conn = DatabaseConnection.getConnection();
+			java.sql.PreparedStatement preparedStatement = null;			
+			String query = "select * from item_seller where seller_id=? and item_id=?";
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, seller_id);
+			preparedStatement.setInt(2, item_id);
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				//added seller id
+				return rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Deals;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Label_Table;
@@ -385,5 +386,47 @@ public class Item_Service {
 	      */
 	     //return null;
 	    }
-	
+
+	@Path("setItemDeal")
+    @POST
+	@Produces(MediaType.APPLICATION_JSON)  
+	public String SetItemsDeal(@Context HttpHeaders httpheaders, String data) throws Exception{
+		JSONObject json = new JSONObject(data);
+		int seller_id = json.getInt("sellerId");
+		JSONArray items = json.getJSONArray("items");
+		JSONArray dealsSelected = json.getJSONArray("deals");
+		
+		System.out.println(data);
+		
+		boolean result = true;
+		
+		System.out.print(items.length());
+		for (int i = 0; i < items.length(); i++) {
+			JSONObject item = items.getJSONObject(i);
+			String deal = dealsSelected.getString(i);
+			
+			System.out.println(deal);
+//			JSONObject deal = dealsSelected.getJSONObject(i);
+			int item_seller_id = DAO_Item_Seller.GetItemSellerId(seller_id, item.getInt("item_id"));
+			
+			int deal_id = 0;
+			if (deal.equals("Buy 1 Get 1 Free")) {
+				deal_id = 1;
+			} else if (deal.equals("Birthday Offer")) {
+				deal_id = 2;
+			} else if (deal.equals("Clearance Sale")){
+				deal_id = 3;
+			}
+			
+			System.out.println(item_seller_id);
+			System.out.println(deal_id);
+
+			if (deal_id != 0)
+				result = result && DAO_Deals.SetItemDeals(item_seller_id, deal_id);
+
+			
+		}
+		return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	}
+		
 }

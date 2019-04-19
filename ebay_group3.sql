@@ -370,42 +370,45 @@ CREATE TABLE `shopping_cart` (
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `deals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `deals` (
+  `deal_id` int(11) NOT NULL,
+  `deal_name` varchar(40) NOT NULL,
+  `discount` float(3,2),
+  `start_date` date,
+  `end_date` date,
+  PRIMARY KEY (`deal_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `shopping_cart`
 --
+DROP TABLE IF EXISTS `deals_item_seller`;
+CREATE TABLE `deals_item_seller`(
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`item_seller_id` int(11) NOT NULL,
+	`deal_id` int(11) NOT NULL,
+	PRIMARY KEY (`id`),
+	 CONSTRAINT `deals_item_seller_fk_1` FOREIGN KEY (`item_seller_id`) REFERENCES `item_seller` (`id`) ON DELETE CASCADE,
+	 CONSTRAINT `deals_item_seller_fk_2` FOREIGN KEY (`deal_id`) REFERENCES `deals` (`deal_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+
 
 LOCK TABLES `shopping_cart` WRITE;
 /*!40000 ALTER TABLE `shopping_cart` DISABLE KEYS */;
 INSERT INTO `shopping_cart` VALUES (1,1,2,2),(2,2,3,1),(3,3,4,4),(4,4,5,1),(5,5,7,1),(6,6,6,1),(7,7,8,1),(8,8,10,12),(9,9,1,1),(10,10,9,1);
 /*!40000 ALTER TABLE `shopping_cart` ENABLE KEYS */;
 UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `wishlist`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wishlist` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `buyer_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `shopping_cart`
---
-
-LOCK TABLES `wishlist` WRITE;
-/*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
-INSERT INTO `wishlist` VALUES (1,1,2),(2,2,3),(3,3,4),(4,4,5),(5,5,7),(6,6,6),(7,7,8),(8,8,10),(9,9,1),(10,10,9);
-/*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-
-
 
 --
 -- Table structure for table `sub_category`
@@ -443,3 +446,11 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-04-12 16:18:33
+LOCK TABLES `deals` WRITE;
+/*!40000 ALTER TABLE `shopping_cart` DISABLE KEYS */;
+INSERT INTO `deals` VALUES (1,'Buy 1 Get 1 Free',NULL,NULL,NULL),(2,'Birthday Offer',NULL,NULL,NULL),(3,'Clearance Sale',NULL,NULL,NULL);
+/*!40000 ALTER TABLE `shopping_cart` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+

@@ -132,6 +132,7 @@ public class DAO_Item {
 		    item_json.put("price", rs.getFloat("price"));
 		    item_json.put("discount", rs.getFloat("discount"));
 		    item_json.put("quantity", rs.getInt("quantity"));
+		    item_json.put("seller_id", seller_id);
 		    System.out.println(item_json);
 		    item_json_array.put(item_json);
 		    
