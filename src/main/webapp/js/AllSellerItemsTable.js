@@ -6,6 +6,13 @@ var pid;
 var total=0;
 var price=[];
 var count=0;
+var counter = 1;
+var maxCounter = 1;
+var selectedDeals = [];
+var seller_id;
+
+
+var dealTypes;
 
 
 //cart_list_ajax();
@@ -15,6 +22,27 @@ console.log(document.getElementById('place_order').innerHTML);
  cart_product_list="";
  total=0;
  price=[];
+ 
+ $.ajax({
+     type :"GET",
+    url: "http://localhost:9000/EC/webapi/dealsService/getAllDealTypes",
+    async: false,
+    headers: {
+         'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+         'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+    },
+    
+    
+         dataType:'JSON',
+    success: function(response){
+     console.log(response);
+     
+          dealTypes = response;
+          
+         }
+       });
+ 
   $.ajax({
         type :"GET",
        url: "http://localhost:9000/EC/webapi/itemService/showAllItemsOfSeller",
@@ -32,11 +60,12 @@ console.log(document.getElementById('place_order').innerHTML);
         
              result=response;
              //cart_product_list+='<ul class="list-group">';
-             
              cart_product_list += '<div class="grid-container">';
               for(i in result)
               {
                 cart_list(i);/*function call*/
+                counter += 1;
+                maxCounter = counter;
               }
               cart_product_list+='</ul>';
            //console.log(cart_product_list);
@@ -45,6 +74,8 @@ console.log(document.getElementById('place_order').innerHTML);
  
             }
           });
+  
+
 };
 
 
@@ -52,7 +83,14 @@ console.log(document.getElementById('place_order').innerHTML);
 
 
 
-
+function populateDeals() {
+	var returnString = '<option value=' + '"No Deal"' + '> No Deal </option>';
+	for (deal in dealTypes) {
+		returnString += '<option value=' + '"' + dealTypes[deal].deal_name + '"' + '>' + dealTypes[deal].deal_name + '</option>'
+	}
+	
+	return returnString;
+}
 
 
 function cart_list(x){
@@ -69,11 +107,12 @@ function cart_list(x){
 	
 	console.log(result);
 	cart_product_list+='<div class="grid-item">'+result[x].name+'</div>';	
-	cart_product_list+='<div class="grid-item">'+result[x].barcode+'</div>';
+//	cart_product_list+='<div class="grid-item">'+result[x].barcode+'</div>';
 	cart_product_list+='<div class="grid-item">'+Math.floor((result[x].discount)*100 )+'</div>';
 	cart_product_list+='<div class="grid-item">'+result[x].price.toFixed(2)+'</div>';
 	cart_product_list+='<div class="grid-item"> <input type="text" id="'+x+'"class="form-control" value="' +result[x].quantity + '">'+'</div>';
 	cart_product_list+='<div class="grid-item"> <button type="button" class="btn btn-primary btn-md" onclick="updateQuantity('+x+')"> Update Quantity'+'</button> </div>';
+	cart_product_list+='<div class="grid-item"> <select id="dealTypesSelect' + counter + '" class="form-control">' + populateDeals() + '</select> </div>';
 	
 	
 	/*
@@ -145,6 +184,7 @@ function Remove(x){
 	          });
 };
 
+
 function update(x){
 	 $('#update'+result[x].id).hide();
 	  if($('#Quantity'+result[x].id).val()>result[x].available_quantity)
@@ -210,6 +250,47 @@ function updateQuantity(x){
 	  
 	  
 };
+
+function UpdateItems() {
+	for (var i = 1; i < maxCounter; i++) {
+		var str = "dealTypesSelect" + i;
+		var elem = document.getElementById(str);
+		selectedDeals.push(elem.options[elem.selectedIndex].value);
+	}
+	for (i in result) {
+		seller_id = result[i].seller_id;
+	}
+	modifyItemDeal();
+}
+
+function modifyItemDeal() {
+	var tdata = {sellerId : seller_id, items : result, deals : selectedDeals};
+    var data = JSON.stringify(tdata);
+    console.log(data);
+    $.ajax({
+		type :"POST",
+		contentType:'application/json',
+       url: "http://localhost:9000/EC/webapi/itemService/setItemDeal",
+       async: false,
+       headers: {
+            'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+            'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+       },
+       
+       data : data,
+       dataType:'JSON',
+       success: function(response){
+    	   
+    	   console.log(response);
+        
+        
+           //console.log(cart_product_list);
+
+ 
+            }
+          });
+}
 
 function ShopMore(){
 	window.location = "http://localhost:9000/EC/homepage.html";
