@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Exam Q3</title>
+	<meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="jquery-3.3.1/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="js/Exam-Q3.js"></script>
+	<link rel="icon" href="ebayFav.ico">
+	<style>
+		#customDiv {
+			width: 369px;
+			height: 500px;
+		}
+	</style>
+</head>
+
+<body>
+	<br>
+	<div class="container">
+		<div class="row">
+		<h3>Student Name: Shreyas Iyer</h2>
+		<h3>Student Roll Number: IMT2015018</h2>
+	    <hr>
+	    <div class="panel panel-default">
+        	<div class="panel-body">		
+    			<div class="form-group">
+		          <label class="control-label col-sm-2" for="sellerId">Enter Seller ID: </label>
+		          <div class="col-sm-10">
+		            <input type="text" id="sellerId" placeholder="" name="sellerId" value="">
+		            <button class="btn btn-default" onclick="SearchSeller()"> Submit </button>
+		          </div>
+		          <br><br><br>
+		          <div class="container">
+					  		<table id = "ItemInfo">
+							</table>
+			      </div>
+		    <button class="btn btn-success" onclick="window.location = 'http://localhost:9000/EC/homepage.html';">Return To Homepage </button>
+		</div>
+   </div>
+</body>
+</html>
