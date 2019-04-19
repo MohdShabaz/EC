@@ -468,6 +468,7 @@ li a:hover .category{
                     </div>
     <button type="button" onclick="shopNow()">SHOP NOW</button> 
      <button type="button" onclick="addToCart(this)">ADD TO CART</button> 
+        <button type="button" onclick="addToWishlist(this)">ADD TO Wishlist</button> 
      
     
     <div id="accordion" class="accordion-area">
@@ -552,4 +553,53 @@ else{
  alert("Max Quantity Exceeded!!")
 }
 }
+
+
+function addToWishlist(butto){
+
+//	console.log(document.getElementById("quan").value+" x,x "+document.getElementById("quan").max);
+	//alert(document.getElementById("quan").value+" x,x "+document.getElementById("quan").max);
+console.log("yes added to cart");
+	
+//	if(parseInt(document.getElementById("quan").value) <= parseInt(document.getElementById("quan").max) && parseInt(document.getElementById("quan").value)>0){
+
+console.log(butto.baseURI);
+var x = butto.baseURI;
+var itemId = x.split("itemId=")[1];
+console.log("hello" + itemId);
+
+var jsonObj = { item_id: itemId, quantity:"1"};
+
+console.log(jsonObj);
+$.ajax({url:"http://localhost:9000/EC/webapi/wishlistService/addToWishlist", type:"POST",
+ data: JSON.stringify(jsonObj),
+ dataType: "json",
+ headers: {
+  'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+         'password':sessionStorage.username?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+ },
+  async: true,
+ 
+ success: function(data){
+  
+  window.location = "http://localhost:9000/EC/wishlist.html"
+  console.log(23);
+ },
+ error: function(data){
+  console.log("Wishlist Ebay Failed!!")
+ }
+}); 
+
+
+
+//}
+//else{
+/* 	console.log("IN ERROR");
+	console.log(document.getElementById("quan").value);
+	console.log(document.getElementById("quan").max);
+ alert("Max Quantity Exceeded!!")
+} */
+}
+
 </script> 
