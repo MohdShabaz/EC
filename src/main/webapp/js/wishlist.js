@@ -67,7 +67,7 @@ function cart_list(x){
                           '</div>'+
                           '<div class=row>'+
                           '<a href="#" id = "' + x +'" onclick="MoveToCart('+x+')">'+
-                          '<p style="Color:grey;text-align:right;margin-right:50px"><span class="glyphicon glyphicon-remove"></span>Move To Cart</p>'+
+                          '<p style="Color:grey;text-align:right;margin-right:50px"><span class="glyphicon glyphicon-chevron-right"></span>Move To Cart</p>'+
                           '</a>'+
                         '</div>'+
                           '<div>'+
