@@ -159,7 +159,7 @@ public class Seller_Service {
 	
 	@Path("allSellers")
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String AllSellers() throws Exception {
 		JSONArray all_sellers = new JSONArray(DAO_Seller.get_all_sellers());			
         return  all_sellers.toString();
