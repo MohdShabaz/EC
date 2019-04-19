@@ -55,6 +55,9 @@ public class DAO_Order_Details {
 						preparedStatement.setString(6, order_date);
 						preparedStatement.setInt(7, total_amount);
 						preparedStatement.setInt(8, payment_type);
+						if(get_deal(item_id, seller_id) == 1) {
+							quantity *= 2;
+						}
 						preparedStatement.setInt(9, quantity);
 						preparedStatement.setInt(10, seller_id);
 						
@@ -74,6 +77,23 @@ public class DAO_Order_Details {
 		}
 		return false;
 	}
+	public static int get_deal(int item_id, int seller_id) {
+		Connection conn = DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		try {
+			int item_seller_id = DAO_Item_Seller.GetItemSellerId(seller_id, item_id);
+			String query = "select deal_id from deals_item_seller where item_seller_id = " + "'" + item_seller_id + "'";
+			preparedStatement = conn.prepareStatement(query);
+			ResultSet rs = preparedStatement.executeQuery();
+			rs.next();
+			return rs.getInt("deal_id");
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 	
 	public static long get_last_order_id() {
 		Connection conn = DatabaseConnection.getConnection();
