@@ -1,6 +1,6 @@
 $.ajax({
       type: "get",
-      url:  "http://localhost:9000/EC/webapi/category/getAllCategory",
+      url:  "http://localhost:8080/EC/webapi/category/getAllCategory",
       dataType: "JSON",
       headers: {
     	  'username':sessionStorage.getItem('username'),
@@ -17,6 +17,26 @@ $.ajax({
     });
 
 
+$.ajax({
+    type: "get",
+    url:  "http://localhost:8080/EC/webapi/itemService/getAllBrands/",
+    dataType: "JSON",
+    headers: {
+  	  'username':sessionStorage.getItem('username'),
+	      'password':sessionStorage.getItem('password')
+},
+    success: function(brandArray){
+    	var br = "";
+    	for(var i = 0; i < brandArray.length; i++) {
+    		br += "<option>"+brandArray[i].brand+"</option>";
+    		//console.log($('#brands').innerHTML);
+    	}
+    	console.log(br);
+    	document.getElementById('brands').innerHTML += br;
+    	//jQuery("#brands").innerHTML += "<option>"+""+"</option>";
+    }
+  });
+
 var json_array={
         key_values: []
         
@@ -32,7 +52,7 @@ console.log(JSON.stringify(item_id));
 if(this.value!= ''){
  $.ajax({
          type: "get",
-         url:  "http://localhost:9000/EC/webapi/subcategory/getAllSubCategories/"+this.value,
+         url:  "http://localhost:8080/EC/webapi/subcategory/getAllSubCategories/"+this.value,
          dataType: "JSON",
          headers: {
         	 'username':sessionStorage.getItem('username'),
@@ -77,8 +97,10 @@ $('#Product_detail_form').submit(function(){
 	             Address: jQuery("#Address").val(),
 	             Description: jQuery("#Description").val(),
 	             Discount : jQuery("#Discount").val(),
+	             Brand: jQuery("#Brand").val(),
 	             k_v : json_array,
-	             Barcode : jQuery("#Barcode").val()
+	             Barcode : jQuery("#Barcode").val(),
+	             Brand: jQuery("#Brand").val()
 	             
 	        };
 		console.log(jsondata);
@@ -86,7 +108,7 @@ $('#Product_detail_form').submit(function(){
 		
 		$.ajax({
 			type: "post",
-			url:  "http://localhost:9000/EC/webapi/itemService/addItem",
+			url:  "http://localhost:8080/EC/webapi/itemService/addItem",
 			data    :JSON.stringify(jsondata),
 			dataType: "JSON",
 			headers: {
@@ -107,9 +129,9 @@ $('#Product_detail_form').submit(function(){
 						alert("Item Added Successfully. Redirecting to Dashboard");
 						console.log(jQuery("#Barcode").val());
 						
-//						window.location.href ="http://localhost:9000/EC/image_upload.html?barcode="+jQuery("#Barcode").val();
-//						window.location.href ="http://localhost:9000/EC/seller_dashboard.html";
-						window.location="http://localhost:9000/EC/image_upload_form.html";
+//						window.location.href ="http://localhost:8080/EC/image_upload.html?barcode="+jQuery("#Barcode").val();
+//						window.location.href ="http://localhost:8080/EC/seller_dashboard.html";
+						window.location="http://localhost:8080/EC/image_upload_form.html";
 						
 					}
 					
@@ -204,5 +226,5 @@ function KV(){
 	html1+="Value: <input type = text  id =v_"+num+"></input></p>";
 	num=num+1;
 	document.getElementById("KeyValues").innerHTML = html1;
-//	window.location="http://localhost:9000/EC/login.html";
+//	window.location="http://localhost:8080/EC/login.html";
 }

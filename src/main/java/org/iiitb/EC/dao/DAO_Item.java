@@ -199,6 +199,42 @@ public class DAO_Item {
 		 return item_json_array;
 		}
 	
+	
+	public static JSONArray get_All_Brands() throws JSONException {
+		 Connection conn=DatabaseConnection.getConnection();
+		 PreparedStatement preparedStatement = null;  
+		 System.out.println("Getting Brands");
+		 JSONArray json_array = null;
+		 try {
+		  String query = "select distinct(dummy_1) from item_table";
+		  //String query = "select distinct(status) from order_details";
+		  preparedStatement = conn.prepareStatement(query);
+		  ResultSet rs = preparedStatement.executeQuery();
+		  json_array = new JSONArray();
+		//   for(int i=0;i<5;i++) {
+		  while(rs.next()) {
+//		    if(rs.next()) {
+			String brand = rs.getString("dummy_1");
+			if(brand == null) {
+				continue;
+			}
+		    System.out.println("In Brands, in loop");
+		    JSONObject json = new JSONObject();
+		    json.put("brand", brand);
+		    System.out.println(json);
+		    json_array.put(json);
+		    
+//		    }
+		  }
+		  return json_array;
+		  
+		 }catch (SQLException e) {
+		  e.printStackTrace();
+		 }
+		 
+		 return json_array;
+		}
+	
 	public static int get_quantity(int item_id,int seller_id) {
 		Connection conn = DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;
@@ -382,6 +418,10 @@ public class DAO_Item {
 	      */
 	     //return null;
 	    }
+	
+	public static void main(String args[]) throws JSONException {
+		System.out.println(get_All_Brands());
+	}
 	
 	
 	
