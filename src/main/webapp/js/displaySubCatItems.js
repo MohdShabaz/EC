@@ -131,6 +131,12 @@ $.ajax({
     }
   });
 
+function ValueTest(min, max, limit){
+	if(min>=0 && min<=max && (max<=limit || limit==-1)){
+		return true;
+	}return false;
+}
+
 function myFilter(){
 	if(filterValuesCheck()==false){
 		alert("Enter proper values for Filters")
@@ -142,6 +148,10 @@ function myFilter(){
 	var minR = parseInt(document.getElementById("minRating").value);
 	var maxR = parseInt(document.getElementById("maxRating").value);
 	var br = document.getElementById("brand").value;
+	if((ValueTest(minP, maxP, -1) && ValueTest(minR, maxR, 5)) == false){
+		alert("Enter proper values for Filters")
+		return;
+	}
 	if(br == null){
 		br = "";
 	}
@@ -203,8 +213,6 @@ function myFilter(){
 }
 
 function filterValuesCheck(){
-	console.log(PositiveIntegerTest("minPrice") + PositiveIntegerTest("maxPrice") +
-			PositiveIntegerTest("minRating") + PositiveIntegerTest("maxRating"));
 	if(PositiveIntegerTest("minPrice") && PositiveIntegerTest("maxPrice") &&
 			PositiveIntegerTest("minRating") && PositiveIntegerTest("maxRating")){
 		return true;
