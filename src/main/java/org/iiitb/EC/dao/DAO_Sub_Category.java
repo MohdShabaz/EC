@@ -85,8 +85,10 @@ public class DAO_Sub_Category {
 		     item_object.setPic_location(rs.getString("pic_location"));
 		     item_object.setPrice(rs.getFloat("price"));
 		     item_object.setSub_category(rs.getInt("sub_category"));
-		    
-		    
+		     item_object.setDummy_1(rs.getString("dummy_1"));
+		     int rating = rs.getInt("total_stars")/(rs.getInt("total_users_rated")==0?1:
+		    	 rs.getInt("total_users_rated"));
+		     item_object.setDummy_2(rating+"");
 		     list.add(item_object);
 		     item_object = new Item();
 		   }

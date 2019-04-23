@@ -90,6 +90,8 @@ public class Sub_Category_Service {
 	  item_json.put("barcode", item.getBarcode());
 	  item_json.put("price", item.getPrice());
 	  item_json.put("discount", item.getDiscount());
+	  item_json.put("brand", item.getDummy_1());
+	  item_json.put("rating", item.getDummy_2());
 	  item_json_array.put(item_json);
 	 }
 	 return item_json_array.toString();
