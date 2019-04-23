@@ -17,6 +17,27 @@ $.ajax({
     });
 
 
+$.ajax({
+    type: "get",
+    url:  "http://localhost:9000/EC/webapi/itemService/getAllBrands/",
+    dataType: "JSON",
+    headers: {
+  	  'username':sessionStorage.getItem('username'),
+	      'password':sessionStorage.getItem('password')
+},
+    success: function(brandArray){
+    	console.log(brandArray);
+    	var br = "";
+    	for(var i = 0; i < brandArray.length; i++) {
+    		br += "<option>"+brandArray[i].brand+"</option>";
+    		//console.log($('#brands').innerHTML);
+    	}
+    	console.log(br);
+    	document.getElementById('brands').innerHTML += br;
+    	//jQuery("#brands").innerHTML += "<option>"+""+"</option>";
+    }
+  });
+
 var json_array={
         key_values: []
         
@@ -77,8 +98,10 @@ $('#Product_detail_form').submit(function(){
 	             Address: jQuery("#Address").val(),
 	             Description: jQuery("#Description").val(),
 	             Discount : jQuery("#Discount").val(),
+	             Brand: jQuery("#Brand").val(),
 	             k_v : json_array,
-	             Barcode : jQuery("#Barcode").val()
+	             Barcode : jQuery("#Barcode").val(),
+	             Brand: jQuery("#Brand").val()
 	             
 	        };
 		console.log(jsondata);

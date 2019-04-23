@@ -237,6 +237,12 @@ public class Item_Service {
 	public String addItem(String input, @Context HttpHeaders httpheaders) throws Exception{
 		
 		JSONObject input_json = new JSONObject(input);
+		String brand ="";
+		try {
+			brand = input_json.getString("Brand");
+		}catch(Exception e) {
+			;
+		}
 		int seller_id = get_seller_id(httpheaders);
 		System.out.println(seller_id);
 		String s = "images/"+input_json.getString("Barcode")+".png";
@@ -252,7 +258,7 @@ public class Item_Service {
    		Integer.parseInt(input_json.getString("Subcategory")),
    		Integer.parseInt(input_json.getString("Quantity")), 
    		Integer.parseInt(input_json.getString("Address")), 
-   "","", "","");
+   		brand,"", "","");
 		System.out.println("key_values");
 		String key_values=input_json.getString("k_v");
 		System.out.println(key_values);
@@ -347,6 +353,13 @@ public class Item_Service {
 	public String showAllItemsOfSeller(@Context HttpHeaders httpheaders) throws Exception{
 		int seller_id = get_seller_id(httpheaders);
 		return DAO_Item.get_Seller_All_Items_Details(seller_id).toString(); 
+	}
+	
+	@Path("getAllBrands")
+    @GET
+	@Produces(MediaType.APPLICATION_JSON)  
+	public String getAllBrans() throws Exception{
+		return DAO_Item.get_All_Brands().toString(); 
 	}
 	
 	@Path("showAllItems")
