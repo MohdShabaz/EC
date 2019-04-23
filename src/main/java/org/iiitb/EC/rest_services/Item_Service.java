@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_ClearanceSale;
 import org.iiitb.EC.dao.DAO_Deals;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Item_Seller;
@@ -38,6 +39,7 @@ import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Seller;
 import org.iiitb.EC.model.label_table;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 @Path("itemService")
@@ -159,6 +161,10 @@ public class Item_Service {
         int quan = DAO_Item.get_quantity(item_id, seller.getSeller_id());
         System.out.println("Item Quantity , seller_id : "+ quan + " " + seller.getSeller_id());
         
+        boolean check_item_in_clearance_Sale = DAO_ClearanceSale.item_exist_in_clearance_sale(item_id);
+        
+        
+        
         JSONObject obj = new JSONObject();
         obj.put("name", item.getName());
         obj.put("description", item.getDescription());
@@ -178,6 +184,19 @@ public class Item_Service {
         obj.put("dummy_3", item.getDummy_3());
         obj.put("dummy_4", item.getDummy_4());
         
+        JSONObject obj2 = new JSONObject();
+        obj2=DAO_Item.get_given_Items_Details(item_id);
+        obj.put("category_name", obj2.getString("category"));
+        obj.put("sub_category_name", obj2.getString("sub_category"));
+        
+        float clearance_discount=0;
+        if(check_item_in_clearance_Sale==true) {
+        	clearance_discount = DAO_ClearanceSale.get_clearance_sale_discount();
+        	obj.put("clearance_discount", clearance_discount);
+        }
+        else {
+        	obj.put("clearance_discount", clearance_discount);        	
+        }
         ArrayList<label_table> l_t=DAO_Label_Table.get_all_label_value(item_id);
         JSONArray json_arr = new JSONArray();
         for(label_table l:l_t) {
@@ -195,6 +214,16 @@ public class Item_Service {
         return obj.toString();
                 
      }
+	
+	
+	@Path("getGivenItem/{item_id}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getgivenitem(@PathParam("item_id_str") String item_id_str) throws JSONException {
+        int item_id = Integer.parseInt(item_id_str);
+        return DAO_Item.get_given_Items_Details(item_id).toString();
+	}
+	
 	
 	
 		
@@ -237,13 +266,13 @@ public class Item_Service {
 	public String addItem(String input, @Context HttpHeaders httpheaders) throws Exception{
 		
 		JSONObject input_json = new JSONObject(input);
+		int seller_id = get_seller_id(httpheaders);
 		String brand ="";
 		try {
 			brand = input_json.getString("Brand");
 		}catch(Exception e) {
 			;
 		}
-		int seller_id = get_seller_id(httpheaders);
 		System.out.println(seller_id);
 		String s = "images/"+input_json.getString("Barcode")+".png";
 		System.out.println(input_json.getString("k_v"));
@@ -361,6 +390,7 @@ public class Item_Service {
 	public String getAllBrans() throws Exception{
 		return DAO_Item.get_All_Brands().toString(); 
 	}
+	
 	
 	@Path("showAllItems")
     @GET

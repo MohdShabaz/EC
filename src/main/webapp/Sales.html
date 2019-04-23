@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Admin | eBay</title>
+	<meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<script src="jquery-3.3.1/jquery.min.js"></script>
+	<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<link rel="icon" href="ebayFav.ico">
+</head>
+
+<body>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<img class="img-responsive" src="images/logo.png" title="eBay">
+			</div>
+			<div class="col-md-4 col-md-offset-5" id="sign_out">
+				Welcome admin!, <span> <a href="#">SignOut</a> </span>
+			</div>
+		</div>
+		<br>
+		<br>
+		<!--===============================================================FORM START==================================================================  -->
+		<div>
+			<div class="row">
+        		<div class="col-sm-2 sidebar">
+	          		<ul class="nav nav-pills nav-stacked">
+	            		<li id="b1"><a href="admin_add_cat.html">Add Category</a></li>
+	            		<li id="b2"><a href="admin_mod_cat.html">Modify Category</a></li>
+	            		<li id="b3"><a href="admin_add_subcat.html">Add Sub Category</a></li>
+	            		<li id="b3"><a href="#">Notify Seller</a></li>
+	            		<li id="b4"><a href="AllShowTables.html">Users Data</a></li>
+	            		<li id="b5" class=" active"><a href="Sales.html">Sales</a><span class="sr-only">(current)</span></li>
+	          		</ul>
+        		</div>
+        		<div class="col-sm-6 col-sm-offset-2" id="content">
+        		
+        				
+<!--         			<form class="form" method="post">  -->
+<!--         					<div class="form-group">  -->
+<!--         						<label for = "categories">Select Category</label>  -->
+<!--         						<select id="categories" class="form-control" name="categories"> -->
+<!--         						</select>  -->
+<!--         					</div> -->
+        					
+<!--         					<div class="form-group">  -->
+<!--         						<label for = "new_subcat">New Sub Category</label>  -->
+<!--         						<input type="text" id="new_subcat" name="new_subcat" class="form-control">  -->
+<!--         					</div> -->
+        					 
+<!--         					<button type="submit" class="btn btn-primary" id="add_subcat">Change</button> -->
+<!--         			</form> -->
+        			<label for = "categories">Select sales</label> 
+        			
+        			<form class="form" method="post"> 
+        					<div class="form-group"> 
+						  <select>
+						    <option id="None">None</option>
+						    <option id="Birthday">Birthday</option>
+						    <option id="Buy1Get1" selected>Buy 1 Get 1 free</option> 
+						    <option id="Clearance" onclick="clearSale()">Clearance Sale</option>
+						    
+						    
+						    
+						    
+						    
+						    
+						  </select>
+        						<!-- <select id="sales_clearance" class="form-control">Clearance Sale</select> -->
+        					</div>
+        					
+        					<div><span id="clear_dates"></div>
+
+        					
+        					  
+        					<button type="submit" class="btn btn-danger" id="submit_sale" onclick="enter_clearance_sale()">Submit</button>
+        			</form>
+        			
+        			
+        			
+        			
+        			<br>
+        			
+<!--         			<form class="form" method="post"> -->
+<!--         				<div class="form-group">  -->
+<!--         					<label for = "new_category">New Category </label>  -->
+<!--         					<input type="text" class="form-control" placeholder="Enter New Category" name="new_category" id="new_category">  -->
+<!--         				</div>  -->
+<!--         				<button type="submit" class="btn btn-primary" id="add_cat">Submit</button>  -->
+<!--         			</form> -->
+        		</div>
+        	</div>
+		</div>
+	</div>
+	<script>
+
+		
+
+		function clearSale(){
+			
+			html_new = "<h3>Please Enter Dates</h3>";
+			
+			html_new += "<h4>Start date<input type='text' placeholder='yyyy-mm-dd' id='start_date'></input></h4>"
+			html_new += "<h4>End date<input type='text' placeholder='yyyy-mm-dd' id='end_date'></input></h4>"
+			html_new += "<h4>Discount<input type='text' placeholder='0-100' id='discount'></input></h4>"
+			
+	          document.getElementById("clear_dates").innerHTML = html_new;
+
+			
+		}
+		
+
+		
+		function enter_clearance_sale(){
+			var starting_date = document.getElementById("start_date").value;
+			var ending_date = document.getElementById("end_date").value;
+			var clea_discount = document.getElementById("discount").value;
+			
+			var link = 'webapi/clearanceSale/updateClearanceSale/'+starting_date+'/'+ending_date+'/'+clea_discount;
+			
+			console.log("link  "+link);
+			
+	         $.ajax({  
+	             url: 'webapi/clearanceSale/updateClearanceSale/'+starting_date+'/'+ending_date+'/'+clea_discount,  
+	             type: 'POST',  
+	               
+	             headers: {
+	            	 "username": "admin",
+	            	 "password": "admin"
+	             },
+	             success: function () { 
+	            	 console.log("success")
+	             },  
+	             error: function () {  
+	            	 console.log("coming here ... but successful")
+	             }  
+	         }); 
+			
+			
+		}
+
+		
+		
+// 		function add_category(){
+//  			document.getElementById("content").innerHTML='hello'
+// 		}
+	</script>
+<!-- 	<script src="javascript/admin_category.js"></script> -->
+<!-- 	<script src="ajax/admin_category_ajax.js"></script> -->
+</body>
+</html>

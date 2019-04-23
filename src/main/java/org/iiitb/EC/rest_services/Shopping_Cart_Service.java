@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_ClearanceSale;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Seller;
@@ -72,6 +73,8 @@ public class Shopping_Cart_Service {
 		JSONArray arr = new JSONArray();
 		for(Shopping_Cart cart : carts){
 			JSONObject item_json = new JSONObject();
+		
+			
 			item_json.put("id",cart.getId());
 			item_json.put("buyer_id",cart.getBuyer_id());
 			item_json.put("item_id",cart.getItem_id());
@@ -80,6 +83,22 @@ public class Shopping_Cart_Service {
 			Item item = new Item();
 			item = DAO_Item.Get_Item(cart.getItem_id());
 			int item_id = cart.getItem_id();
+			
+			
+			//added shabaz
+	        boolean check_item_in_clearance_Sale = DAO_ClearanceSale.item_exist_in_clearance_sale(item_id);
+
+	        float clearance_discount=-1;
+	        if(check_item_in_clearance_Sale==true) {
+	        	clearance_discount = DAO_ClearanceSale.get_clearance_sale_discount();
+	        	item_json.put("clearance_discount", clearance_discount);
+	        }
+	        else {
+	        	item_json.put("clearance_discount", 0);        	
+	        }
+			
+			
+			
 			int seller_id = DAO_Item_Seller.get_seller_id(item_id);
 			
 			String name=item.getName();
@@ -92,7 +111,11 @@ public class Shopping_Cart_Service {
 			float available_quantity = (float)DAO_Item.get_quantity(item_id,seller_id);
 			
 			item_json.put("name",name);
-			item_json.put("price",price*(1-discount));
+			item_json.put("price",price*(1-discount)*(1-clearance_discount));
+		
+			
+			//added shabaz
+			item_json.put("discount", discount);
 			item_json.put("old_price",price);
 			item_json.put("pic",pic);
 			item_json.put("barcode",barcode);
@@ -133,12 +156,39 @@ public class Shopping_Cart_Service {
 			Item item = new Item();
 			item = DAO_Item.Get_Item(cart.getItem_id());
 			
+			int item_id = cart.getItem_id();
+			
+			
+			//added shabaz
+			
+	        System.out.println("item_id "+item_id);
+
+	        boolean check_item_in_clearance_Sale = DAO_ClearanceSale.item_exist_in_clearance_sale(item_id);
+	        
+	        System.out.println("check_item_in_clearance_Sale "+check_item_in_clearance_Sale);
+
+	        float clearance_discount=0;
+	        if(check_item_in_clearance_Sale==true) {
+	        	clearance_discount = DAO_ClearanceSale.get_clearance_sale_discount();
+	        	item_json.put("clearance_discount", clearance_discount);
+	        }
+	        else {
+	        	item_json.put("clearance_discount", 0);        	
+	        }
+			
+			
 			String name=item.getName();
 			String pic=item.getPic_location();
 			
 			float price = item.getPrice();
 			float discount = item.getDiscount();
 			float quan = (float)cart.getQuantity();
+			
+			
+			System.out.println("price is "+price);
+			System.out.println("discount is "+discount);
+			System.out.println("clearance discount is "+clearance_discount);
+			System.out.println("quan is "+quan);
 			
 			item_json.put("name",name);
 			item_json.put("price",price);
@@ -147,7 +197,7 @@ public class Shopping_Cart_Service {
 			
 			//System.out.println("price "+price+" ,discount "+discount);
 			
-			total_sum += ((price)-(price*discount))*(quan);
+			total_sum += ((price*(1-discount)*(1-clearance_discount)))*(quan);
 		}
 		
 		return total_sum;

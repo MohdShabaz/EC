@@ -13,8 +13,7 @@ $.ajax({
         
         var html="<ul><div class ='category'>";
         for(var i = 0; i < productArray.length; i++) {
-            html += "<li onmouseover='subcatdisplay("+productArray[i].id+")'><span class='category'> "+ productArray[i].category_name + "</span></li>";
-        }
+        	html += "<li onmouseover='subcatdisplay("+productArray[i].id+",\""+encodeURIComponent(productArray[i].category_name)+"\")'><span class='category'> "+ productArray[i].category_name + "</span></li>";        }
         html+="</ul>";
         //console.log("here11");
         document.getElementById("categories").innerHTML = html;
@@ -42,7 +41,7 @@ $.ajax({
   });
 
 
-function subcatdisplay(catId)
+function subcatdisplay(catId,catName)
 {
 $('#Subcategories').empty();
 console.log("1");
@@ -69,8 +68,7 @@ if(this.value!= ''){
              console.log("here4");
              var html="<ul><div class ='category'>";
              for(var i = 0; i < productArray.length; i++) {
-                 html += "<li onclick='getAllItemsOfSubCat("+productArray[i].id+")'> "+ productArray[i].sub_category_name + "</li>";
-             }
+            	 html += "<li onclick='getAllItemsOfSubCat("+productArray[i].id+",\""+encodeURIComponent(productArray[i].sub_category_name)+"\",\""+encodeURIComponent(catName)+"\")'> "+ productArray[i].sub_category_name + "</li>";             }
              html+="</ul>";
              document.getElementById("Subcategories").innerHTML = html;
              //document.getElementById("Subcategories").style.cursor = pointer;
@@ -120,6 +118,6 @@ function AddMoney() {
 		 });
 };
 
-function getAllItemsOfSubCat(subcatId){
-window.location.href = "http://localhost:9000/EC/displaySubCatItems.html?subcatId="+subcatId;
-}
+function getAllItemsOfSubCat(subcatId,subcatName,catName){
+	window.location.href = "http://localhost:9000/EC/displaySubCatItems.html?subcatId="+subcatId+",catname="+catName+",subcatname="+subcatName;
+	}

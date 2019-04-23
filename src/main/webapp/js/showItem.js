@@ -15,7 +15,7 @@ $.ajax({
        console.log("hereB")
         
           document.getElementById("nameItem").innerHTML = product.name;
-          
+       document.getElementById("c_item_name").innerHTML = product.name;
           var x = (product.discount*100).toFixed(2);          
           document.getElementById("discountItem").innerHTML = x;
           console.log("seller");
@@ -27,17 +27,76 @@ $.ajax({
           document.getElementById("seller_name").innerHTML = product.seller_name;
           document.getElementById("descriptionItem").innerHTML = product.description;
           document.getElementById("quan").max = product.quantity;
-          
+          document.getElementById("category").innerHTML = product.category_name;
+          document.getElementById("sub_category").innerHTML = product.sub_category_name;
           var y = (product.price).toFixed(2);
           document.getElementById("priceItem").innerHTML = y;
+          var today = new Date();
+  		  var dd = String(today.getDate()).padStart(2, '0');
+  		  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  		  var yyyy = today.getFullYear();
+  		  today =mm + '-'+dd;
+
+  		  if(sessionStorage.dob == today)
+  		  {
+  			  
+  			  
+  			  
+  			  
+  			$.ajax({  
+           	 url: "http://localhost:9000/EC/webapi/dealsService/isItemInBirDeal/"+myFunction(), 
+                type: 'GET',
+                headers: {
+                    'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+                    'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+              },
+              
+              success: function (response) {  
+           	  	//console.log("Deals " + response);
+           	  	//console.log("dkfjhvkjdfvn");
+           	  	 console.log(response);
+           	  	 var html="<div style='color:red;'>Happy Birthday "+sessionStorage.name+"</div>";
+           	  	if(response.result=="success")
+           	  	{
+           	  		//html+="<div>"+response.bDiscount.toFixed(2)+" % cashBack for this item</div>";
+           	  		html+="<div  style='color:blue;'> Rs <span id='BdayDiscountCashBack'>"+(response.bDiscount*y).toFixed(2)+"</span> cashBack for this item</div>";
+           	  	}
+           	  	
+           	  	document.getElementById("cashBack").innerHTML=html;
+           	  	console.log(html);
+              }
+            
+       	 });
+  			  
+  			  
+  			  
+  			  
+  			  
+  	      }
+  		  
+          
+          var clearance_dis = (product.clearance_discount*100).toFixed(2);
+          
+          console.log("clearance_dis ---> "+clearance_dis);
+          
+          if(clearance_dis<0){
+              document.getElementById("clearance_dis").innerHTML = "Item not in clearance sale";
+        	  
+          }
+          else{
+              document.getElementById("clearance_dis").innerHTML = clearance_dis;
+        	  
+          }
+
 
           
           console.log(product.barcode);
 
           document.getElementById("itemImage").src = product.pic_location;
           
-          document.getElementById("newprice").innerHTML = (y*(100-x)/100).toFixed(2);
-          
+          document.getElementById("newprice").innerHTML = (y*(100-x)*(100-clearance_dis)/(100*100)).toFixed(2);
+//          document.getElementById("newprice").innerHTML = y;
           
           var html="";
           for(var i = 0; i < product.key_value.length; i++) {
@@ -65,18 +124,34 @@ $.ajax({
 
 
 function myFunction(){
-var a = location.href;
-console.log("a is"+a);
-var b = a.substring(a.indexOf("=")+1);
-console.log("b is"+b);
-var c=JSON.parse('{"id":'+b+'}');
-console.log("c is "+typeof(c));
-return b;
-}
+	var a = location.href;
+	console.log("a is"+a);
+	var b = a.substring(a.indexOf("=")+1);
+	console.log("b is"+b);
+	var d = a.substring(a.indexOf(",")+1);
+	console.log("d is"+d);
+	//document.getElementById("sub_category").href="displaySubCatItems.html?"+d;
+	d=d.substring(d.indexOf(",")+1);
+	var e =decodeURIComponent( d.substring(d.indexOf("=")+1,d.indexOf(",")));
+	console.log("e is "+decodeURIComponent(e));
+	//document.getElementById("category").innerHTML = decodeURIComponent(e);
+	var f = d.substring(d.indexOf(",")+1);
+	console.log("f is"+f);
+	var g =f.substring(f.indexOf("=")+1);
+	console.log("g is "+g);
+	//document.getElementById("sub_category").innerHTML = decodeURIComponent(g);
+	var h =g.substring(g.indexOf(",")+1);
+	console.log("h is "+h);
+	//document.getElementById("sub_category").href = g;
 
-function shopNow(){
-console.log("yes shopNow");
-}
+	//var c=JSON.parse('{"id":'+b+'}');
+	//console.log("c is "+typeof(c));
+	return b;
+	}
+
+//function shopNow(){
+//console.log("yes shopNow");
+//}
 function getStars(rating) {
 
 	  // Round to nearest half

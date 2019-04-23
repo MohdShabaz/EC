@@ -98,7 +98,6 @@ $('#Product_detail_form').submit(function(){
 	             Address: jQuery("#Address").val(),
 	             Description: jQuery("#Description").val(),
 	             Discount : jQuery("#Discount").val(),
-	             Brand: jQuery("#Brand").val(),
 	             k_v : json_array,
 	             Barcode : jQuery("#Barcode").val(),
 	             Brand: jQuery("#Brand").val()

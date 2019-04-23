@@ -72,8 +72,28 @@ public class DAO_Deals {
 			
 			return dealTypes;
 	 }
-	 
-	 public static boolean SetItemDeals(int item_seller_id, int deal_id) {
+	 public static float getBdayDiscount(){
+		 ResultSet rs;
+		 try {
+			 Connection conn = DatabaseConnection.getConnection();
+			 java.sql.PreparedStatement preparedStatement = null;
+			 String query = "select discount from deals where deal_id=2";
+			 preparedStatement = conn.prepareStatement(query);
+			 rs = preparedStatement.executeQuery();
+			 if(rs.next())
+			 {
+				 return rs.getFloat("discount");
+			 }
+			 else
+			 {
+				 return 0;
+			 }
+		 }catch (SQLException e) {
+				e.printStackTrace();
+			}
+		 return 0;
+	 }
+	  public static boolean SetItemDeals(int item_seller_id, int deal_id) {
 		 Connection conn=DatabaseConnection.getConnection();
 			PreparedStatement preparedStatement = null;
 			String query=null;

@@ -11,7 +11,7 @@ $.ajax({
 
  },
       success: function(productArray){
-    	  item_array = productArray;
+    	 item_array = productArray;
        console.log("hereX");
         console.log(productArray);
        console.log("hereY");
@@ -41,8 +41,7 @@ $.ajax({
        
        var html="<ul><div>";
           for(var i = 0; i < productArray.length; i++) {
-       html += "<li onclick='itemDisplay("+productArray[i].item_id+")'><div class='row'> ";
-       
+        	  html += "<li onclick='itemDisplay("+productArray[i].item_id+",\""+document.getElementById("category").innerHTML+"\",\""+document.getElementById("sub_category").innerHTML+"\")'><div class='row'> ";
        //html += "<li><div class='row'>";
 
        html += "<div class='column' style='background-color:#aaa;'>";
@@ -98,9 +97,6 @@ $.ajax({
           
       }
     });
-
-
-
 
 $.ajax({
 
@@ -241,18 +237,28 @@ function PositiveIntegerTest(x){
 }
 
 function myFunction(){
-var a = location.href;
-console.log("a is"+a);
-var b = a.substring(a.indexOf("=")+1);
-console.log("b is"+b);
-var c=JSON.parse('{"id":'+b+'}');
-console.log("c is "+typeof(c));
-return b;
-}
+	var a = location.href;
+	console.log("a is"+a);
+	var b = a.substring(a.indexOf("=")+1,a.indexOf(","));
+	console.log("b is"+b);
+	var d = a.substring(a.indexOf(",")+1);
+	console.log("d is"+d);
+	var e =decodeURIComponent( d.substring(d.indexOf("=")+1,d.indexOf(",")));
+	console.log("e is "+decodeURIComponent(e));
+	document.getElementById("category").innerHTML = decodeURIComponent(e);
+	var f = d.substring(d.indexOf(",")+1);
+	console.log("f is"+f);
+	var g =decodeURIComponent( f.substring(f.indexOf("=")+1));
+	console.log("g is "+g);
+	document.getElementById("sub_category").innerHTML = g;
+	//var c=JSON.parse('{"id":'+b+'}');
+	//console.log("c is "+typeof(c));
+	return b;
+	}
 
-function itemDisplay(itemId){
-window.location.href = "http://localhost:9000/EC/displaySelectedItem.html?itemId="+itemId;
-}
+function itemDisplay(itemId,catName,subcatName){
+	window.location.href = "http://localhost:9000/EC/displaySelectedItem.html?itemId="+itemId;
+	}
 
 jQuery(document).ready(function($){ 
 window.onmouseover = function (event)
@@ -274,4 +280,5 @@ window.onmouseout = function (event)
   document.getElementById(idOfDetails).style.display = "none";
  }
 }
+
 });

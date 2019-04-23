@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Payment | Ebay</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+  <script src="jquery-3.3.1/jquery.min.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  
+  
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+	
+		<br/>
+		<br/>
+		<img src="images/ebayin logo.JPG" width="140" height="60"/>
+		 
+		<img src="images/ceb.JPG" align="right"/>
+		<img src="images/eg.png" align="right"/>
+			<div class="panel panel-default">
+        	<div class="panel-body">		
+				<p><h2>Payment Wall</h2></p>
+				<hr/>
+				
+				<br>
+    			<label for="cardumber"><b>Card Number</b></label>
+    			<h2 id = "price"> </h2> 
+    			<input type="text" placeholder="1111-2222-3333-4444" name="cardnumber" id="cardno">
+				<br>
+				<!--
+    			<label for="expmonth"><b>Expiry Month and Year</b></label>
+    			<input type="month" placeholder="mm-yy" name="expmonth" id="expmon" required>
+ 		<br>
+
+		<label for="cvv"><b>CVV</b></label>
+    	<input type="password" placeholder="Ex.352" id="cv" name="cvv" required>
+		<br><br> -->
+		
+    	<button class="btn btn-default" onclick="ConfirmOrder()"> Pay Now </button>			
+    	</div>							
+		</div>
+	</div>	
+</div>
+
+<script>
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+var price = 0;
+var accountNumber;
+var buyer_balance;
+var total_amount;
+var quantity;
+var item_id;
+var cashback=0;
+function AddOrder() {
+	console.log("in ADD ORDER");
+	console.log(localStorage.addr);
+	
+	 var json_={
+			   shipping_address: localStorage.addr,
+			   amount: parseInt(price),
+			   item_id: item_id,
+			   quantity: quantity,
+			   cashback : cashback
+			 };
+			 
+	 console.log(json_);
+	 $.ajax({url:"http://localhost:9000/EC/webapi/orderService/addOrderShopNow", type:"POST",
+	 
+	 data: JSON.stringify(json_),
+	 datatype: "json",
+	 headers: {
+			'username':sessionStorage.getItem("username"),
+			'password':sessionStorage.getItem("password")
+		},
+	 async: false,
+	 success: function(data){
+	  console.log(data);
+	},
+	 error: function(data)
+	 {
+	  
+	 }
+	 });
+	//window.location.href = "items.html";
+		 //window.location.href = "items.html";
+		 }
+		 
+$.ajax({
+    type: "get",
+    url:  "http://localhost:9000/EC/webapi/bankService/getBuyerBalance/",
+    dataType: "text",
+    headers: {
+  'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+  'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+},
+    success: function(data){
+     
+      buyer_balance = data;
+      
+      ///document.getElementById("categories").style.cursor = pointer;
+      //console.log("here12")
+    },
+error: function(data){
+    
+	console.log("IN ERROR BUYER BALANCE");
+ //   buyer_balance = data;/
+    
+    ///document.getElementById("categories").style.cursor = pointer;
+    //console.log("here12")
+  }
+  });
+  
+$.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
+	 async: false,
+	 headers: {
+	     'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	     'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+	},
+	 success: function(data){
+		 console.log("price :");
+		 console.log(data);
+	 	 total =data;
+	 },
+	 error: function(data)
+	 {
+		 console.log("IN ERROR BUYER BALANCE");
+	 }
+	});
+
+function ConfirmOrder()
+{
+	accountNumber = document.getElementById("cardno").value;
+	console.log("Account: " + accountNumber);
+	console.log("IN CONFORM ORDER");
+	console.log(Number(total));
+	console.log(Number(buyer_balance)-Number(price));
+	console.log(Number(buyer_balance));
+	if(parseInt(buyer_balance,10)>parseInt(price,10))
+		{
+		console.log("IF TOTAL<BALANCE")
+		//alert("Sufficient balance");
+		 AddOrder();
+			
+			$.ajax({url:"http://localhost:9000/EC/webapi/bankService/transaction", type:"POST",
+				 
+				 headers: {
+						'username':sessionStorage.getItem("username"),
+						'password': sessionStorage.getItem("password")
+					},
+				dataType : "text",	
+				data : accountNumber,	
+				 async: false,
+				 success: function(data){
+					/*  AddOrder(); */
+				 	console.log(data);
+				 	
+				},
+				 error: function(data)
+				 {
+					 alert("Failed");
+				  
+				 }
+				 });
+			window.location.href = "Buyer_orders.html";
+
+		}
+	else
+		{
+		console.log("IF TOTAL>BALANCE")
+		alert("Sorry order cannot be placed due to inSufficient balance.Redirecting to homepage ");
+		window.location.href = "homepage.html";
+
+		}
+	
+/* 	accountNumber = document.getElementById("cardno").value; */
+	
+	/* console.log("Account: " + accountNumber); */
+/* 	 AddOrder();
+	
+	$.ajax({url:"http://localhost:9000/EC/webapi/bankService/transaction", type:"POST",
+		 
+		 headers: {
+				'username':sessionStorage.getItem("username"),
+				'password': sessionStorage.getItem("password")
+			},
+		dataType : "text",	
+		data : accountNumber,	
+		 async: false,
+		 success: function(data){
+			  AddOrder(); 
+		 	console.log(data);
+		 	
+		},
+		 error: function(data)
+		 {
+			 alert("Failed");
+		  
+		 }
+		 });
+	window.location.href = "Buyer_orders.html"; */
+}
+
+item_id = getUrlVars()["item_id"];
+if(location.href.indexOf("quantity")>-1){
+	 quantity = getUrlVars()["quantity"];
+	 if(quantity<1){
+		 quantity = 1;
+	 }
+}else{
+	 quantity = 1;
+}if(location.href.indexOf("cashback") > -1)
+{
+	cashback = getUrlVars()["cashback"];
+}
+$.ajax({url:"http://localhost:9000/EC/webapi/itemService/getitem/"+item_id, type:"GET",
+	 async: false,
+	 headers: {
+	     'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	     'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+	},
+	 success: function(data){
+		 console.log("data :"+ data);
+		 price = ((1-parseFloat(data.clearance_discount))*(1.0 - parseFloat(data.discount)) * parseFloat(data.price) * parseInt(quantity)).toFixed(2);
+		 document.getElementById("price").innerHTML="Total Price: "+ price;
+	 },
+	 error: function(data)
+	 {
+	  
+	 }
+	});
+
+</script>

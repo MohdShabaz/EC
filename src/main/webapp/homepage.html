@@ -111,37 +111,44 @@ li a:hover .category{
 			$(document).ready(function () {  
 						
 				
-		         $.ajax({  
-		             url: 'http://localhost:9000/EC/webapi/itemService/itemsDiscounted',  
-		             type: 'GET',
-		             headers: {
-		                 'username':sessionStorage.username?sessionStorage.getItem('username'):'',
-		                 'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+				$.ajax({  
+		 		     url: 'http://localhost:9000/EC/webapi/clearanceSale/getSaleItems',  
+		 		     type: 'GET',
+		 		     headers: {
+		 		         'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+		 		         'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
 
-		           },
-		             success: function (hdata) {  
-		            	 console.log("Reached here");
-		                 console.log((hdata));
-		                 
-		                 json=JSON.parse(hdata);
-		                 console.log(json);
-		                 var disc = ((json[0].discount*100).toFixed(2));
-		                 var price = (json[0].price*(1-json[0].discount)).toFixed(2);
-		                 var html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[0].item_id+'"><img src="'+json[0].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h3 style="color:#191819;">Name : '+json[0].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : '+price+'</h3></div>'
-		                 document.getElementById("item1").innerHTML = html;
-		                 var disc = ((json[1].discount*100).toFixed(2));
-		                 var price = (json[1].price*(1-json[1].discount)).toFixed(2);
-		                 html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[1].item_id+'"><img src="'+json[1].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h3 style="color:#191819;">Name : '+json[1].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : '+price+'</h3></div>'
-		                 document.getElementById("item2").innerHTML = html;
-		                 var disc = ((json[2].discount*100).toFixed(2));
-		                 var price = (json[2].price*(1-json[2].discount)).toFixed(2);
-		                 html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[2].item_id+'"><img src="'+json[2].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h3 style="color:#191819;">Name : '+json[2].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : '+price+'</h3></div>'
-		                 document.getElementById("item3").innerHTML = html;
-		             },  
-		             error: function (xhr, textStatus, errorThrown) {  
-		                 console.log('Error in Operation');  
-		             }    
-			     });		
+		 		   },
+		 		     success: function (hdata) {  
+		 		    	 console.log("Reached here new carosal");
+		 		         console.log((hdata));
+		 		         
+		 		         ///json=JSON.parse(hdata);
+		 		         json = hdata;
+		 		         console.log("well")
+		 		         console.log(json);
+		 		         var disc = ((json[0].discount*100).toFixed(2));
+		 		         var clearance_disc = (json[json.length-1].clearance_sale_discount*100).toFixed(2);
+		 		         var price = (json[0].price).toFixed(2);
+		 		         var final_price = (json[0].price*(1-json[0].discount)*(1-json[json.length-1].clearance_sale_discount)).toFixed(2);
+		 		         
+		 		         var html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[0].item_id+'"><img src="'+json[0].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h2 style="color:#191819;">Clearance Sale : ' +clearance_disc+ '%</h2><h3 style="color:#191819;">Name : '+json[0].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : <strike>'+price+'</strike></h3><h3 style="color:#191819;">Final Price: '+final_price+'</h3></div>'
+		 		         document.getElementById("item1").innerHTML = html;
+		 		         var disc = ((json[1].discount*100).toFixed(2));
+		 		         var price = (json[1].price).toFixed(2);
+		 		        var final_price = (json[1].price*(1-json[1].discount)*(1-json[json.length-1].clearance_sale_discount)).toFixed(2);
+		 		         html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[1].item_id+'"><img src="'+json[1].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h2 style="color:#191819;">Clearance Sale : ' +clearance_disc+ '%</h2><h3 style="color:#191819;">Name : '+json[1].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : <strike>'+price+'</strike></h3><h3 style="color:#191819;">Final Price: '+final_price+'</h3></div>'
+		 		         document.getElementById("item2").innerHTML = html;
+		 		         var disc = ((json[2].discount*100).toFixed(2));
+		 		         var price = (json[2].price).toFixed(2);
+		 		        var final_price = (json[2].price*(1-json[2].discount)*(1-json[json.length-1].clearance_sale_discount)).toFixed(2);
+		 		         html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[2].item_id+'"><img src="'+json[2].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h2 style="color:#191819;">Clearance Sale : ' +clearance_disc+ '%</h2><h3 style="color:#191819;">Name : '+json[2].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : <strike>'+price+'</strike></h3><h3 style="color:#191819;">Final Price: '+final_price+'</h3></div>'
+		 		         document.getElementById("item3").innerHTML = html;
+		 		     },  
+		 		     error: function (xhr, textStatus, errorThrown) {  
+		 		         console.log('Error in Operation');  
+		 		         }    
+		 		});			
 		   });  
 	
 		
@@ -455,6 +462,108 @@ li a:hover .category{
          <span class="sr-only">Next</span>
        </a>
      </div>
+     <script >
+  $(document).ready(function(){
+	  var today = new Date();
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+		var yyyy = today.getFullYear();
+		today =mm + '-'+dd;
+		console.log("mhg,jhg,jhg,kh "+today);
+	 if(sessionStorage.name!=null){
+
+         $.ajax({  
+        	 url: "http://localhost:9000/EC/webapi/showTableService/buyersAll/",  
+             type: 'GET',
+             headers: {
+                 'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+                 'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+           },  
+           success: function (hdata) {  
+        	   //console.log("hdata" + hdata);
+        	   //console.log(sessionStorage.mobile);
+        	   //sessionStorage.setItem('lastname','ritvik');
+        	   //console.log(sessionStorage);
+        	   for(i in hdata)
+               {
+                 if(hdata[i].mobile == sessionStorage.mobile)
+                {
+                	 sessionStorage.setItem('dob',hdata[i].dob.substring(5));
+                	 
+                 }
+               }
+        	   console.log(sessionStorage);
+           }
+	     });	
+         if(sessionStorage.dob == today)
+         {
+        	document.getElementById('HBD').innerHTML = "Happy Birthday "+sessionStorage.name +"!!!!!"+"         "+" Here are Your Deals";	 
+        	 $.ajax({  
+            	 url: "http://localhost:9000/EC/webapi/dealsService/getbdaydeals",  
+                 type: 'GET',
+                 headers: {
+                     'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+                     'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+               },
+               
+               success: function (response) {  
+            	  	//console.log("Deals " + response);
+            	  	var inhtml='';
+            	  	for(i in response)
+            	  	{
+            	  		if(i==0)
+            	  		{
+            	  			inhtml+='<div class="item active"><span id="bitem'+i+'"></span></div>';
+            	  		}
+            	  		else
+            	  		{
+            	  			inhtml+='<div class="item"><span id="bitem'+i+'"></span></div>';
+            	  	    }
+            	  	}
+            	  	document.getElementById('bdayinner').innerHTML=inhtml;
+            	  	console.log(response);
+            	 	 for(i in response)
+            	 	{
+            	 		 var bdisc= ((response[i].bdaydiscount*100)).toFixed(2);
+ 		                 var disc = ((response[i].discount*100).toFixed(2));
+ 		                 var price = ((response[i].price*(1-response[i].discount))*(1-response[i].bdaydiscount)).toFixed(2);
+ 		                 var html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+response[i].item_id+'"><img src="'+response[i].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h3 style="color:#191819;">Name : '+response[i].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Birthday Discount : '+bdisc+'</h3><h3 style="color:#191819;">Price : '+price+'</h3></div>'
+ 		                 document.getElementById("bitem"+i).innerHTML = html;
+ 		            
+            	 	} 
+            	  	console.log(inhtml);
+               }
+        	 });
+         }  
+	}
+});
+
+  </script>
+<div class="container">
+  <h2>Deals</h2>
+  	<div style="color:red;" id="HBD"></div>
+ 	<div class="container" id="bdaydeal">
+ 		<div class="col-md-12" >
+       <div id="bdayCarousel" class="carousel slide" data-ride="carousel">
+       <ol class="carousel-indicators">
+       </ol>
+ 		
+ 		<div class="carousel-inner" id ="bdayinner"> </div>
+ 		
+ 		<a class="left carousel-control" href="#bdayCarousel" data-slide="prev">
+         <span class="glyphicon glyphicon-chevron-left"></span>
+         <span class="sr-only">Previous</span>
+       </a>
+       <a class="right carousel-control" href="#bdayCarousel" data-slide="next">
+         <span class="glyphicon glyphicon-chevron-right"></span>
+         <span class="sr-only">Next</span>
+       </a>
+ 		</div>
+       </div> 	
+ 	</div>  
+ </div>
    </div>
      <!-- <div class="col-sm-3" >
       <table style=" border-collapse: separate; border-spacing: 4px;">

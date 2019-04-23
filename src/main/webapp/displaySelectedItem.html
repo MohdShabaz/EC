@@ -16,7 +16,8 @@
   <script src="js/myjquery.js"></script>
   <script src = "js/displaySubCatItems.js"></script>
     <script src = "js/homepage.js"></script>
-    <script src = "js/showItem.js"></script>
+    
+    <script src = "js/shopNow.js"></script>
     
   
   
@@ -440,8 +441,14 @@ li a:hover .category{
 <section class="product-section">
  <div class="container">
   <div class="back-link">
-   <a href="./category.html"> &lt;&lt; Back to Category</a>
+  <a href="homepage.html">  Homepage&Gt;</a>
+      <a  id ="category"  href="homepage.html"> Category</a>
+    <a>&Gt;</a>
+    <a  id ="sub_category">Sub Category</a>
+    <a>&Gt;</a>
+    <a  id ="c_item_name">ItemName</a>
   </div>
+  <script src = "js/showItem.js"></script>
   <div class="row">
     <div class="col-lg-6">
      <div class="product-pic-zoom">
@@ -455,9 +462,10 @@ li a:hover .category{
    </div> 
    <div class="col-lg-6 product-details">
     <h2 class="p-title" id = "nameItem"></h2>
-    <h3 class="p-price">INR <strike><span id = "priceItem"></span></strike> <span id = "newprice"></span></h3>
+    <h3 class="p-price">INR <strike><span id = "priceItem"></span></strike> <span id = "newprice"></span></h3><span id="cashBack"></span>
     <h4 class="p-stock">Available: In Stock <span id="Quantity-left"></span> Items Left</h4>
     <div >Discount <span id = "discountItem"></span>%</div>
+    <div >Clearance Discount %: <span id = "clearance_dis"></span></div>
     <div >Bar-code : <span id = "Item_barcode"></span></div>
     <div >Seller:  <span id = "seller_name"></span></div>     
      <div id="KeyValue"></div>
@@ -466,7 +474,7 @@ li a:hover .category{
      <p>Enter Quantity</p>
                         <div class="pro-qty"><input type="text" id = "quan"></div>
                     </div>
-    <button type="button" onclick="shopNow()">SHOP NOW</button> 
+    <button type="button" onclick="shopNow(this)">SHOP NOW</button> 
      <button type="button" onclick="addToCart(this)">ADD TO CART</button> 
         <button type="button" onclick="addToWishlist(this)">ADD TO Wishlist</button> 
      
@@ -504,6 +512,7 @@ li a:hover .category{
 
 
 </div>
+
 </body>
 <script type="text/javascript">
 
@@ -517,7 +526,7 @@ console.log("yes added to cart");
 
 console.log(butto.baseURI);
 var x = butto.baseURI;
-var itemId = x.split("itemId=")[1];
+var itemId = myFunction();
 console.log("hello" + itemId);
 
 var jsonObj = { item_id: itemId, quantity:document.getElementById("quan").value};

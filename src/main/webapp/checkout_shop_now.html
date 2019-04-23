@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Order Review</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+  <script src="jquery-3.3.1/jquery.min.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  
+  
+  
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+	
+		<br/>
+		<br/>
+		<img src="images/ebayin logo.JPG" width="140" height="60"/>
+		 
+		<img src="images/ceb.JPG" align="right"/>
+		<img src="images/eg.png" align="right"/>
+			<div class="panel panel-default">
+        	<div class="panel-body">		
+				<p><h2>Order Review</h2></p>
+				<hr/>
+			<div class="row">
+				<div class="col-md-8">
+				<p><h4>Your items will be delivered to this address:</h4></p> <!-- add address option here -->
+				<hr/>
+            	<p id="name"></p>
+            	<p id="address"></p>
+            	<p id="mob no"></p>
+            	<br/>
+            	<a href="http://localhost:9000/EC/address_form_buyer.html"><p class="text-primary"><b>Change delivery address</b></p></a>
+            	<br/>
+				</div>
+				<div class="col-md-4"> 
+				<div class="well">
+				<h3><b>Your Order Total:</b> <span id="price"></span></h3>
+				<p id="total_cost"><h3><b></b></h3></p> <!-- total cost to be displayed here -->
+				<!-- <a href="http://localhost:5224/ebaytester/PaymentMethodCart.html"> --><button class="btn btn-primary" id = "confirm_order" onclick="ConfirmOrder()">Confirm Order</button></a>
+				</div>
+				</div>
+				
+			</div>
+			
+			<hr/>
+			<div id="cart">
+			
+			
+			
+			</div>							
+			</div>
+			</div>
+		
+		
+		
+		</div>
+		<div class="col-md-1"></div>
+	
+	
+	
+	</div>
+
+<!-- <script src="javascript/orderReview.js"></script> -->
+
+<script>
+//alert("inside");
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+
+function ConfirmOrder()
+ {
+ 
+/*  var json_={
+   shipping_address: document.getElementById("address_").value,
+   payment_type: document.getElementById("payId").value
+ };
+ 
+ console.log(json_); */
+ localStorage.addr=document.getElementById("address").innerHTML;
+ console.log("address");
+ console.log(localStorage.addr);
+ window.location="http://localhost:9000/EC/payment-page_shop_now.html?item_id="+item_id+"&quantity="+quantity+"&cashback="+cashback;
+
+ //window.location.href = "items.html";
+ }
+ $.ajax({
+	  				  type :"GET",
+	  					url: "http://localhost:9000/EC/webapi/buyerService/buyerInfo",
+	            dataType:'JSON',
+	            headers: {
+	                'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+	                'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+	           },
+	           	      		
+	  					success: function(response){
+		        			console.log(response);	
+	  						 document.getElementById("name").innerHTML= response.name;
+	  						var a = location.href;
+	  						 console.log("a is"+a);
+	  						 console.log(getUrlVars()["item_id"]);
+	  						 if (sessionStorage.username)
+	  						 {
+	  							document.getElementById("address").innerHTML=response.address_1;
+	  							console.log(response.address_1);
+	  						 }
+	  						 else
+	  						{
+		  						window.location="http://localhost:9000/EC/address_form_buyer_shop_now.html";
+	  						}
+	  						document.getElementById("mob no").innerHTML=response.mobile;
+	              
+	            }
+ 
+});
+ 
+ //adding price
+ var item_id = getUrlVars()["item_id"];
+ var quantity;
+ var cashback=0;
+ if(location.href.indexOf("quantity")>-1){
+	 quantity = getUrlVars()["quantity"];
+	 if(quantity<1){
+		 quantity = 1;
+	 }
+ }else{
+	 quantity = 1;
+ }if(location.href.indexOf("cashback") > -1)
+ {
+		cashback = getUrlVars()["cashback"];
+	}
+ $.ajax({url:"http://localhost:9000/EC/webapi/itemService/getitem/"+item_id, type:"GET",
+ async: false,
+ headers: {
+     'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+     'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+},
+ success: function(data){
+	 console.log("price :");
+	 console.log(data);
+	 document.getElementById("price").innerHTML=((1.0 - parseFloat(data.discount))*(1-parseFloat(data.clearance_discount)) * parseFloat(data.price) * parseInt(quantity)).toFixed(2);
+ },
+ error: function(data)
+ {
+  
+ }
+});
+ 
+
+
+ window.onload=function()
+ {
+	 var a = location.href;
+	 console.log("a is "+a);
+	 if (a.indexOf('?') > -1)
+	 {
+		 var b = a.substring(a.indexOf("=")+1);
+		 console.log("b is "+b);
+		 //document.getElementById("address").innerHTML=b;
+	 }
+	 
+	 
+ }
+ 
+</script>
+
+
+</body>
+</html>
