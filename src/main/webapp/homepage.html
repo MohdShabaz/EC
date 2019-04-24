@@ -110,7 +110,36 @@ li a:hover .category{
 	
 			$(document).ready(function () {  
 						
-				
+				$.ajax({  
+		 		     url: 'http://localhost:9000/EC/webapi/buy1Get1Service/getSaleItems',  
+		 		     type: 'GET',
+		 		     headers: {
+		 		         'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+		 		         'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+		 		   },
+		 		     success: function (json) {  
+		 		    	 console.log("Reached here new carosal");
+		 		    	 var disc = ((json[0].discount*100).toFixed(2));
+		 		         var price = (json[0].price).toFixed(2);
+		 		         var final_price = (json[0].price*(1-json[0].discount)).toFixed(2);
+		 		    	 var html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[0].item_id+'"><img src="'+json[0].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h2 style="color:#191819;">Buy 1 Get 1 Offer</h2><h3 style="color:#191819;">Name : '+json[0].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : <strike>'+price+'</strike></h3><h3 style="color:#191819;">Final Price: '+final_price+'</h3></div>'
+		 		         document.getElementById("b1g1item1").innerHTML = html;
+		 		         disc = ((json[1].discount*100).toFixed(2));
+		 		         price = (json[1].price).toFixed(2);
+		 		         final_price = (json[1].price*(1-json[1].discount)).toFixed(2);
+		 		    	 html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[1].item_id+'"><img src="'+json[1].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h2 style="color:#191819;">Buy 1 Get 1 Offer</h2><h3 style="color:#191819;">Name : '+json[1].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : <strike>'+price+'</strike></h3><h3 style="color:#191819;">Final Price: '+final_price+'</h3></div>'
+		 		         document.getElementById("b1g1item2").innerHTML = html;
+		 		         disc = ((json[2].discount*100).toFixed(2));
+		 		         price = (json[2].price).toFixed(2);
+		 		         final_price = (json[2].price*(1-json[2].discount)).toFixed(2);
+		 		    	 html = '<a href="'+'http://localhost:9000/EC/displaySelectedItem.html?itemId='+json[2].item_id+'"><img src="'+json[2].pic_location+'" alt="eBay" style="width:25%;"></a>' + '<div class="carousel-caption"><h2 style="color:#191819;">Buy 1 Get 1 Offer</h2><h3 style="color:#191819;">Name : '+json[2].name+'</h3><h3 style="color:#191819;">Discount : '+disc+'</h3><h3 style="color:#191819;">Price : <strike>'+price+'</strike></h3><h3 style="color:#191819;">Final Price: '+final_price+'</h3></div>'
+		 		         document.getElementById("b1g1item3").innerHTML = html;
+		 		     },
+		 		     error: function (xhr, textStatus, errorThrown) {  
+		 		         console.log('Error in Operation');  
+		 		     }    
+				});
 				$.ajax({  
 		 		     url: 'http://localhost:9000/EC/webapi/clearanceSale/getSaleItems',  
 		 		     type: 'GET',
@@ -458,6 +487,58 @@ li a:hover .category{
          <span class="sr-only">Previous</span>
        </a>
        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+         <span class="glyphicon glyphicon-chevron-right"></span>
+         <span class="sr-only">Next</span>
+       </a>
+     </div>
+     
+     <div class="container" style="margin-top:30px">
+     <h2> Buy 1 Get 1 Deals</h2>
+  <div class="row" >
+     <div class="col-md-12" >
+       <div id="myCarousel2" class="carousel slide" data-ride="carousel">
+       <!-- Indicators -->
+       <ol class="carousel-indicators">
+         <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+         <li data-target="#myCarousel2" data-slide-to="1"></li>
+         <li data-target="#myCarousel2" data-slide-to="2"></li>
+       </ol>
+
+       <!-- Wrapper for slides -->
+       <div class="carousel-inner">
+
+         <div class="item active"><span id="b1g1item1">
+         <!-- <div class="carousel-caption">
+             <h3>Los Angeles</h3>
+             <p>LA is always so much fun!</p>
+           </div> -->
+           </span>
+         </div>
+
+         <div class="item"><span id="b1g1item2">
+           <!-- <div class="carousel-caption">
+             <h3>Chicago</h3>
+             <p>Thank you, Chicago!</p>
+           </div> -->
+           </span>
+         </div>
+
+         <div class="item"><span id="b1g1item3">
+         <!-- <div class="carousel-caption">
+             <h3>New York</h3>
+             <p>We love the Big Apple!</p>
+           </div> -->
+           </span>
+         </div>
+
+       </div>
+
+       <!-- Left and right controls -->
+       <a class="left carousel-control" href="#myCarousel2" data-slide="prev">
+         <span class="glyphicon glyphicon-chevron-left"></span>
+         <span class="sr-only">Previous</span>
+       </a>
+       <a class="right carousel-control" href="#myCarousel2" data-slide="next">
          <span class="glyphicon glyphicon-chevron-right"></span>
          <span class="sr-only">Next</span>
        </a>
