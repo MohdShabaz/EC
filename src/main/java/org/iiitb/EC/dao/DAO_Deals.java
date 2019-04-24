@@ -123,5 +123,29 @@ public class DAO_Deals {
 				return false;		
 			}
 	 }
+	  
+	 public static int getDealNumber(int item_id)
+	 {
+		 Connection conn=DatabaseConnection.getConnection();
+			PreparedStatement preparedStatement = null;
+			String query=null;
+			int result=-1;
+			System.out.println("entered DAO");
+			query ="select deal_id from deals_item_seller, item_seller, item_table where deals_item_seller.item_seller_id=item_seller.id and item_seller.item_id=item_table.item_id and item_table.item_id="+item_id;
+			try {
+				preparedStatement = conn.prepareStatement(query);
+				ResultSet rs = preparedStatement.executeQuery();
+				if(rs.next())
+				{
+					result=rs.getInt("deal_id");
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+						
+			}
+			return result;
+	 }
 
 }

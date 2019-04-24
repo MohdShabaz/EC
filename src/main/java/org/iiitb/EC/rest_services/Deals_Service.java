@@ -75,4 +75,15 @@ public class Deals_Service {
 		jo.put("result", b);
 		return jo.toString();
 	}
+	
+	@Path("/dealNumber/{item_id_str}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+    public static String getDealNumber(@PathParam("item_id_str") String item_id_str) throws Exception{
+		int item_id=Integer.parseInt(item_id_str);
+		int result=DAO_Deals.getDealNumber(item_id);
+		JSONObject jo=new JSONObject();
+		jo.put("deal_id", result);
+		return jo.toString();
+	}
 }

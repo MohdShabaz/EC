@@ -76,6 +76,33 @@ $.ajax({
   	      }
   		  
           
+  		  
+  		  // Started for buy 1 get 1
+  		  
+  		  console.log("Buy 1 get 1");
+  		$.ajax({  
+          	 url: "http://localhost:9000/EC/webapi/dealsService/dealNumber/"+myFunction(), 
+               type: 'GET',
+               headers: {
+                   'username':sessionStorage.username?sessionStorage.getItem('username'):'',
+                   'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
+
+             },
+             
+             success: function (response) {
+            	 console.log("sljdfbvldfjv");
+          	  	console.log(response);
+             }
+           
+      	 });
+  		  
+  		  
+  		  // Ended for buy 1 get 1
+  		  
+  		  
+  		  
+  		  
+  		  
           var clearance_dis = (product.clearance_discount*100).toFixed(2);
           
           console.log("clearance_dis ---> "+clearance_dis);
