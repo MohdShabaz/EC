@@ -72,8 +72,28 @@ public class DAO_Deals {
 			
 			return dealTypes;
 	 }
-	 
-	 public static boolean SetItemDeals(int item_seller_id, int deal_id) {
+	 public static float getBdayDiscount(){
+		 ResultSet rs;
+		 try {
+			 Connection conn = DatabaseConnection.getConnection();
+			 java.sql.PreparedStatement preparedStatement = null;
+			 String query = "select discount from deals where deal_id=2";
+			 preparedStatement = conn.prepareStatement(query);
+			 rs = preparedStatement.executeQuery();
+			 if(rs.next())
+			 {
+				 return rs.getFloat("discount");
+			 }
+			 else
+			 {
+				 return 0;
+			 }
+		 }catch (SQLException e) {
+				e.printStackTrace();
+			}
+		 return 0;
+	 }
+	  public static boolean SetItemDeals(int item_seller_id, int deal_id) {
 		 Connection conn=DatabaseConnection.getConnection();
 			PreparedStatement preparedStatement = null;
 			String query=null;
@@ -102,6 +122,30 @@ public class DAO_Deals {
 				e.printStackTrace();
 				return false;		
 			}
+	 }
+	  
+	 public static int getDealNumber(int item_id)
+	 {
+		 Connection conn=DatabaseConnection.getConnection();
+			PreparedStatement preparedStatement = null;
+			String query=null;
+			int result=-1;
+			System.out.println("entered DAO");
+			query ="select deal_id from deals_item_seller, item_seller, item_table where deals_item_seller.item_seller_id=item_seller.id and item_seller.item_id=item_table.item_id and item_table.item_id="+item_id;
+			try {
+				preparedStatement = conn.prepareStatement(query);
+				ResultSet rs = preparedStatement.executeQuery();
+				if(rs.next())
+				{
+					result=rs.getInt("deal_id");
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+						
+			}
+			return result;
 	 }
 
 }

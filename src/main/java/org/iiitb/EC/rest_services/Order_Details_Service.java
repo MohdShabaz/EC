@@ -19,10 +19,12 @@ import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
+import org.iiitb.EC.dao.DAO_Deals;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Order_Details;
 import org.iiitb.EC.dao.DAO_Seller;
+import org.iiitb.EC.model.Buyer;
 import org.iiitb.EC.model.Item;
 import org.iiitb.EC.model.Order_Details;
 import org.iiitb.EC.model.Seller;
@@ -76,7 +78,77 @@ public class Order_Details_Service {
 	//@Produces(MediaType.TEXT_PLAIN)
 	public String addOrder(String order,
 			@Context HttpHeaders httpheaders) throws Exception {
-		System.out.println("in add order");
+		System.out.println(order);
+	    JSONObject order_json = new JSONObject(order);
+	    
+	    
+	    
+	    int buyer_id=get_buyer_id(httpheaders);
+	    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    Date date = new Date();
+	    
+	    Buyer b = DAO_Buyer.get_buyer_details(buyer_id);
+	    
+	    String[] todayarray = dateFormat.format(date).toString().split("-");
+	    String mm = todayarray[1];
+	    String dd = todayarray[2];
+	    String today = mm+dd;
+	   
+	    String[] dobarray = b.getDob().split("-");
+	    String bmm = dobarray[1];
+	    String bdd = dobarray[2];
+	    String Buyerbday = bmm+bdd;
+	   System.out.println(today + Buyerbday);
+	    boolean result = DAO_Order_Details.Add_Order(buyer_id, 
+	    		order_json.getString("shipping_address"),
+	    		"Order Placed",
+	    		dateFormat.format(date),
+	    		1);
+	    if(today.equals(Buyerbday))
+	    {
+	    	long order_id = DAO_Order_Details.get_last_order_id();
+	    	ArrayList<Order_Details> list  = DAO_Order_Details.get_Seller_Buyer_Orders((int)order_id);
+	    	for(Order_Details orders : list)
+	    	{
+	    		int deal_id = DAO_Order_Details.get_deal(orders.getItem_id(), orders.getSeller_id());
+	    		if(deal_id == 2)
+	    		{
+	    			float bdaydiscount = (DAO_Deals.getBdayDiscount());
+	    			Item item = DAO_Item.Get_Item(orders.getItem_id());
+	    			float price = item.getPrice();
+	    			float cashback = (bdaydiscount)*(price);
+	    			boolean result_cashback =  DAO_Order_Details.UpdateCashback(orders.getItem_id(),(int)orders.getOrder_id(),cashback);
+	    			
+	    		}
+	    		
+	    	}
+	    	
+	    }
+
+//	    return result ? SUCCESS_RESULT : FAILURE_RESULT;
+	    JSONObject json = new JSONObject();
+		
+		if(result)
+		{
+			json.put("result","success");
+		}
+		else
+		{
+			json.put("result","failure");
+		}
+		return json.toString();
+	    
+	 }
+	@Path("addOrderShopNow")
+	@POST
+	//@Consumes(MediaType.MULTIPART_FORM_DATA)
+//	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	//@PUT
+	//@Produces(MediaType.TEXT_PLAIN)
+	public String addOrderShopNow(String order,
+			@Context HttpHeaders httpheaders) throws Exception {
+		System.out.println("in add order shop now");
 		System.out.println(order);
 	    JSONObject order_json = new JSONObject(order);
 	    System.out.println("order_json");
@@ -87,11 +159,12 @@ public class Order_Details_Service {
 	    Date date = new Date();
 	    System.out.println(dateFormat.format(date));
 	    
-	    boolean result = DAO_Order_Details.Add_Order(buyer_id, 
-	    		order_json.getString("shipping_address"),
+	    boolean result = DAO_Order_Details.Add_Order_Shop_Now(buyer_id, 
+	    		order_json.getInt("item_id"), order_json.getInt("quantity"),
+	    		order_json.getInt("amount"),order_json.getString("shipping_address"),
 	    		"Order Placed",
 	    		dateFormat.format(date),
-	    		1);
+	    		1,Float.valueOf(order_json.getString("cashback")));
 	    
 
 //	    return result ? SUCCESS_RESULT : FAILURE_RESULT;
@@ -108,6 +181,9 @@ public class Order_Details_Service {
 		return json.toString();
 	    
 	 }
+	
+	
+	
 
 
 //@Path("addOrder")
@@ -299,6 +375,17 @@ public String updateBuyerStatusOrderItem(@PathParam("order_id") String order_id,
 	System.out.println(order_id);
 	System.out.println(item_id);
 	
+	String order = DAO_Order_Details.get_BuyerId(Integer.parseInt(order_id),Integer.parseInt(item_id));
+	
+	JSONObject order_json = new JSONObject(order);
+	
+	int buyer_id = order_json.getInt("buyer_id");
+	int quan = order_json.getInt("quantity");
+	float cashback = (quan)*(Float.valueOf(order_json.getString("cashback")));
+	
+	int currbuyerbalance = DAO_BankAccount.getBuyerAccountBalance(buyer_id);
+	long newbuyerbalance = (long) (currbuyerbalance+ (cashback));
+	
 	
 	boolean result=DAO_Order_Details.update_status_order_item(Integer.parseInt(order_id),Integer.parseInt(item_id), "Delivered");
 	
@@ -308,7 +395,8 @@ public String updateBuyerStatusOrderItem(@PathParam("order_id") String order_id,
 	{
 		Order_Details order_details = DAO_Order_Details.getOrderWithItemId(Integer.parseInt(order_id), Integer.parseInt(item_id));
 		int seller_id = order_details.getSeller_id();
-		boolean res = DAO_BankAccount.performTransaction2(order_details.getTotal_amount(), Integer.parseInt(order_id), Integer.parseInt(item_id), seller_id);
+		boolean res = DAO_BankAccount.performTransaction2(order_details.getTotal_amount()-(int)(cashback), Integer.parseInt(order_id), Integer.parseInt(item_id), seller_id);
+		boolean result2 = DAO_BankAccount.setBuyerAccountBalance(buyer_id, newbuyerbalance);
 		json.put("result","success");
 	}
 	else
@@ -319,7 +407,6 @@ public String updateBuyerStatusOrderItem(@PathParam("order_id") String order_id,
 	
 	
 }
-
 @GET
 @Path("/getPaidOrders")
 @Produces(MediaType.APPLICATION_JSON)

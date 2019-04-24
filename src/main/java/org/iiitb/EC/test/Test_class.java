@@ -18,6 +18,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.EC.dao.DAO_BankAccount;
 import org.iiitb.EC.dao.DAO_Buyer;
 import org.iiitb.EC.dao.DAO_Category;
+import org.iiitb.EC.dao.DAO_ClearanceSale;
 import org.iiitb.EC.dao.DAO_Item;
 import org.iiitb.EC.dao.DAO_Item_Seller;
 import org.iiitb.EC.dao.DAO_Shopping_cart;
@@ -32,14 +33,14 @@ import org.json.JSONObject;
 
 public class Test_class {
 public static void main(String args[]) throws Exception {
- boolean b = DAO_Sub_Category.addSub_Category(3, "Women's Clothing");
- b = DAO_Sub_Category.addSub_Category(3, "Women's Shoes");
- b = DAO_Sub_Category.addSub_Category(3, "Men's Clothing");
- b = DAO_Sub_Category.addSub_Category(3, "Men's Shoes");
- b = DAO_Sub_Category.addSub_Category(3, "Fashion Jewelry");
- b = DAO_Sub_Category.addSub_Category(3, "Women's Hand Bags");
- b = DAO_Sub_Category.addSub_Category(3, "Kid's Clothing");
- b = DAO_Sub_Category.addSub_Category(3, "Others");
+// boolean b = DAO_Sub_Category.addSub_Category(3, "Women's Clothing");
+// b = DAO_Sub_Category.addSub_Category(3, "Women's Shoes");
+// b = DAO_Sub_Category.addSub_Category(3, "Men's Clothing");
+// b = DAO_Sub_Category.addSub_Category(3, "Men's Shoes");
+// b = DAO_Sub_Category.addSub_Category(3, "Fashion Jewelry");
+// b = DAO_Sub_Category.addSub_Category(3, "Women's Hand Bags");
+// b = DAO_Sub_Category.addSub_Category(3, "Kid's Clothing");
+// b = DAO_Sub_Category.addSub_Category(3, "Others");
  
  //System.out.println(b);
  //boolean b1 = DAO_Buyer.update_Buyer(2,"mukesh","2001-01-01","8976768647","mukesh@gmail.com","25-K Frank Anne Street, Michigan","26-K Frank Anne Street, Michigan");
@@ -63,12 +64,19 @@ public static void main(String args[]) throws Exception {
 //	json.put("item_id", "8");
 //	json.put("quantity", "4");
 //	String s = json.toString();
-	System.out.println(DAO_Buyer.add_Buyer("John", "1997-08-05", "9876543210", "abc@hmail.com", "Somajiguda Hyd.", "Post Box : 1562", "1234"));
+//	System.out.println(DAO_Buyer.add_Buyer("John", "1997-08-05", "9876543210", "abc@hmail.com", "Somajiguda Hyd.", "Post Box : 1562", "1234"));
 // boolean bou = DAO_BankAccount.add_Buyer_Account(2, 123131317, 98765);
 //System.out.println(bou);
-	 JSONArray j= DAO_Buyer.get_All_Buyer_Order_Details();
-	 System.out.println(j);
+//	 JSONArray j= DAO_Buyer.get_All_Buyer_Order_Details();
+//	String j = DAO_ClearanceSale.get_All_Clearance_Sale_Items();
+//	 System.out.println(j);
 // testUpdateUser();
+	
+	boolean ans = DAO_ClearanceSale.item_exist_in_clearance_sale(10);
+	
+	System.out.println("ans -->"+ans);
+	
+	
 }
 public String get_user() throws JSONException {
 	JSONObject json = new JSONObject();
@@ -126,7 +134,7 @@ private static void testUpdateUser(){
 //      String dummy="hgh";
 //      Response dump=    
 //      client
-//           .target("http://localhost:9000/EC/webapi/buyerService/buyerInfo2")
+//           .target("http://localhost:9001/EC/webapi/buyerService/buyerInfo2")
 //           .request(MediaType.TEXT_PLAIN)
 //           .get();      
 //      System.out.println("response "+dump);

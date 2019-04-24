@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -54,5 +55,35 @@ public class Deals_Service {
         }
         
         return json_arr.toString();
+	}
+	@Path("/isItemInBirDeal/{item_id_str}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+ public static String getItem(
+  @PathParam("item_id_str") String item_id_str ) throws Exception{
+		String b="failure";
+		ArrayList<BirthdayDeal> b_d=DAO_Deals.get_all_bday_deals();
+		JSONObject jo = new JSONObject();
+		int itemId=Integer.parseInt(item_id_str);
+		for(BirthdayDeal l:b_d) {
+			if(l.getID()==itemId)
+			{
+				b="success";
+				jo.put("bDiscount", l.getBdayDiscount());
+			}
+		}
+		jo.put("result", b);
+		return jo.toString();
+	}
+	
+	@Path("/dealNumber/{item_id_str}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+    public static String getDealNumber(@PathParam("item_id_str") String item_id_str) throws Exception{
+		int item_id=Integer.parseInt(item_id_str);
+		int result=DAO_Deals.getDealNumber(item_id);
+		JSONObject jo=new JSONObject();
+		jo.put("deal_id", result);
+		return jo.toString();
 	}
 }

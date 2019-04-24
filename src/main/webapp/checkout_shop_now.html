@@ -69,6 +69,16 @@
 
 <script>
 //alert("inside");
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+
 function ConfirmOrder()
  {
  
@@ -81,7 +91,7 @@ function ConfirmOrder()
  localStorage.addr=document.getElementById("address").innerHTML;
  console.log("address");
  console.log(localStorage.addr);
- window.location="http://localhost:9000/EC/payment-page.html";
+ window.location="http://localhost:9000/EC/payment-page_shop_now.html?item_id="+item_id+"&quantity="+quantity+"&cashback="+cashback;
 
  //window.location.href = "items.html";
  }
@@ -100,15 +110,15 @@ function ConfirmOrder()
 	  						 document.getElementById("name").innerHTML= response.name;
 	  						var a = location.href;
 	  						 console.log("a is"+a);
-	  						 if (a.indexOf('?') > -1)
+	  						 console.log(getUrlVars()["item_id"]);
+	  						 if (sessionStorage.username)
 	  						 {
-	  							 var b = a.substring(a.indexOf("=")+1);
-	  							 console.log("b is "+b);
-	  							 document.getElementById("address").innerHTML=b;
+	  							document.getElementById("address").innerHTML=response.address_1;
+	  							console.log(response.address_1);
 	  						 }
 	  						 else
 	  						{
-	  						 document.getElementById("address").innerHTML=response.address_1;
+		  						window.location="http://localhost:9000/EC/address_form_buyer_shop_now.html";
 	  						}
 	  						document.getElementById("mob no").innerHTML=response.mobile;
 	              
@@ -117,8 +127,21 @@ function ConfirmOrder()
 });
  
  //adding price
- 
- $.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type:"GET",
+ var item_id = getUrlVars()["item_id"];
+ var quantity;
+ var cashback=0;
+ if(location.href.indexOf("quantity")>-1){
+	 quantity = getUrlVars()["quantity"];
+	 if(quantity<1){
+		 quantity = 1;
+	 }
+ }else{
+	 quantity = 1;
+ }if(location.href.indexOf("cashback") > -1)
+ {
+		cashback = getUrlVars()["cashback"];
+	}
+ $.ajax({url:"http://localhost:9000/EC/webapi/itemService/getitem/"+item_id, type:"GET",
  async: false,
  headers: {
      'username':sessionStorage.username?sessionStorage.getItem('username'):'',
@@ -128,23 +151,25 @@ function ConfirmOrder()
  success: function(data){
 	 console.log("price :");
 	 console.log(data);
-  document.getElementById("price").innerHTML="Rs. "+Math.round(parseFloat(data));
+	 document.getElementById("price").innerHTML=((1.0 - parseFloat(data.discount))*(1-parseFloat(data.clearance_discount)) * parseFloat(data.price) * parseInt(quantity)).toFixed(2);
  },
  error: function(data)
  {
   
  }
 });
+ 
+
 
  window.onload=function()
  {
 	 var a = location.href;
-	 console.log("a is"+a);
+	 console.log("a is "+a);
 	 if (a.indexOf('?') > -1)
 	 {
 		 var b = a.substring(a.indexOf("=")+1);
 		 console.log("b is "+b);
-		 document.getElementById("address").innerHTML=b;
+		 //document.getElementById("address").innerHTML=b;
 	 }
 	 
 	 

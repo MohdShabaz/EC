@@ -45,8 +45,9 @@ $.ajax({url:"http://localhost:9000/EC/webapi/ShoppingCartService/getPrice", type
 	},
  success: function(data){
 	 console.log("price :");
-	 console.log(data);
-  document.getElementById("price").innerHTML=data;
+	 console.log(1);
+	 console.log(Math.round(parseFloat(data+1)));
+  document.getElementById("price").innerHTML=Math.round(parseFloat(data));
  },
  error: function(data)
  {
