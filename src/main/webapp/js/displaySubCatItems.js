@@ -11,9 +11,10 @@ $.ajax({
 
  },
       success: function(productArray){
+    	  console.log(productArray);
     	 item_array = productArray;
        console.log("hereX");
-        console.log(productArray);
+       // console.log(productArray);
        console.log("hereY");
         
 //        var html="<ul><div class ='category'>";
@@ -62,8 +63,8 @@ $.ajax({
        
        html += "<div style='position: relative;'><a><img id='content_img"+i+"' src="+productArray[i].pic_location+" height='75' width='75' /></a></div>";
        
-       html += "<div style='border:1px solid black;position: absolute;left: 50px;z-index: 2;display: none;' id=content_img"+i+"details> <div>Item Name:"+productArray[i].name+"</div>" +
-           "<div>Description: "+productArray[i].description+"</div></div>";
+       html += "<div style='border:1px solid black;position: absolute;left: 50px;z-index: 2;display: none;' id=content_img"+i+"details> <div>Price: Rs "+(productArray[i].price).toFixed(0)+"/- <span> Rating: "+productArray[i].rating+"</span></div>" +
+           "<div>Brand Name: "+(productArray[i].brand==null?"No Brand":productArray[i].brand)+"</div></div>";
        
        
        html+="</td>";
@@ -175,8 +176,8 @@ function myFilter(){
 		       
 		       html += "<div style='position: relative;'><a><img id='content_img"+i+"' src="+item_array[i].pic_location+" height='75' width='75' /></a></div>";
 		       
-		       html += "<div style='border:1px solid black;position: absolute;left: 50px;z-index: 2;display: none;' id=content_img"+i+"details> <div>Item Name:"+item_array[i].name+"</div>" +
-		           "<div>Description: "+item_array[i].description+"</div></div>";
+		       html += "<div style='border:1px solid black;position: absolute;left: 50px;z-index: 2;display: none;' id=content_img"+i+"details> <div>Price:"+item_array[i].price.toFixed(0)+"/- <span> Rating: "+item_array[i].rating+"</span></div>" +
+		           "<div>Brand Name: "+(item_array[i].brand==null?"No Brand":item_array[i].brand)+"</div></div>";
 		       
 		       
 		       html+="</td>";

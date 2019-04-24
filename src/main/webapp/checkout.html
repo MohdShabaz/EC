@@ -128,7 +128,7 @@ function ConfirmOrder()
  success: function(data){
 	 console.log("price :");
 	 console.log(data);
-  document.getElementById("price").innerHTML=data;
+  document.getElementById("price").innerHTML="Rs. "+Math.round(parseFloat(data));
  },
  error: function(data)
  {

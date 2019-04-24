@@ -54,6 +54,11 @@ console.log(document.getElementById('place_order').innerHTML);
 
 
 function cart_list(x){
+	
+	
+	result[x].price=((result[x].old_price)*(1-result[x].discount)*(1-result[x].clearance_discount));
+	
+	
 	 cart_product_list+='<li class="list-group-item">';
      cart_product_list+='<div class="row">'+
                           '<div class=row >'+
@@ -84,25 +89,25 @@ function cart_list(x){
 																	 '</p>'+
 																	 '<p>Shipping : Free</p>'+
 																'</span>'+
-								'<span class="col-sm-3"><p><b>MRP : Rs.'+((result[x].quantity)*(result[x].old_price)).toFixed(2)+'</b></p></span>'+
+								'<span class="col-sm-3"><p><b>MRP : Rs.'+((result[x].quantity)*(result[x].old_price)).toFixed(0)+'</b></p></span>'+
 								
 								
-								'<span class="col-sm-3"><p><b>Discount:'+((result[x].discount).toFixed(2))+'%</b></p></span>'+
-								'<span class="col-sm-3"><p><b>Clearance Disc:'+((result[x].clearance_discount).toFixed(2))+'%</b></p></span>'+
+								'<span class="col-sm-3"><p><b>Discount:'+((result[x].discount*100).toFixed(0))+'%</b></p></span>'+
+								'<span class="col-sm-3"><p><b>Clearance Disc:'+((result[x].clearance_discount*100).toFixed(0))+'%</b></p></span>'+
 
 								
 								
 								
-                                '<span class="col-sm-2"><br><p><b>Final Price after all discounts :Rs.'+((result[x].quantity)*(result[x].price)).toFixed(2)+'</b></p>'+
+                                '<span class="col-sm-2"><br><p><b>Final Price after all discounts :Rs.'+((result[x].quantity)*(result[x].price)).toFixed(0)+'</b></p>'+
                                   
 																'</span>'+
 																'</div>'+
                             '</span>'+
                          '</div>'+
                        '</div>'+
-                    '</li>'
-         total=parseFloat(parseFloat(total)+parseFloat(result[x].price)).toFixed(2);
-                    price.push(parseFloat(result[x].price.toFixed(2)));
+                    '</li>';
+         total=parseFloat(parseFloat(total)+parseFloat(result[x].price)).toFixed(0);
+                    price.push(parseFloat(result[x].price.toFixed(0)));
 
 };
 
