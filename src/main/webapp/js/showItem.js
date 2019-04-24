@@ -83,6 +83,7 @@ $.ajax({
   		$.ajax({  
           	 url: "http://localhost:9000/EC/webapi/dealsService/dealNumber/"+myFunction(), 
                type: 'GET',
+               datatype: 'JSON',
                headers: {
                    'username':sessionStorage.username?sessionStorage.getItem('username'):'',
                    'password':sessionStorage.password?sessionStorage.getItem('password'):''//sessionStorage.getItem('password')
@@ -92,6 +93,12 @@ $.ajax({
              success: function (response) {
             	 console.log("sljdfbvldfjv");
           	  	console.log(response);
+          	  	if(parseInt(response.deal_id) == 1){
+          	  		document.getElementById("Buy1Get1").innerHTML = "Buy One Get One Offer!!";
+          	  	}
+             },
+             error: function(response){
+            	 console.log("Error. Save me");
              }
            
       	 });

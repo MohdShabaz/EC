@@ -58,6 +58,7 @@ public class DAO_Order_Details {
 						if(DAO_ClearanceSale.item_exist_in_clearance_sale(item_id)) {
 							final_price = (int)(final_price*(1-DAO_ClearanceSale.get_clearance_sale_discount()));
 						}
+						final_price *= quantity;
 						preparedStatement.setInt(3, buyer_id);
 						preparedStatement.setString(4, shipping_address);
 						preparedStatement.setString(5, status);
