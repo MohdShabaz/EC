@@ -117,6 +117,7 @@ $.ajax({
      
      var html="";
      html += '<option value="">' +'</option>';
+     html += '<option value="ALL"> ALL' +'</option>';
         for(var i = 0; i < brandArray.length; i++) {
         	html += '<option value="' + brandArray[i].brand + '">'+ brandArray[i].brand +'</option>';
      
@@ -223,7 +224,7 @@ function filterCondition(x,minP, maxP, minR, maxR, br){
 	if(brand == null){
 		brand = "";
 	};
-	if(price >= minP && price<=maxP && rating>=minR && rating>=minR && (br == "" || br == brand)){
+	if(price >= minP && price<=maxP && rating>=minR && rating>=minR && (br == brand || br =="ALL")){
 		return true;
 	}
 	return false;

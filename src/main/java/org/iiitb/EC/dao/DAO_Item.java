@@ -21,8 +21,8 @@ public class DAO_Item {
 		Connection conn = DatabaseConnection.getConnection();
 		PreparedStatement preparedStatement = null;
 		try {
-			String query = "insert into item_table(description,price,discount,name,pic_location,category,sub_category,barcode)"+" VALUES "+
-			"(?,?,?,?,?,?,?,?)";
+			String query = "insert into item_table(description,price,discount,name,pic_location,category,sub_category,barcode,dummy_1)"+" VALUES "+
+			"(?,?,?,?,?,?,?,?,?)";
 			preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setString(1, description);
 			preparedStatement.setFloat(2, price);
@@ -32,6 +32,7 @@ public class DAO_Item {
 			preparedStatement.setInt(6, category);
 			preparedStatement.setInt(7, sub_category);
 			preparedStatement.setString(8, barcode);
+			preparedStatement.setString(9, dummy_1);
 			
 			int rs = preparedStatement.executeUpdate();
 			if(rs==0) {

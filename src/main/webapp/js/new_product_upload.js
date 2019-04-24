@@ -91,6 +91,7 @@ $('#Product_detail_form').submit(function(){
 //	alert(localStorage.barcode);
 		var jsondata={
 	             Product_Name: jQuery("#Product_Name").val(),
+	             Brand: jQuery("#Brand").val(),
 	             Category: jQuery("#Category_product").val(),
 	             Subcategory: jQuery("#Subcategory_product").val(),
 	             Price: jQuery("#Price").val(),
@@ -99,8 +100,10 @@ $('#Product_detail_form').submit(function(){
 	             Description: jQuery("#Description").val(),
 	             Discount : jQuery("#Discount").val(),
 	             k_v : json_array,
+	             
 	             Barcode : jQuery("#Barcode").val(),
-	             Brand: jQuery("#Brand").val()
+	      
+	         
 	             
 	        };
 		console.log(jsondata);
